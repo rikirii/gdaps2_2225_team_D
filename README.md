@@ -5,8 +5,8 @@ _This README contains basic information about the project and its artifacts. If 
 
 ## Team Members
 - Owen Beck
-- Jarin Moses
-- MEMBER3
+- jarin moses
+- Zhihao Chen
 - MEMBER4
 - MEMBER5
 
