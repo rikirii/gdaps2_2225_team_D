@@ -5,9 +5,9 @@ _This README contains basic information about the project and its artifacts. If 
 
 ## Team Members
 - Ricky Yu
-- 
-- Zhihao Chen
 - Jarin Moses
+- Zhihao Chen
+- Owen Beck
 
 
 ## Repo Organization
