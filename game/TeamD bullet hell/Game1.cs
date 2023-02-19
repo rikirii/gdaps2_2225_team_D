@@ -50,6 +50,7 @@ namespace TeamD_bullet_hell
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
+            //temp title. do not take our title seriously pls -Ricky Y
             _spriteBatch.DrawString(arialBold30, "<Galatic Inferno: BulletStorm>", new Vector2(150, 200), Color.White);
 
             _spriteBatch.End();
