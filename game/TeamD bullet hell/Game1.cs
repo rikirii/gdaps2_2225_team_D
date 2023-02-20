@@ -10,6 +10,7 @@ namespace TeamD_bullet_hell
         private SpriteBatch _spriteBatch;
 
         private SpriteFont arialBold30;
+        private Texture2D tempWallpaper;
 
         public Game1()
         {
@@ -31,6 +32,7 @@ namespace TeamD_bullet_hell
 
             // TODO: use this.Content to load your game content here
             arialBold30 = Content.Load <SpriteFont>("arial");
+            tempWallpaper = Content.Load<Texture2D>("temp");
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,8 +52,10 @@ namespace TeamD_bullet_hell
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
+            _spriteBatch.Draw(tempWallpaper, new Rectangle(0,0, _graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height), Color.White);
+
             //temp title. do not take our title seriously pls -Ricky Y
-            _spriteBatch.DrawString(arialBold30, "<Galatic Inferno: BulletStorm>", new Vector2(150, 200), Color.White);
+            _spriteBatch.DrawString(arialBold30, "<Galatic Inferno: BulletStorm>", new Vector2(20, 20), Color.White);
 
             _spriteBatch.End();
 
