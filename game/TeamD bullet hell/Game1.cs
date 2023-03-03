@@ -67,6 +67,8 @@ namespace TeamD_bullet_hell
             arialBold30 = Content.Load <SpriteFont>("arial");
             tempWallpaper = Content.Load<Texture2D>("temp");
             rectangle = Content.Load<Texture2D>("Redtangle");
+
+            //Rectangles that are used for the user to click on to transition to another state
             levelSelect = new Rectangle(375, 185, rectangle.Width / 2, rectangle.Height / 2);
             infinity = new Rectangle(375, 250 ,rectangle.Width / 2, rectangle.Height / 2);
             leaderBoard = new Rectangle(375, 260, rectangle.Width / 2, rectangle.Height / 2);
