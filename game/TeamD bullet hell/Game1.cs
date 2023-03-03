@@ -259,7 +259,7 @@ namespace TeamD_bullet_hell
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.DarkBlue);
+            GraphicsDevice.Clear(Color.DarkBlue);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
