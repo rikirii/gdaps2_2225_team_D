@@ -291,8 +291,10 @@ namespace TeamD_bullet_hell
                 //draws infinity screen
                 case GameMode.Infinity:
                     GraphicsDevice.Clear(Color.Black);
-                    _spriteBatch.Draw(gameBackground, new Rectangle( 100, 0, _graphics.GraphicsDevice.Viewport.Width/2,
-                    _graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+                    //Background Commented Out Temporarily for playtesting (screen is just black)
+                    //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
+                    //_graphics.GraphicsDevice.Viewport.Height), Color.White);
 
                     BackButtonDisplayer();
 
