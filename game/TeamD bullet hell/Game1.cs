@@ -26,6 +26,9 @@ namespace TeamD_bullet_hell
         private int windowHeight;
         private int windowWidth;
 
+        //bullet texture
+        private Texture2D greenCirCleBullet;
+
         //sprite and texture fields for the menu
         private SpriteFont arialBold30;
         private Texture2D tempWallpaper;
@@ -105,6 +108,9 @@ namespace TeamD_bullet_hell
             leaderBoardImage = Content.Load<Texture2D>("leaderboard");
             recOutline = Content.Load<Texture2D>("Redtangle"); //bad name for this. -RY
             backButtonPNG = Content.Load<Texture2D>("backButton");
+
+            //load Bullet Texture 
+
 
             //loading player
             playerShip = Content.Load<Texture2D>("ship");
