@@ -94,7 +94,7 @@ namespace TeamD_bullet_hell
         public void Update(GameTime gameTime)
         {
             //get the delta time
-            double deltaTime = gameTime.ElapsedGameTime.TotalSeconds;
+            double deltaTime = gameTime.ElapsedGameTime.TotalMilliseconds;
 
             // calculate the velocity vector using the angle
             Vector2 velocityVector = new Vector2((float)(velocity * Math.Cos(angle)), (float)(velocity * Math.Sin(angle)));
