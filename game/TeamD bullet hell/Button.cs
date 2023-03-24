@@ -65,12 +65,11 @@ namespace TeamD_bullet_hell
                 {
                     this.isClicked = true;
                     OnLeftButtonClick();
-                }
-                else
-                {
-                    this.isClicked = false;
-                }
-                
+                }  
+            }
+            else
+            {
+                this.isClicked = false;
             }
 
 

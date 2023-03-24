@@ -27,7 +27,7 @@ namespace TeamD_bullet_hell
         private int windowWidth;
 
         //bullet texture
-        private Texture2D greenCirCleBullet;
+        private Texture2D greenCircleBullet;
 
         //sprite and texture fields for the menu
         private SpriteFont arialBold30;
@@ -104,8 +104,9 @@ namespace TeamD_bullet_hell
             // TODO: use this.Content to load your game content here
             arialBold30 = Content.Load <SpriteFont>("arial");
             tempWallpaper = Content.Load<Texture2D>("temp");
-            gameBackground = Content.Load<Texture2D>("gameBackground");
             leaderBoardImage = Content.Load<Texture2D>("leaderboard");
+            gameBackground = Content.Load<Texture2D>("gameBackground");
+            
             recOutline = Content.Load<Texture2D>("Redtangle"); //bad name for this. -RY
             backButtonPNG = Content.Load<Texture2D>("backButton");
 
@@ -178,41 +179,12 @@ namespace TeamD_bullet_hell
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            //Getting  the state of the keyboard and the Mouse
-            //mState = Mouse.GetState();
-            //KBstate = Keyboard.GetState();
-
-
-            //currentGameState = stackGameModes.Peek();
 
             //Switch that interracts with the game
             switch (currentGameState)
             {
                 case GameMode.Menu:
 
-                    ////if someone pressed within the rectangle of the level select, they will be taken to the levels
-                    //if (levelSelect.Contains(mState.Position) &&
-                    //    mState.LeftButton == ButtonState.Released &&
-                    //    prevMstate.LeftButton == ButtonState.Pressed)
-                    //{
-                    //    gameState = GameMode.Levels;
-                    //}
-
-                    ////if infinity mode is clicked, they will be taken to infinity mode
-                    //if (infinity.Contains(mState.Position) &&
-                    //    mState.LeftButton == ButtonState.Released &&
-                    //    prevMstate.LeftButton == ButtonState.Pressed)
-                    //{
-                    //    gameState = GameMode.Infinity;
-                    //}
-
-                    ////If LeaderBoards is clicked, they will be taken to the leaderBoards
-                    //if (leaderBoard.Contains(mState.Position) &&
-                    //    mState.LeftButton == ButtonState.Released &&
-                    //    prevMstate.LeftButton == ButtonState.Pressed)
-                    //{
-                    //    gameState = GameMode.LeaderBoard;
-                    //}
 
                     foreach (Button buttons in menuButtons)
                     {
@@ -378,17 +350,14 @@ namespace TeamD_bullet_hell
                 case GameMode.Menu:
                     if (selectLevel.IsClicked)
                     {
-                        //stackGameModes.Push(GameMode.Levels);
                         currentGameState = GameMode.Levels;
                     }
                     if (infinity.IsClicked)
                     {
-                        //stackGameModes.Push(GameMode.Infinity);
                         currentGameState = GameMode.Infinity;
                     }
                     if (leaderBoard.IsClicked)
                     {
-                        //stackGameModes.Push(GameMode.LeaderBoard);
                         currentGameState = GameMode.LeaderBoard;
                     }
                     break;
@@ -398,7 +367,6 @@ namespace TeamD_bullet_hell
 
                     if (backButton.IsClicked)
                     {
-                        //stackGameModes.Pop();
                         currentGameState = GameMode.Menu;
                     }
                     break;
@@ -407,7 +375,6 @@ namespace TeamD_bullet_hell
                 case GameMode.LeaderBoard:
                     if (backButton.IsClicked)
                     {
-                        //stackGameModes.Pop();
                         currentGameState = GameMode.Menu;
                     }
                     break;
@@ -416,7 +383,6 @@ namespace TeamD_bullet_hell
                 case GameMode.Levels:
                     if (backButton.IsClicked)
                     {
-                        //stackGameModes.Pop();
                         currentGameState = GameMode.Menu;
                     }
                     break;
