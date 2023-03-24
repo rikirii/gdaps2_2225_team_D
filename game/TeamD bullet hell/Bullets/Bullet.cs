@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace TeamD_bullet_hell
         /// <param name="directionInDegrees"></param>
         /// <param name="windowHeight"></param>
         /// <param name="windowWidth"></param>
-        public Bullet(float directionInDegrees, Texture2D texture)
+        public Bullet(float directionInDegrees, Texture2D texture, int windowWidth, int windowHeight)
         {
             this.textureOfBullet = texture;
             //Commenting all of this out in order to try putting the file IO in the constructor
@@ -104,8 +105,8 @@ namespace TeamD_bullet_hell
 
 
             //mark the bullet to be removed if it move out side the screen
-            if (positionAndSize.X < -positionAndSize.Width || positionAndSize.X > windowHeight ||
-                positionAndSize.Y < -positionAndSize.Height || positionAndSize.Y > windowWidth)
+            if (positionAndSize.X < 0 || (positionAndSize.X + positionAndSize.Width) > windowWidth ||
+                positionAndSize.Y < 0 || (positionAndSize.Y + positionAndSize.Height) > windowWidth)
             {
                 shouldRemove = true;
             }

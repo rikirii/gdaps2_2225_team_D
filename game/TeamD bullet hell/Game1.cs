@@ -129,7 +129,7 @@ namespace TeamD_bullet_hell
 
             //=====================Bullets===============================
 
-            bulletss = new Bullet(270f, greenCircleBullet);
+            bulletss = new Bullet(270,greenCircleBullet, windowWidth, windowHeight);
 
             //===========================================================
             //These codes are for menu screen only!!! -RY
@@ -288,6 +288,7 @@ namespace TeamD_bullet_hell
                     //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
 
+                    _spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
 
                     bulletss.Draw(_spriteBatch);
 

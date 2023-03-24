@@ -18,6 +18,11 @@ namespace TeamD_bullet_hell
         protected int windowWidth;
         protected int windowHeight;
 
+        public Rectangle Position
+        {
+            get { return position; }
+        }
+
         public Player(Texture2D asset, Rectangle position, int windowWidth, int windowHeight)
         {
             this.asset = asset;
@@ -50,7 +55,7 @@ namespace TeamD_bullet_hell
             }
 
             //if and else ifs for screen lock
-            if ( this.position.X >= (this.windowWidth) )
+            if ( (this.position.X + asset.Width ) >= (this.windowWidth) )
             {
                 this.position.X = 0;
             }
