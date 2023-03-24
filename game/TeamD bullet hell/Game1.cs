@@ -218,9 +218,9 @@ namespace TeamD_bullet_hell
 
                     player.Update(gameTime);
 
-                    deltaTime = (float)(gameTime.ElapsedGameTime.Seconds / 100f);
+                    deltaTime += (float)(gameTime.ElapsedGameTime.Seconds / 100f);
                     //for the timer of bullet to see is it the time to spawn the bullet
-                    currentGameTime = (float)(gameTime.TotalGameTime.Seconds);
+                    currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
 
                     bulletss.Update(deltaTime, currentGameTime);
