@@ -82,6 +82,10 @@ namespace TeamD_bullet_hell
         {
             // TODO: Add your initialization logic here
 
+            //_graphics.PreferredBackBufferWidth = 1280;
+            //_graphics.PreferredBackBufferHeight = 720;
+            //_graphics.ApplyChanges();
+
             //store window's width and height
             this.windowWidth = _graphics.GraphicsDevice.Viewport.Width;
             this.windowHeight = _graphics.GraphicsDevice.Viewport.Height;
@@ -287,8 +291,6 @@ namespace TeamD_bullet_hell
                     //Background Commented Out Temporarily for playtesting (screen is just black)
                     //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
-
-                    _spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
 
                     bulletss.Draw(_spriteBatch);
 
