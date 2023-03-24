@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,21 +38,57 @@ namespace TeamD_bullet_hell
         /// <param name="directionInDegrees"></param>
         /// <param name="windowHeight"></param>
         /// <param name="windowWidth"></param>
-        public Bullet(Rectangle positionAndSize, Texture2D textureOfBullet, double velocity,float directionInDegrees, int windowHeight, int windowWidth)
+        public Bullet(float directionInDegrees)
         {
-            this.positionAndSize = positionAndSize;
-            this.textureOfBullet = textureOfBullet;
+            //Commenting all of this out in order to try putting the file IO in the constructor
+            //It can be changed later if need be - Jarin 
+            //this.positionAndSize = positionAndSize;
+            //this.textureOfBullet = textureOfBullet;
+            //this.velocity = velocity;
+            //this.windowHeight = windowHeight;
+            //this.windowWidth = windowWidth;
 
-            this.velocity = velocity;
+            //Initalizing a stream reader 
+            StreamReader input = null;
+            try
+            {
+                //and declaring it in the try block
+                input = new StreamReader("../../../BulletData.txt");
 
-            this.windowHeight = windowHeight;
-            this.windowWidth = windowWidth;
+                //create a string to bring the data in and loop while the line has data 
+                string line = null;
+                while ((line = input.ReadLine()) != null)
+                {
+                    //split the data in the string by a comma 
+                    string[] data = line.Split(',');
 
-            shouldRemove = false;
+                    //Make a new Rectangle based on the dimensions in the file (first 4 numbers)
+                    positionAndSize = new Rectangle(int.Parse(data[0]), int.Parse(data[1]),
+                        int.Parse(data[2]), int.Parse(data[3]));
 
-            //convert the angle to radius for vector math NOOOOOOO-------
-            angle = MathHelper.ToRadians(directionInDegrees);
+                    //Make the velocity based on the velocity given in the file (5th number)
+                    velocity = double.Parse(data[4]);
+
+                    //take the angle number (the last number in the file)
+                    //and make it the degrees variable 
+                    directionInDegrees = float.Parse(data[5]);
+
+                    //convert the angle to radius for vector math NOOOOOOO-------
+                    angle = MathHelper.ToRadians(directionInDegrees);
+
+                    //whatever this is lol
+                    shouldRemove = false;
+
+                }
+
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Uh oh: " + e.Message);
+            }
+
         }
+
         public void Update(GameTime gameTime)
         {
             //get the delta time
