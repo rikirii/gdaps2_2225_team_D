@@ -116,7 +116,7 @@ namespace TeamD_bullet_hell
             //loading player
             playerShip = Content.Load<Texture2D>("ship");
 
-            player = new Player(playerShip, new Rectangle(0, 0, 100, 100), windowWidth, windowHeight);
+            player = new Player(playerShip, new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
 
 
             //===========================================================
