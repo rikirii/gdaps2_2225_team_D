@@ -276,7 +276,7 @@ namespace TeamD_bullet_hell
                     _graphics.GraphicsDevice.Viewport.Height), Color.White);
 
                     //temp title. do not take our title seriously pls -Ricky Y
-                    _spriteBatch.DrawString(arialBold30, "<Galatic Inferno: BulletStorm>", new Vector2(20, 20), Color.White);
+                    _spriteBatch.DrawString(arialBold30, "<BulletStorm>", new Vector2(20, 20), Color.White);
 
                     foreach (Button b in menuButtons)
                     {
