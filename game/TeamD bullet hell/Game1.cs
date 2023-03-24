@@ -82,6 +82,10 @@ namespace TeamD_bullet_hell
         {
             // TODO: Add your initialization logic here
 
+            //_graphics.PreferredBackBufferWidth = 1280;
+            //_graphics.PreferredBackBufferHeight = 720;
+            //_graphics.ApplyChanges();
+
             //store window's width and height
             this.windowWidth = _graphics.GraphicsDevice.Viewport.Width;
             this.windowHeight = _graphics.GraphicsDevice.Viewport.Height;

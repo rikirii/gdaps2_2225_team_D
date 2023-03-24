@@ -55,17 +55,17 @@ namespace TeamD_bullet_hell
             }
 
             //if and else ifs for screen lock
-            if ( (this.position.X + asset.Width ) >= (this.windowWidth) )
+            if ( (this.position.X + this.position.Width ) >= (this.windowWidth) )
             {
-                this.position.X = 0;
+                this.position.X = (this.windowWidth - this.position.Width);
             }
             else if (this.position.X <= 0)
             {
                 this.position.X = 0;
             }
-            if ( this.position.Y >= this.windowHeight )
+            if ( (this.position.Y + this.position.Height) >= this.windowHeight )
             {
-                this.position.Y = 0;
+                this.position.Y = (this.windowHeight - this.position.Height);
             }
             else if (this.position.Y <= 0)
             {
