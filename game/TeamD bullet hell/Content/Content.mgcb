@@ -44,18 +44,6 @@
 /processorParam:TextureFormat=Color
 /build:backButton.png
 
-#begin BulletTexture/greenCircleBullet.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:BulletTexture/greenCircleBullet.jpg
-
 #begin gameBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -67,6 +55,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:gameBackground.png
+
+#begin GreenBullet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GreenBullet.png
 
 #begin leaderboard.png
 /importer:TextureImporter

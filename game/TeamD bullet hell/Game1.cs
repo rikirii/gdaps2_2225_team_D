@@ -26,8 +26,11 @@ namespace TeamD_bullet_hell
         private int windowHeight;
         private int windowWidth;
 
-        //bullet texture
+        //bullet
         private Texture2D greenCircleBullet;
+
+        private List<Bullet> bulletList;
+        private Bullet bulletss;
 
         //sprite and texture fields for the menu
         private SpriteFont arialBold30;
@@ -102,22 +105,31 @@ namespace TeamD_bullet_hell
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
+            //loading fonts
             arialBold30 = Content.Load <SpriteFont>("arial");
+
+            //loading background
             tempWallpaper = Content.Load<Texture2D>("temp");
             leaderBoardImage = Content.Load<Texture2D>("leaderboard");
             gameBackground = Content.Load<Texture2D>("gameBackground");
-            
+
+            //loading button textures
             recOutline = Content.Load<Texture2D>("Redtangle"); //bad name for this. -RY
             backButtonPNG = Content.Load<Texture2D>("backButton");
 
             //load Bullet Texture 
-
+            greenCircleBullet = Content.Load<Texture2D>("GreenBullet");
 
             //loading player
             playerShip = Content.Load<Texture2D>("ship");
 
             player = new Player(playerShip, new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
 
+
+            //=====================Bullets===============================
+
+            bulletss = new Bullet(270f, greenCircleBullet);
 
             //===========================================================
             //These codes are for menu screen only!!! -RY
@@ -197,6 +209,8 @@ namespace TeamD_bullet_hell
 
                     player.Update(gameTime);
 
+                    bulletss.Update(gameTime);
+
                     foreach (Button buttons in infinityButtons)
                     {
                         buttons.Update(gameTime);
@@ -273,6 +287,9 @@ namespace TeamD_bullet_hell
                     //Background Commented Out Temporarily for playtesting (screen is just black)
                     //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+
+                    bulletss.Draw(_spriteBatch);
 
                     BackButtonDisplayer();
 

@@ -49,22 +49,22 @@ namespace TeamD_bullet_hell
                 this.position.X += 3;
             }
 
-            //if and else ifs for edge warping
-            if (this.position.X > this.windowWidth)
+            //if and else ifs for screen lock
+            if ( this.position.X >= (this.windowWidth) )
             {
                 this.position.X = 0;
             }
-            else if (this.position.X < 0)
+            else if (this.position.X <= 0)
             {
-                this.position.X = this.windowWidth;
+                this.position.X = 0;
             }
-            if (this.position.Y > this.windowHeight)
+            if ( this.position.Y >= this.windowHeight )
             {
                 this.position.Y = 0;
             }
-            else if (this.position.Y < 0)
+            else if (this.position.Y <= 0)
             {
-                this.position.Y = this.windowHeight;
+                this.position.Y = 0;
             }
         }
 

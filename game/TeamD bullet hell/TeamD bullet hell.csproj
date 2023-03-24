@@ -27,7 +27,6 @@
     <Folder Include="GameState\GamePlay\" />
     <Folder Include="GameState\End\" />
     <Folder Include="GameState\Pause\" />
-    <Folder Include="ScreenManager\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

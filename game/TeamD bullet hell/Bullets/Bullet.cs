@@ -38,8 +38,9 @@ namespace TeamD_bullet_hell
         /// <param name="directionInDegrees"></param>
         /// <param name="windowHeight"></param>
         /// <param name="windowWidth"></param>
-        public Bullet(float directionInDegrees)
+        public Bullet(float directionInDegrees, Texture2D texture)
         {
+            this.textureOfBullet = texture;
             //Commenting all of this out in order to try putting the file IO in the constructor
             //It can be changed later if need be - Jarin 
             //this.positionAndSize = positionAndSize;
