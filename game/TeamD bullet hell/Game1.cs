@@ -64,8 +64,10 @@ namespace TeamD_bullet_hell
         private List<Button> pauseButtons;
         private List<Button> leaderBoardButtons;
         private List<Button> infinityButtons;
-        
 
+        //timer for the bullet
+        float deltaTime = 0f;
+        float currentGameTime = 0f;
 
         //trying out stacks -RY
         //Stack<GameMode> stackGameModes = new Stack<GameMode>();
@@ -135,7 +137,7 @@ namespace TeamD_bullet_hell
 
             //=====================Bullets===============================
 
-            bulletss = new Bullet(0,new Rectangle(200,200,100,100), greenCircleBullet,10, windowWidth,windowHeight);
+            bulletss = new Bullet(90,new Rectangle(200,200,100,100), greenCircleBullet,10,5, windowWidth,windowHeight);
 
             //===========================================================
             //These codes are for menu screen only!!! -RY
@@ -216,10 +218,12 @@ namespace TeamD_bullet_hell
 
                     player.Update(gameTime);
 
-                    float deltaTime = (float)(gameTime.ElapsedGameTime.TotalSeconds/100f);
+                    deltaTime = (float)(gameTime.ElapsedGameTime.Seconds / 100f);
+                    //for the timer of bullet to see is it the time to spawn the bullet
+                    currentGameTime = (float)(gameTime.TotalGameTime.Seconds);
 
 
-                    bulletss.Update(deltaTime);
+                    bulletss.Update(deltaTime, currentGameTime);
 
                     foreach (Button buttons in infinityButtons)
                     {
@@ -299,6 +303,8 @@ namespace TeamD_bullet_hell
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
 
                     _spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
+
+                    //draw the bullet
 
                     foreach (Bullet bullet in bulletList)
                     {

@@ -22,12 +22,16 @@ namespace TeamD_bullet_hell
         private Rectangle positionAndSize;
 
         private double velocity;
+        private float directionInDegrees;
+
+        private double spawnTime;
+        private double spawnTimer;
 
         //when shouldRemove = true remove the bullet
-        private bool shouldRemove;
+        private bool upDateTheBall;
 
         // direction represented by angle in radians
-        private double angle = 0;
+        private double angleInRadians = 0;
 
 
         /// <summary>
@@ -39,90 +43,70 @@ namespace TeamD_bullet_hell
         /// <param name="directionInDegrees"></param>
         /// <param name="windowHeight"></param>
         /// <param name="windowWidth"></param>
-        public Bullet(float directionInDegrees, Rectangle positionAndSize, Texture2D textureOfBullet, double velocity, int windowWidth, int windowHeight)
+        public Bullet(float directionInDegrees, Rectangle positionAndSize, Texture2D textureOfBullet, double velocity,double spawnTime, int windowWidth, int windowHeight)
         {
-            
+
             //Commenting all of this out in order to try putting the file IO in the constructor
             //It can be changed later if need be - Jarin 
+            this.directionInDegrees = directionInDegrees;
             this.positionAndSize = positionAndSize;
             this.textureOfBullet = textureOfBullet;
             this.velocity = velocity;
             this.windowHeight = windowHeight;
             this.windowWidth = windowWidth;
+            this.spawnTime = spawnTime;
 
-            //Initalizing a stream reader 
-           // StreamReader input = null;
-           // try
-           // {
-           //     //and declaring it in the try block
-           //     input = new StreamReader("../../../BulletData.txt");
-           //
-           //     //create a string to bring the data in and loop while the line has data 
-           //     string line = null;
-           //     while ((line = input.ReadLine()) != null)
-           //     {
-           //         //split the data in the string by a comma 
-           //         string[] data = line.Split(',');
-           //
-           //         //Make a new Rectangle based on the dimensions in the file (first 4 numbers)
-           //         positionAndSize = new Rectangle(int.Parse(data[0]), int.Parse(data[1]),
-           //             int.Parse(data[2]), int.Parse(data[3]));
-           //
-           //         //Make the velocity based on the velocity given in the file (5th number)
-           //         velocity = double.Parse(data[4]);
-           //
-           //         //take the angle number (the last number in the file)
-           //         //and make it the degrees variable 
-           //         directionInDegrees = float.Parse(data[5]);
-           //
-           //         //convert the angle to radius for vector math NOOOOOOO-------
-           //         angle = MathHelper.ToRadians(directionInDegrees);
-           //
-           //         //whatever this is lol
-           //         shouldRemove = false;
-           //
-           //     }
-           //
-           // }
-           // catch(Exception e)
-           // {
-           //     System.Diagnostics.Debug.WriteLine("Uh oh: " + e.Message);
-           // }
+            //spawntimer will be set to time of how many time the player enter the game
 
+
+            //convert the angle to radius for vector math NOOOOOOO-------
+            angleInRadians = MathHelper.ToRadians(directionInDegrees);
+
+            //when this is true remove the bullet
+            upDateTheBall = false;
         }
 
-        public void Update(float gameTime)
+        public void Update(float gameTime,float currentGameTime)
         {
+            spawnTimer = currentGameTime;
 
-            // calculate the velocity vector using the angle
-            Vector2 velocityVector = new Vector2((float)(velocity * Math.Cos(angle)), (float)(velocity * Math.Sin(angle)));
-
-            //change the position over the time depend on the speed
-            positionAndSize.X += (int)(velocityVector.X );
-            positionAndSize.Y += (int)(velocityVector.Y );
-
-
-            //mark the bullet to be removed if it move out side the screen
-            if (positionAndSize.X < 0 || (positionAndSize.X + positionAndSize.Width) > windowWidth ||
-                positionAndSize.Y < 0 || (positionAndSize.Y + positionAndSize.Height) > windowWidth)
+            if (upDateTheBall== false)
             {
-                shouldRemove = true;
+                //when reach the spawn time 
+                if(spawnTimer>= spawnTime)
+                {
+                    upDateTheBall = true;
+                }
+            }
+            else if (upDateTheBall == true)
+            {
+                /////////////////////////////////////////////
+                ///Some Problem here with the correct angle calculation
+                Vector2 velocityVector = new Vector2((float)(velocity * Math.Cos(directionInDegrees)), (float)(velocity * Math.Sin(directionInDegrees)));
+
+                //change the position over the time depend on the speed
+                positionAndSize.X += (int)(velocityVector.X);
+                positionAndSize.Y += (int)(velocityVector.Y);
+
+
+                //mark the bullet to be removed if it move out side the screen
+                if (positionAndSize.X < 0 || (positionAndSize.X + positionAndSize.Width) > windowWidth ||
+                    positionAndSize.Y < 0 || (positionAndSize.Y + positionAndSize.Height) > windowWidth)
+                {
+                    upDateTheBall = false;
+                }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
+            //only draw the ball when is update is ture
+            if (upDateTheBall == true)
+            {
+                spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
+            }
         }
 
-        /// <summary>
-        /// return true when the bullet need to be removed
-        /// </summary>
-        /// <returns></returns>
-        public bool ShouldRemove()
-        {
-            return shouldRemove;
-        }
-
+        
     }
 }
