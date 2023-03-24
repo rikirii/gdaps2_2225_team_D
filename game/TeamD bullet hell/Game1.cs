@@ -137,7 +137,7 @@ namespace TeamD_bullet_hell
 
             //=====================Bullets===============================
 
-            bulletss = new Bullet(90,new Rectangle(200,200,100,100), greenCircleBullet,10,5, windowWidth,windowHeight);
+            bulletss = new Bullet(0,new Rectangle(200,200,100,100), greenCircleBullet,10,0, windowWidth,windowHeight);
 
             //===========================================================
             //These codes are for menu screen only!!! -RY
@@ -218,7 +218,7 @@ namespace TeamD_bullet_hell
 
                     player.Update(gameTime);
 
-                    deltaTime += (float)(gameTime.ElapsedGameTime.Seconds / 100f);
+                    deltaTime += (float)(gameTime.ElapsedGameTime.Seconds );
                     //for the timer of bullet to see is it the time to spawn the bullet
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 

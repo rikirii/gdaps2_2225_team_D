@@ -82,7 +82,7 @@ namespace TeamD_bullet_hell
             {
                 /////////////////////////////////////////////
                 ///Some Problem here with the correct angle calculation
-                Vector2 velocityVector = new Vector2((float)(velocity * Math.Cos(directionInDegrees)), (float)(velocity * Math.Sin(directionInDegrees)));
+                Vector2 velocityVector = new Vector2((float)(velocity * Math.Cos(angleInRadians)), (float)(velocity * Math.Sin(angleInRadians)));
 
                 //change the position over the time depend on the speed
                 positionAndSize.X += (int)(velocityVector.X);
