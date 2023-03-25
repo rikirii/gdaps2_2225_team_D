@@ -84,9 +84,9 @@ namespace TeamD_bullet_hell
         {
             // TODO: Add your initialization logic here
 
-            //_graphics.PreferredBackBufferWidth = 1280;
-            //_graphics.PreferredBackBufferHeight = 720;
-            //_graphics.ApplyChanges();
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
 
             //store window's width and height
             this.windowWidth = _graphics.GraphicsDevice.Viewport.Width;
@@ -94,7 +94,6 @@ namespace TeamD_bullet_hell
 
             //set initial currentGamestate to Menu
             currentGameState = GameMode.Menu;
-            //stackGameModes.Push(GameMode.Menu);
 
             bulletList = new List<Bullet>();
 
@@ -118,7 +117,7 @@ namespace TeamD_bullet_hell
             arialBold30 = Content.Load <SpriteFont>("arial");
 
             //loading background
-            tempWallpaper = Content.Load<Texture2D>("temp");
+            tempWallpaper = Content.Load<Texture2D>("gameMenu");
             leaderBoardImage = Content.Load<Texture2D>("leaderboard");
             gameBackground = Content.Load<Texture2D>("gameBackground");
 
@@ -302,7 +301,8 @@ namespace TeamD_bullet_hell
                     //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
 
-                    _spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
+                    //this is for testing, looking for coords
+                    //_spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
 
                     //draw the bullet
 
