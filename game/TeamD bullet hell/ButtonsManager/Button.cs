@@ -19,12 +19,25 @@ namespace TeamD_bullet_hell
         protected Texture2D buttonImage;
         private bool isClicked;
 
-        //properties
+        /// <summary>
+        /// bool: is the button clicked?
+        /// </summary>
         public bool IsClicked
         {
             get { return isClicked; }
         }
 
+        /// <summary>
+        /// reference of button texture stored inside
+        /// </summary>
+        public Texture2D ButtonImage
+        {
+            get { return buttonImage; }
+        }
+
+        /// <summary>
+        /// Button's position as rectangle
+        /// </summary>
         public Rectangle Position
         {
             get 
@@ -32,6 +45,62 @@ namespace TeamD_bullet_hell
                 return this.position;
             }
         }
+
+        /// <summary>
+        /// Button's X position (top left corner of rec)
+        /// </summary>
+        public int X
+        {
+            get
+            {
+                return this.position.X;
+            }
+            set
+            {
+                this.position.X = value;
+            }
+        }
+
+        /// <summary>
+        /// Button's Y position (top left corner of rec)
+        /// </summary>
+        public int Y
+        {
+            get
+            {
+                return this.position.Y;
+            }
+            set
+            {
+                this.position.Y = value;
+            }
+        }
+
+        //****NOTE: Idk if I will use this. Temp Placement -RY***
+        //public int Width
+        //{
+        //    get
+        //    {
+        //        return this.position.Width;
+        //    }
+        //    set
+        //    {
+        //        this.position.Width = value;
+        //    }
+        //}
+
+        //public int Height
+        //{
+        //    get
+        //    {
+        //        return this.position.Height;
+        //    }
+        //    set
+        //    {
+        //        this.position.Height = value;
+        //    }
+        //}
+
 
         //events
         public event OnButtonClickDelegate OnLeftButtonClick;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamD_bullet_hell.GameState
+namespace TeamD_bullet_hell.GameStates
 {
     internal interface IScreens
     {

@@ -2,27 +2,19 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-
-public enum GameMode
-{
-    Menu,
-    Levels,
-    Gameplay,
-    Infinity,
-    Pause,
-    LeaderBoard
-
-    
-}
+using TeamD_bullet_hell.ButtonsManager;
+using TeamD_bullet_hell.GameStates;
+using TeamD_bullet_hell.GameStates.GamePlay;
+using TeamD_bullet_hell.GameStates.Title;
 
 namespace TeamD_bullet_hell
-{
+{    
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Player player;
+        //track window's size
         private int windowHeight;
         private int windowWidth;
 
@@ -32,25 +24,22 @@ namespace TeamD_bullet_hell
         private List<Bullet> bulletList;
         private Bullet bulletss;
 
-        //sprite and texture fields for the menu
-        private SpriteFont arialBold30;
-        private Texture2D tempWallpaper;
+        //SpriteFont
+        private SpriteFont titleFont;
+        private SpriteFont buttonFont;
+        private SpriteFont normalFont;
+
+        ////sprite and texture fields for the menu        
+        private Texture2D mainWallpaper;
         private Texture2D leaderBoardImage;
-        private Texture2D recOutline;
-        private Texture2D backButtonPNG;
         private Texture2D gameBackground;
         private Texture2D playerShip;
+        private Texture2D backButtonPNG;
+        private Texture2D buttonOutline;
 
-        //Rectangles to select the options on the Menu
-        //
-        //buttons
-        Button selectLevel;
-        Button infinity;
-        Button leaderBoard;
-        Button backButton;
 
         //field that tracks the gameState
-        GameMode currentGameState;
+        GameState currentGameState;
 
         //Getting a mouse state and keyboard state
         MouseState mState;
@@ -58,19 +47,18 @@ namespace TeamD_bullet_hell
         KeyboardState KBstate;
         KeyboardState prevKBstate;
 
-        //Button list (I suspect there will be a lot of buttons to draw) -RY
-        private List<Button> menuButtons;
-        private List<Button> levelsButtons;
-        private List<Button> pauseButtons;
-        private List<Button> leaderBoardButtons;
-        private List<Button> infinityButtons;
-
         //timer for the bullet
         float deltaTime = 0f;
         float currentGameTime = 0f;
 
-        //trying out stacks -RY
-        //Stack<GameMode> stackGameModes = new Stack<GameMode>();
+        //Declare state manager (important where all states/screen are managed)
+        private StateManager stateMgr;
+
+        //Temp dictionary variables to pass reference to state manager
+        private Dictionary<GameState, Texture2D> wallpapers;
+        private Dictionary<FontType, SpriteFont> fontsCollection;
+        private Dictionary<Entity, Texture2D> spriteCollection;
+        private Dictionary<ButtonAssets, Texture2D> buttonAssets;
 
 
         public Game1()
@@ -84,25 +72,31 @@ namespace TeamD_bullet_hell
         {
             // TODO: Add your initialization logic here
 
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+            //_graphics.PreferredBackBufferWidth = 1920;
+            //_graphics.PreferredBackBufferHeight = 1080;
+            //_graphics.IsFullScreen = true; //fullscreen (not recommended -RY)
+
+            //this will make window size auto scale to current monitor's size
+            _graphics.PreferredBackBufferWidth = GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+
+            //makes screen borderless
+            Window.IsBorderless = true; 
             _graphics.ApplyChanges();
 
             //store window's width and height
             this.windowWidth = _graphics.GraphicsDevice.Viewport.Width;
             this.windowHeight = _graphics.GraphicsDevice.Viewport.Height;
 
-            //set initial currentGamestate to Menu
-            currentGameState = GameMode.Menu;
+            //initialize temp dictionary
+            wallpapers = new Dictionary<GameState, Texture2D>();
+            fontsCollection = new Dictionary<FontType, SpriteFont>();
+            spriteCollection = new Dictionary<Entity, Texture2D>();
+            buttonAssets = new Dictionary<ButtonAssets, Texture2D>();
 
+            //makes bullet list to track # of bullet (temp location -RY)
             bulletList = new List<Bullet>();
 
-            //initialize list of buttons to store many buttons
-            menuButtons= new List<Button>();
-            levelsButtons= new List<Button>();  
-            pauseButtons= new List<Button>();
-            leaderBoardButtons = new List<Button>();
-            infinityButtons= new List<Button>();
             
             base.Initialize();
         }
@@ -113,17 +107,21 @@ namespace TeamD_bullet_hell
 
             // TODO: use this.Content to load your game content here
             
+            //******IMPORTANT INFO******* -RY
+            //when loading in assets from a folder in Content, You must do "../Content/<Insert folder name>/<Insert file name>"
+
             //loading fonts
-            arialBold30 = Content.Load <SpriteFont>("arial");
+            titleFont = Content.Load <SpriteFont>("../Content/Fonts/Arial30Bold");
+            buttonFont = Content.Load<SpriteFont>("../Content/Fonts/Arial20Normal");
 
             //loading background
-            tempWallpaper = Content.Load<Texture2D>("gameMenu");
-            leaderBoardImage = Content.Load<Texture2D>("leaderboard");
-            gameBackground = Content.Load<Texture2D>("gameBackground");
+            mainWallpaper = Content.Load<Texture2D>("../Content/Background/gameMenu");
+            leaderBoardImage = Content.Load<Texture2D>("../Content/Background/leaderboard");
+            gameBackground = Content.Load<Texture2D>("../Content/Background/gameBackground");
 
             //loading button textures
-            recOutline = Content.Load<Texture2D>("Redtangle"); //bad name for this. -RY
-            backButtonPNG = Content.Load<Texture2D>("backButton");
+            buttonOutline = Content.Load<Texture2D>("Redtangle"); //bad name for this. -RY
+            backButtonPNG = Content.Load<Texture2D>("../Content/ButtonAssets/backButton");
 
             //load Bullet Texture 
             greenCircleBullet = Content.Load<Texture2D>("GreenBullet");
@@ -131,67 +129,37 @@ namespace TeamD_bullet_hell
             //loading player
             playerShip = Content.Load<Texture2D>("ship");
 
-            player = new Player(playerShip, new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
+
+            //testing ********************
+            
+            //Adding wallpaper to dictionary. Use key(GameState) to get reference of the wallpaper to use
+            wallpapers.Add(GameState.Menu, mainWallpaper);
+            wallpapers.Add(GameState.LeaderBoard, leaderBoardImage);
+
+            //Adding font types to dictionary. Use key(FontType) to get reference of the spritefont
+            fontsCollection.Add(FontType.Title, titleFont);
+            fontsCollection.Add(FontType.Button, buttonFont);
+
+            //Adding button assets to dictionary. Use ButtonAssets to get reference of the buttonassets
+            buttonAssets.Add(ButtonAssets.Outline, buttonOutline);
+            buttonAssets.Add(ButtonAssets.BackButton, backButtonPNG);
+
+            //Adding player, enemy, bullet, etc to dictionary. Use Entity enum to get reference of their texture2D
+            spriteCollection.Add(Entity.Player, playerShip);
+
+
+            //load Game State Manager
+            stateMgr = new StateManager(_graphics, this.windowWidth, this.windowHeight, wallpapers, fontsCollection, spriteCollection, buttonAssets);
+
+            stateMgr.ButtonMgr.StateMgr = this.stateMgr;
 
 
             //=====================Bullets===============================
 
             bulletss = new Bullet(0,new Rectangle(200,200,100,100), greenCircleBullet,10,0, windowWidth,windowHeight);
 
-            //===========================================================
-            //These codes are for menu screen only!!! -RY
-            selectLevel = new Button(_graphics.GraphicsDevice, new Rectangle(380, 200, recOutline.Width, (recOutline.Height / 2) - 15), recOutline );
-            infinity = new Button(_graphics.GraphicsDevice, new Rectangle(380, 210 + selectLevel.Position.Height, recOutline.Width, (recOutline.Height / 2) - 25), recOutline);
-            leaderBoard = new Button(_graphics.GraphicsDevice, new Rectangle(380, infinity.Position.Y + infinity.Position.Height + 5, recOutline.Width, (recOutline.Height / 2) - 30), recOutline);
-
-            //adds menu buttons to menu list
-            menuButtons.Add(selectLevel);
-            menuButtons.Add(infinity);
-            menuButtons.Add(leaderBoard);
-
-            //add left click event to all buttons in menu list
-            foreach(Button b in menuButtons)
-            {
-                b.OnLeftButtonClick += this.LeftButtonClicked;
-            }
-
-            //===========================================================
-
-            //universal back button?
-            backButton = new Button(_graphics.GraphicsDevice, new Rectangle(10, 10, backButtonPNG.Width, backButtonPNG.Height), recOutline);
-
-            //========LeaderBoard Screen Only!!!!======
-            leaderBoardButtons.Add(backButton);
-
-            //add left click event to all buttons in leaderboard list
-            foreach(Button b in leaderBoardButtons)
-            {
-                b.OnLeftButtonClick += this.LeftButtonClicked;
-            }
-
-
-            //========Infinity screen only!========
-            infinityButtons.Add(backButton);
-
-            //add left click event to all buttons in infinity list
-            foreach (Button b in infinityButtons)
-            {
-                b.OnLeftButtonClick += this.LeftButtonClicked;
-            }
-
-
-            //========Levels screen only=========
-            levelsButtons.Add(backButton);
-
-            //add left click event to all buttons in level list
-            foreach (Button b in levelsButtons)
-            {
-                b.OnLeftButtonClick += this.LeftButtonClicked;
-            }
 
             bulletList.Add(bulletss);
-
-
 
         }
 
@@ -200,60 +168,52 @@ namespace TeamD_bullet_hell
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            this.currentGameState = stateMgr.CurrentGameState;
+
             //Switch that interracts with the game
             switch (currentGameState)
             {
-                case GameMode.Menu:
+                case GameState.Menu:
 
-
-                    foreach (Button buttons in menuButtons)
-                    {
-                        buttons.Update(gameTime);
-                    }
+                    stateMgr.Update(gameTime);
 
                     break;
 
-                case GameMode.Infinity:
 
-                    player.Update(gameTime);
+                case GameState.Levels:
+
+                    stateMgr.Update(gameTime);
+
+                    break;
+
+
+                case GameState.Infinity:
+
+                    stateMgr.Update(gameTime);
 
                     deltaTime += (float)(gameTime.ElapsedGameTime.Seconds );
                     //for the timer of bullet to see is it the time to spawn the bullet
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-
                     bulletss.Update(deltaTime, currentGameTime);
 
-                    foreach (Button buttons in infinityButtons)
-                    {
-                        buttons.Update(gameTime);
-                    }
 
                     break;
 
 
-                case GameMode.LeaderBoard:
-                    foreach (Button buttons in leaderBoardButtons)
-                    {
-                        buttons.Update(gameTime);
-                    }
+                case GameState.LeaderBoard:
+
+                    stateMgr.Update(gameTime);
+
                     break;
 
 
-                case GameMode.Levels:
-                    foreach (Button buttons in levelsButtons)
-                    {
-                        buttons.Update(gameTime);
-                    }
-                    break;
-
-
-                case GameMode.Pause:
+                case GameState.Pause:
                     
                     break;
 
 
-                case GameMode.Gameplay:
+                case GameState.Gameplay:
                     break;
             }
 
@@ -275,26 +235,33 @@ namespace TeamD_bullet_hell
             switch (currentGameState)
             {
                 //While in menu draw screen and background 
-                case GameMode.Menu:
-                    GraphicsDevice.Clear(Color.DarkBlue);
-                    _spriteBatch.Draw(tempWallpaper, new Rectangle(0, 0, _graphics.GraphicsDevice.Viewport.Width,
-                    _graphics.GraphicsDevice.Viewport.Height), Color.White);
+                case GameState.Menu:
 
-                    //temp title. do not take our title seriously pls -Ricky Y
-                    _spriteBatch.DrawString(arialBold30, "<BulletStorm>", new Vector2(20, 20), Color.White);
+                    //GraphicsDevice.Clear(Color.Black);
 
-                    foreach (Button b in menuButtons)
-                    {
-                        b.Draw(_spriteBatch);
-                    }
+                    stateMgr.Draw(_spriteBatch);
+
 
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 260), Color.Red);
                     break;
 
+
+                //draws levels screen
+                case GameState.Levels:
+
+                    GraphicsDevice.Clear(Color.DarkSlateBlue);
+
+                    stateMgr.Draw(_spriteBatch);
+
+                    
+
+                    break;
+
+
                 //draws infinity screen
-                case GameMode.Infinity:
+                case GameState.Infinity:
                     GraphicsDevice.Clear(Color.Black);
 
                     //Background Commented Out Temporarily for playtesting (screen is just black)
@@ -304,6 +271,8 @@ namespace TeamD_bullet_hell
                     //this is for testing, looking for coords
                     //_spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
 
+                    stateMgr.Draw(_spriteBatch);
+
                     //draw the bullet
 
                     foreach (Bullet bullet in bulletList)
@@ -311,129 +280,37 @@ namespace TeamD_bullet_hell
                         bulletss.Draw(_spriteBatch);
                     }
 
-                    BackButtonDisplayer();
-
-                    foreach (Button b in infinityButtons)
-                    {
-                        b.Draw(_spriteBatch);
-                    }
-
-                    player.Draw(_spriteBatch);
-
+                    
                     break;
 
+
                 //draws leaderboard screen
-                case GameMode.LeaderBoard:
-                    GraphicsDevice.Clear(Color.Black);
+                case GameState.LeaderBoard:
+                    //GraphicsDevice.Clear(Color.Black);
                     _spriteBatch.Draw(leaderBoardImage, new Rectangle(0, 0, _graphics.GraphicsDevice.Viewport.Width,
                     _graphics.GraphicsDevice.Viewport.Height), Color.White);
 
-                    BackButtonDisplayer();
+                    stateMgr.Draw(_spriteBatch);
 
-                    foreach (Button b in leaderBoardButtons)
-                    {
-                        b.Draw(_spriteBatch);
-                    }
 
                     break;
 
-                //draws levels screen
-                case GameMode.Levels:
-                    GraphicsDevice.Clear(Color.DarkSlateBlue);
-                    _spriteBatch.DrawString(arialBold30, "Levels", new Vector2(100,100), Color.White);
-                    BackButtonDisplayer();
-                    foreach (Button b in leaderBoardButtons)
-                    {
-                        b.Draw(_spriteBatch);
-                    }
+
+                case GameState.Pause:
                     break;
 
 
-                case GameMode.Pause:
-                    break;
-
-
-                case GameMode.Gameplay:
+                case GameState.Gameplay:
                     break;
             }
 
 
-            
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        //=====helper method?=======
-        public void BackButtonDisplayer()
-        {
-            _spriteBatch.Draw(backButtonPNG,
-                        new Rectangle(backButton.Position.X, backButton.Position.Y,
-                                      backButton.Position.Width, backButton.Position.Height),
-                                      Color.White);
-        }
-
-
-        //==========================================
-        //============ Click handlers=========
-        //==========================================
-
-        //switch current game state when button are clicked.
-        public void LeftButtonClicked()
-        {
-            switch (currentGameState)
-            {
-                case GameMode.Menu:
-                    if (selectLevel.IsClicked)
-                    {
-                        currentGameState = GameMode.Levels;
-                    }
-                    if (infinity.IsClicked)
-                    {
-                        currentGameState = GameMode.Infinity;
-                    }
-                    if (leaderBoard.IsClicked)
-                    {
-                        currentGameState = GameMode.LeaderBoard;
-                    }
-                    break;
-
-
-                case GameMode.Infinity:
-
-                    if (backButton.IsClicked)
-                    {
-                        currentGameState = GameMode.Menu;
-                    }
-                    break;
-
-
-                case GameMode.LeaderBoard:
-                    if (backButton.IsClicked)
-                    {
-                        currentGameState = GameMode.Menu;
-                    }
-                    break;
-
-
-                case GameMode.Levels:
-                    if (backButton.IsClicked)
-                    {
-                        currentGameState = GameMode.Menu;
-                    }
-                    break;
-
-
-                case GameMode.Pause:
-                    break;
-
-
-                case GameMode.Gameplay:
-                    break;
-
-
-            }
-        }
+  
     }
 }

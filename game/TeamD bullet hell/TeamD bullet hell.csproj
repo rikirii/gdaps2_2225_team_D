@@ -24,9 +24,8 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GameState\GamePlay\" />
-    <Folder Include="GameState\End\" />
-    <Folder Include="GameState\Pause\" />
+    <Folder Include="GameStates\End\" />
+    <Folder Include="GameStates\Pause\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
