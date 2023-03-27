@@ -33,6 +33,8 @@ namespace TeamD_bullet_hell
 
         // direction represented by angle in radians
         private double angleInRadians = 0;
+
+        private string type;
         
 
 
@@ -45,7 +47,7 @@ namespace TeamD_bullet_hell
         /// <param name="directionInDegrees"></param>
         /// <param name="windowHeight"></param>
         /// <param name="windowWidth"></param>
-        public Bullet(float directionInDegrees, Rectangle positionAndSize, Texture2D textureOfBullet, double velocity,double spawnTime, int windowWidth, int windowHeight)
+        public Bullet(float directionInDegrees, Rectangle positionAndSize, Texture2D textureOfBullet, double velocity,double spawnTime, int windowWidth, int windowHeight,string type)
         {
 
             //Commenting all of this out in order to try putting the file IO in the constructor
@@ -57,6 +59,7 @@ namespace TeamD_bullet_hell
             this.windowHeight = windowHeight;
             this.windowWidth = windowWidth;
             this.spawnTime = spawnTime;
+            this.type = type;
 
             //spawntimer will be set to time of how many time the player enter the game
 
