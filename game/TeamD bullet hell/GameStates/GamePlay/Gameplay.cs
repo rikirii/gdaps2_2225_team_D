@@ -120,11 +120,15 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
+                    spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
                     player.Draw(spriteBatch);
                     //Draw background
                     //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+
+
                     break;
 
 

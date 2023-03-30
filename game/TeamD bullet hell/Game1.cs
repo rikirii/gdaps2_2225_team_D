@@ -139,6 +139,7 @@ namespace TeamD_bullet_hell
             //Adding wallpaper to dictionary. Use key(GameState) to get reference of the wallpaper to use
             wallpapers.Add(GameState.Menu, mainWallpaper);
             wallpapers.Add(GameState.LeaderBoard, leaderBoardImage);
+            wallpapers.Add(GameState.Gameplay, gameBackground);
 
             //Adding font types to dictionary. Use key(FontType) to get reference of the spritefont
             fontsCollection.Add(FontType.Title, titleFont);
@@ -166,9 +167,9 @@ namespace TeamD_bullet_hell
             int degree = 0;
             float time = 0f;
 
-            bulletss1 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
-            bulletss2 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
-            bulletss3 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
+            //bulletss1 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
+            //bulletss2 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
+            //bulletss3 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
 
             bulletList.Add(bulletss1);
             bulletList.Add(bulletss2);
@@ -209,10 +210,10 @@ namespace TeamD_bullet_hell
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-                    foreach (Bullet bullet in bulletList)
-                    {
-                        bullet.Update(deltaTime, currentGameTime);
-                    }
+                    //foreach (Bullet bullet in bulletList)
+                    //{
+                    //    bullet.Update(deltaTime, currentGameTime);
+                    //}
 
 
                     break;
@@ -291,10 +292,10 @@ namespace TeamD_bullet_hell
 
                     //draw the bullet
 
-                    foreach (Bullet bullet in bulletList)
-                    {
-                        bullet.Draw(_spriteBatch);
-                    }
+                    //foreach (Bullet bullet in bulletList)
+                    //{
+                    //    bullet.Draw(_spriteBatch);
+                    //}
 
                     
                     break;
