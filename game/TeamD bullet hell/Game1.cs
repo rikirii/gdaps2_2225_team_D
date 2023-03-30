@@ -282,8 +282,7 @@ namespace TeamD_bullet_hell
                     GraphicsDevice.Clear(Color.Black);
 
                     //Background Commented Out Temporarily for playtesting (screen is just black)
-                    //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
-                    //_graphics.GraphicsDevice.Viewport.Height), Color.White);
+                    
 
                     //this is for testing, looking for coords
                     //_spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
