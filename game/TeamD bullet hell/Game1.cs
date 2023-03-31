@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using TeamD_bullet_hell.Bullets;
 using TeamD_bullet_hell.ButtonsManager;
 using TeamD_bullet_hell.GameStates;
 using TeamD_bullet_hell.GameStates.GamePlay;
@@ -13,6 +14,7 @@ namespace TeamD_bullet_hell
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
 
         //track window's size
         private int windowHeight;
@@ -167,14 +169,9 @@ namespace TeamD_bullet_hell
             int degree = 0;
             float time = 0f;
 
-            //bulletss1 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
-            //bulletss2 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
-            //bulletss3 = new Bullet(degree += 30, new Rectangle(600, 200, 100, 100), greenCircleBullet, 10, time += 1, windowWidth, windowHeight);
-
-            bulletList.Add(bulletss1);
-            bulletList.Add(bulletss2);
-            bulletList.Add(bulletss3);
-
+            HardCodeBulletTest test = new HardCodeBulletTest(greenCircleBullet);
+            bulletList = test.BulletList;
+             time = 0f;
         }
 
         protected override void Update(GameTime gameTime)
@@ -210,10 +207,10 @@ namespace TeamD_bullet_hell
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-                    //foreach (Bullet bullet in bulletList)
-                    //{
-                    //    bullet.Update(deltaTime, currentGameTime);
-                    //}
+                    foreach (Bullet bullet in bulletList)
+                    {
+                        bullet.Update(deltaTime, currentGameTime);
+                    }
 
 
                     break;
@@ -292,10 +289,10 @@ namespace TeamD_bullet_hell
 
                     //draw the bullet
 
-                    //foreach (Bullet bullet in bulletList)
-                    //{
-                    //    bullet.Draw(_spriteBatch);
-                    //}
+                    foreach (Bullet bullet in bulletList)
+                    {
+                        bullet.Draw(_spriteBatch);
+                    }
 
                     
                     break;
