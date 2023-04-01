@@ -19,7 +19,7 @@ namespace TeamD_bullet_hell
         private Texture2D textureOfBullet;
 
         //the size and the postion 
-        private Rectangle positionAndSize;
+        public Rectangle positionAndSize;
 
         private double velocity;
         private float directionInDegrees;

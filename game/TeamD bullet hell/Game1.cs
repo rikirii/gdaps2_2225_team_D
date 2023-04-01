@@ -20,6 +20,10 @@ namespace TeamD_bullet_hell
         private int windowHeight;
         private int windowWidth;
 
+        //Create player Object
+        private Rectangle playerPos;
+        private Player myPlayer;
+
         //bullet
         private Texture2D greenCircleBullet;
 
@@ -103,6 +107,8 @@ namespace TeamD_bullet_hell
             //makes bullet list to track # of bullet (temp location -RY)
             bulletList = new List<Bullet>();
 
+            //Initialize Player
+            myPlayer = new Player(playerShip, playerPos, windowWidth, windowHeight);
             
             base.Initialize();
         }
@@ -256,6 +262,14 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
+                    //Collision Logic
+                    foreach (Bullet bullet in bulletList)// print all squares
+                    {
+                        if (myPlayer.Intersects(bullet))
+                        {
+                            currentGameState = GameState.Menu;
+                        }
+                    }
 
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
@@ -287,14 +301,24 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
-                    //draw the bullet
+                    /*draw the bullet
 
                     foreach (Bullet bullet in bulletList)
                     {
                         bullet.Draw(_spriteBatch);
+                    } */
+
+                    //Collision Logic + Bullet Drawing
+                    foreach (Bullet bullet in bulletList)// print all squares
+                    {
+                        bullet.Draw(_spriteBatch);
+                        if (myPlayer.Intersects(bullet) == true)
+                        {
+                            currentGameState = GameState.Menu;
+                        }
                     }
 
-                    
+
                     break;
 
 
