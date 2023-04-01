@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamD_bullet_hell.Bullets;
 
 namespace TeamD_bullet_hell.GameStates.GamePlay
 {
@@ -19,6 +20,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         //screen size
         internal int windowWidth;
         internal int windowHeight;
+
+        //BulletList variable for collision testing
+        internal List<Bullet> bulletList;
 
         //graphicsdevicemanager ref from game1
         internal GraphicsDeviceManager _graphics;
@@ -46,7 +50,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// <param name="wallpapers">Dictionary (collection) of wallpapers for states</param>
         /// <param name="fonts">dictionary (collection) of all fonts</param>
         /// <param name="assets">dictionary (collection) of all assets</param>
-        public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> assets)
+        public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> assets, HardCodeBulletTest test)
         {
             this._graphics = graphics;
             this.windowWidth = windowWidth;
@@ -54,6 +58,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.wallpapers = wallpapers;
             this.fonts = fonts;
             this.assets = assets;
+            //test = new HardCodeBulletTest(); Not quite sure what you meant by this Ricky
 
             player = new Player(assets[Entity.Player], new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
         }
