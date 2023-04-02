@@ -50,7 +50,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// <param name="wallpapers">Dictionary (collection) of wallpapers for states</param>
         /// <param name="fonts">dictionary (collection) of all fonts</param>
         /// <param name="assets">dictionary (collection) of all assets</param>
-        public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> assets, HardCodeBulletTest test)
+        public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> assets)
         {
             this._graphics = graphics;
             this.windowWidth = windowWidth;
