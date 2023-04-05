@@ -50,9 +50,10 @@ namespace TeamD_bullet_hell.ButtonsManager
         {
             menuButtons = new List<Button>();
 
-            Button selectLevel = new Button(graphics.GraphicsDevice, new Rectangle(380, 200, buttonOutline.Width, (buttonOutline.Height / 2) - 15), buttonOutline);
-            Button infinity = new Button(graphics.GraphicsDevice, new Rectangle(380, 210 + selectLevel.Position.Height, buttonOutline.Width, (buttonOutline.Height / 2) - 25), buttonOutline);
-            Button leaderBoard = new Button(graphics.GraphicsDevice, new Rectangle(380, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height / 2) - 30), buttonOutline);
+            //380
+            Button selectLevel = new Button(graphics.GraphicsDevice, new Rectangle(windowWidth/2, windowHeight/2, buttonOutline.Width, (buttonOutline.Height / 2) - 15), buttonOutline);
+            Button infinity = new Button(graphics.GraphicsDevice, new Rectangle(windowWidth / 2,  selectLevel.Position.Height + selectLevel.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height / 2) - 25), buttonOutline);
+            Button leaderBoard = new Button(graphics.GraphicsDevice, new Rectangle(windowWidth / 2, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height / 2) - 30), buttonOutline);
 
             menuButtons.Add(selectLevel);
             menuButtons.Add(infinity);
