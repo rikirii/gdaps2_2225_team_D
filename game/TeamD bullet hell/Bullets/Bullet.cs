@@ -29,7 +29,7 @@ namespace TeamD_bullet_hell
 
         //when shouldRemove = true remove the bullet
         private bool upDateTheBall;
-        private bool outScreen;
+        public bool OutScreen { get; set; }
 
         // direction represented by angle in radians
         private double angleInRadians = 0;
@@ -69,7 +69,7 @@ namespace TeamD_bullet_hell
 
             //when this is true remove the bullet
             upDateTheBall = false;
-            outScreen = false;
+            OutScreen = false;
         }
 
         public void Update(float gameTime,float currentGameTime)
@@ -77,7 +77,7 @@ namespace TeamD_bullet_hell
             spawnTimer = currentGameTime;
 
             // whe it reach the spawn time and the bullet is in the screen
-            if (upDateTheBall== false&& outScreen==false)
+            if (upDateTheBall== false&& OutScreen == false)
             {
                 //when reach the spawn time 
                 if(spawnTimer>= spawnTime)
@@ -97,10 +97,10 @@ namespace TeamD_bullet_hell
 
 
                 //mark the bullet to be removed if it move out side the screen
-                if (positionAndSize.X < 0 || (positionAndSize.X + positionAndSize.Width) > windowWidth+100 ||
-                    positionAndSize.Y < 0 || (positionAndSize.Y + positionAndSize.Height) > windowWidth+100)
+                if (positionAndSize.X < -200 || (positionAndSize.X + positionAndSize.Width) > windowWidth+100 ||
+                    positionAndSize.Y < -200 || (positionAndSize.Y + positionAndSize.Height) > windowWidth+100)
                 {
-                    outScreen = true;
+                    OutScreen = true;
                     upDateTheBall = false;
                 }
             }

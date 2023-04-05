@@ -285,12 +285,12 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
-                    /*draw the bullet
+                    //draw the bullet
 
                     foreach (Bullet bullet in bulletList)
                     {
                         bullet.Draw(_spriteBatch);
-                    } */
+                    } 
 
                     //COLLISION CODE COMMENTED OUT FOR NOW
                     /*Collision Logic + Bullet Drawing
