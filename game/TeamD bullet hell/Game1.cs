@@ -152,6 +152,7 @@ namespace TeamD_bullet_hell
 
             //Adding player, enemy, bullet, etc to dictionary. Use Entity enum to get reference of their texture2D
             spriteCollection.Add(Entity.Player, playerShip);
+            spriteCollection.Add(Entity.Bullet, greenCircleBullet);
 
 
             //load Game State Manager
@@ -164,13 +165,7 @@ namespace TeamD_bullet_hell
 
             ////////////////////////////
             ///test code for the bullet pattern 
-
-            int degree = 0;
-            float time = 0f;
-
-            HardCodeBulletTest test = new HardCodeBulletTest(greenCircleBullet);
-            bulletList = test.BulletList;
-            time = 0f;
+            ///check bulletmanager
         }
 
         protected override void Update(GameTime gameTime)
@@ -200,16 +195,6 @@ namespace TeamD_bullet_hell
                 case GameState.Infinity:
 
                     stateMgr.Update(gameTime);
-
-                    deltaTime += (float)(gameTime.ElapsedGameTime.Seconds );
-                    //for the timer of bullet to see is it the time to spawn the bullet
-                    //remenber to reset the time after each game ! No code for that right now
-                    currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
-
-                    foreach (Bullet bullet in bulletList)
-                    {
-                        bullet.Update(deltaTime, currentGameTime);
-                    }
 
 
                     break;

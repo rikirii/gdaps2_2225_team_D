@@ -21,14 +21,19 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         internal int windowWidth;
         internal int windowHeight;
 
-        //BulletList variable for collision testing
-        internal List<Bullet> bulletList;
-
         //graphicsdevicemanager ref from game1
         internal GraphicsDeviceManager _graphics;
 
         //Entities
         internal Player player;
+
+        //bullet manager. 
+        private BulletManager bulletMgr;
+
+
+        //BulletList variable for collision testing
+        internal List<Bullet> bulletList;
+
 
         /// <summary>
         /// Update current game state in gameplay object
@@ -40,6 +45,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 currentGameState = value;
             }
         }
+
+
 
         /// <summary>
         /// constructor for setting up any gameplays related
@@ -59,10 +66,16 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.fonts = fonts;
             this.assets = assets;
 
-            bulletList = new List<Bullet>();
+            this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, assets);
+            bulletMgr.LoadBulletFile(assets[Entity.Bullet]);
+            this.bulletList = this.bulletMgr.BulletList;
 
+            //create player object
             player = new Player(assets[Entity.Player], new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
         }
+
+
+
 
         /// <summary>
         /// Gameplay manager's update
@@ -84,6 +97,16 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 case GameState.Infinity:
 
                     player.Update(gameTime);
+
+
+                    //Collision Logic
+                    foreach (Bullet bullet in bulletList)
+                    {
+                        if (player.Intersects(bullet))
+                        {
+                            currentGameState = GameState.Menu;
+                        }
+                    }
 
                     break;
 
@@ -129,18 +152,6 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
                     player.Draw(spriteBatch);
-                    //Draw background
-                    //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
-                    //_graphics.GraphicsDevice.Viewport.Height), Color.White);
-
-                    //Collision Logic
-                      foreach (Bullet bullet in bulletList)
-                      {
-                        if (player.Intersects(bullet))
-                        {
-                            currentGameState = GameState.Menu;
-                        }
-                      } 
 
 
                     break;

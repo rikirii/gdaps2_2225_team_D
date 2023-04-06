@@ -34,7 +34,7 @@ namespace TeamD_bullet_hell
         // direction represented by angle in radians
         private double angleInRadians = 0;
 
-        private string type;
+        //private string type;
         
 
 
@@ -72,7 +72,7 @@ namespace TeamD_bullet_hell
             OutScreen = false;
         }
 
-        public void Update(float gameTime,float currentGameTime)
+        public void Update(float currentGameTime)
         {
             spawnTimer = currentGameTime;
 

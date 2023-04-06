@@ -8,12 +8,16 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using TeamD_bullet_hell.Bullets;
 using TeamD_bullet_hell.ButtonsManager;
 using TeamD_bullet_hell.GameStates.GamePlay;
 using TeamD_bullet_hell.GameStates.Title;
 
 namespace TeamD_bullet_hell.GameStates
 {
+    /// <summary>
+    /// THis manager manages ALL game states. 
+    /// </summary>
     internal class StateManager
     {
         //track screen resolution
@@ -30,6 +34,7 @@ namespace TeamD_bullet_hell.GameStates
         private TitleScreen mainMenu;
         private ButtonManager buttonMgr;
         private Gameplay gameplay;
+
 
         //Dictionary for storing assets
         private Dictionary<GameState, Texture2D> wallpapers;
@@ -83,7 +88,6 @@ namespace TeamD_bullet_hell.GameStates
             this.mainMenu = new TitleScreen(wallpapers[GameState.Menu], windowWidth, windowHeight, _graphics);
             this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton] );
             this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection);
-
 
         }
 
