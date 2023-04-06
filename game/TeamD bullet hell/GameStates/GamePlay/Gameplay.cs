@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TeamD_bullet_hell.Bullets;
 
@@ -32,6 +33,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
         //BulletList variable for collision testing
         internal List<Bullet> bulletList;
+
+        // Declare a boolean variable to keep track of whether god mode is enabled or disabled
+        private bool godModeEnabled = false;
 
 
         /// <summary>
@@ -122,17 +126,27 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
+                    //God Mode checks if G is pressed
+                    if (Keyboard.GetState().IsKeyDown(Keys.G))
+                    {
+                        // Toggle god mode on or off
+                        godModeEnabled = !godModeEnabled;
+                    }
 
                     player.Update(gameTime);
-                    
+
                     bulletMgr.Update(gameTime);
 
                     //Collision Logic
+
                     foreach (Bullet bullet in bulletList)
                     {
                         if (player.Intersects(bullet))
                         {
-                            player.Lives -= 1;
+                            if(godModeEnabled != true)  //if God Mode is not enabled then lives -1
+                            {
+                                player.Lives -= 1;
+                            }                            
                         }
                     }
 
