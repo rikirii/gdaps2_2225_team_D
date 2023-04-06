@@ -82,7 +82,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.bulletList = this.bulletMgr.BulletList;
 
             //create player object
-            player = new Player(spriteCollection[Entity.Player], new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
+            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth/2, windowHeight/2, 100, 100), windowWidth, windowHeight);
         }
 
         /// <summary>

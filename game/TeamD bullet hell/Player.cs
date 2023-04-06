@@ -56,20 +56,20 @@ namespace TeamD_bullet_hell
             //movement if statements
             if (currentKBState.IsKeyDown(Keys.Up))
             {
-                this.position.Y -= 3;
+                this.position.Y -= 5;
             }
             if (currentKBState.IsKeyDown(Keys.Down))
             {
-                this.position.Y += 3;
+                this.position.Y += 5;
             }
 
             if (currentKBState.IsKeyDown(Keys.Left))
             {
-                this.position.X -= 3;
+                this.position.X -= 5;
             }
             if (currentKBState.IsKeyDown(Keys.Right))
             {
-                this.position.X += 3;
+                this.position.X += 5;
             }
 
             //if and else ifs for screen lock
