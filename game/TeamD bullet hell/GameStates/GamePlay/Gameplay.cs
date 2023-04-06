@@ -132,6 +132,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     //_spriteBatch.Draw(gameBackground, new Rectangle( 180, 0, _graphics.GraphicsDevice.Viewport.Width/2,
                     //_graphics.GraphicsDevice.Viewport.Height), Color.White);
 
+                    //Collision Logic
+                      foreach (Bullet bullet in bulletList)
+                      {
+                        if (player.Intersects(bullet))
+                        {
+                            currentGameState = GameState.Menu;
+                        }
+                      } 
 
 
                     break;
