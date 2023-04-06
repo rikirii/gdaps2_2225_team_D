@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace TeamD_bullet_hell
         private Texture2D textureOfBullet;
 
         //the size and the postion 
-        public Rectangle positionAndSize;
+        private Rectangle positionAndSize;
 
         private double velocity;
         private float directionInDegrees;
@@ -34,6 +35,10 @@ namespace TeamD_bullet_hell
         // direction represented by angle in radians
         private double angleInRadians = 0;
 
+        public Rectangle Position
+        {
+            get { return positionAndSize; }
+        }
         //private string type;
         
 

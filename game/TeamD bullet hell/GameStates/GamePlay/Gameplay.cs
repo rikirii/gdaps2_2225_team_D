@@ -31,9 +31,6 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         private BulletManager bulletMgr;
 
 
-        //BulletList variable for collision testing
-        internal List<Bullet> bulletList;
-
         // Declare a boolean variable to keep track of whether god mode is enabled or disabled
         private bool godModeEnabled = false;
 
@@ -51,6 +48,11 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             {
                 currentGameState = value;
             }
+        }
+
+        public bool StartUp
+        {
+            get; set;
         }
 
 
@@ -80,10 +82,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.spriteCollection = spriteCollection;
 
             this.gameOver = false;
+            this.StartUp = true;
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
-            bulletMgr.LoadBulletFile(spriteCollection[Entity.Bullet]);
-            this.bulletList = this.bulletMgr.BulletList;
+
 
             //create player object
             player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth/2, windowHeight/2, 100, 100), windowWidth, windowHeight);
@@ -139,7 +141,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                     //Collision Logic
 
-                    foreach (Bullet bullet in bulletList)
+                    foreach (Bullet bullet in bulletMgr.BulletList)
                     {
                         if (player.Intersects(bullet))
                         {
@@ -171,7 +173,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
             }
 
@@ -220,7 +222,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
             }
 

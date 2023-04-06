@@ -99,7 +99,7 @@ namespace TeamD_bullet_hell
         //Intersects method returns true if this Player is colliding with the bullets, and false otherwise. 
         public bool Intersects(Bullet other)
         {
-            if (this.position.Intersects(other.positionAndSize))
+            if (this.position.Intersects(other.Position))
             {
                 lives--;
                 return true;

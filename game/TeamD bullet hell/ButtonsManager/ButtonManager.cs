@@ -228,7 +228,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
             }
 
@@ -288,7 +288,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
             }
 
@@ -361,7 +361,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
 
 

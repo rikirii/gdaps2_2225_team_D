@@ -116,8 +116,10 @@ namespace TeamD_bullet_hell.GameStates
                     
                     buttonMgr.Update(gameTime, currentGameState);
 
-                    gameplay.Reset();
-
+                    if (gameplay.StartUp)
+                    {
+                        gameplay.Reset();
+                    }
 
                     break;
 
@@ -156,7 +158,7 @@ namespace TeamD_bullet_hell.GameStates
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
             }
         }
@@ -212,7 +214,7 @@ namespace TeamD_bullet_hell.GameStates
                     break;
 
 
-                case GameState.Gameplay:
+                case GameState.GameOver:
                     break;
             }
         }

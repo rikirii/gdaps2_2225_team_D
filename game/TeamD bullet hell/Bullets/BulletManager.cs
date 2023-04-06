@@ -62,6 +62,8 @@ namespace TeamD_bullet_hell.Bullets
             //temp set bulletlist to empty
             this.bulletList = new List<Bullet>();
         }
+
+
         /// <summary>
         /// reset the bullet 
         /// </summary>

@@ -10,11 +10,12 @@ namespace TeamD_bullet_hell
     {
         Menu,
         Levels,
-        Gameplay,
         Infinity,
+        Gameplay,
         Pause,
-        LeaderBoard
-
+        LeaderBoard,
+        GameOver,
+       
     }
 
     enum FontType
