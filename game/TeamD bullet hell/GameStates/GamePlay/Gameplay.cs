@@ -58,7 +58,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.wallpapers = wallpapers;
             this.fonts = fonts;
             this.assets = assets;
-            //test = new HardCodeBulletTest(); Not quite sure what you meant by this Ricky
+
+            bulletList = new List<Bullet>();
 
             player = new Player(assets[Entity.Player], new Rectangle(200, 200, 100, 100), windowWidth, windowHeight);
         }

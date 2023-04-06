@@ -170,7 +170,7 @@ namespace TeamD_bullet_hell
 
             HardCodeBulletTest test = new HardCodeBulletTest(greenCircleBullet);
             bulletList = test.BulletList;
-             time = 0f;
+            time = 0f;
         }
 
         protected override void Update(GameTime gameTime)
