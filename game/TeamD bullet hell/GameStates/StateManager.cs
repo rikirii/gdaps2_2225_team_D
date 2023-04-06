@@ -86,7 +86,7 @@ namespace TeamD_bullet_hell.GameStates
             this.currentGameState = GameState.Menu;
 
             this.mainMenu = new TitleScreen(wallpapers[GameState.Menu], windowWidth, windowHeight, _graphics);
-            this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton] );
+            this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton], fonts );
             this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection);
 
         }
@@ -115,6 +115,10 @@ namespace TeamD_bullet_hell.GameStates
                 case GameState.Menu:
 
                     buttonMgr.Update(gameTime, currentGameState);
+
+                    gameplay.Reset();
+
+
                     break;
 
 
@@ -128,6 +132,12 @@ namespace TeamD_bullet_hell.GameStates
                 case GameState.Infinity:
 
                     gameplay.Update(gameTime);
+
+                    if (gameplay.GameOver)
+                    {
+                        this.currentGameState = GameState.Menu;
+                    }
+
                     buttonMgr.Update(gameTime, currentGameState);
 
                     break;
@@ -181,10 +191,9 @@ namespace TeamD_bullet_hell.GameStates
 
                 case GameState.Infinity:
 
-                    buttonMgr.Draw(spriteBatch);
-
-
                     gameplay.Draw(spriteBatch);
+
+                    buttonMgr.Draw(spriteBatch);
 
 
                     break;

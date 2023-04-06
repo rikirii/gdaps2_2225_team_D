@@ -18,9 +18,25 @@ namespace TeamD_bullet_hell
         protected int windowWidth;
         protected int windowHeight;
 
+        //player stats
+        private int lives;
+
         public Rectangle Position
         {
             get { return position; }
+        }
+
+        
+        public int Lives
+        {
+            get
+            {
+                return lives;
+            }
+            set
+            {
+                lives = value;
+            }
         }
 
         public Player(Texture2D asset, Rectangle position, int windowWidth, int windowHeight)
@@ -29,6 +45,8 @@ namespace TeamD_bullet_hell
             this.position = position;
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
+
+            this.lives = 3;
         }
 
         public void Update(GameTime gameTime)
@@ -83,6 +101,7 @@ namespace TeamD_bullet_hell
         {
             if (this.position.Intersects(other.positionAndSize))
             {
+                lives--;
                 return true;
             }
             else

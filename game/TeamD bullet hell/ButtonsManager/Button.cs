@@ -16,8 +16,17 @@ namespace TeamD_bullet_hell
         //buttons fields
         protected MouseState prevMouseState;
         protected Rectangle position; //button position and size
-        protected Texture2D buttonImage;
+        protected Texture2D buttonOutline;
         private bool isClicked;
+
+        //variables for the reference of code from PE MG button
+        private Vector2 textLoc;
+        private Texture2D buttonImg;
+        private Color textColor;
+        private string text;
+        protected bool enabled = true;
+        protected SpriteFont font;
+
 
         /// <summary>
         /// bool: is the button clicked?
@@ -32,7 +41,7 @@ namespace TeamD_bullet_hell
         /// </summary>
         public Texture2D ButtonImage
         {
-            get { return buttonImage; }
+            get { return buttonOutline; }
         }
 
         /// <summary>
@@ -106,15 +115,37 @@ namespace TeamD_bullet_hell
         public event OnButtonClickDelegate OnLeftButtonClick;
 
         /// <summary>
-        /// Button constructor
+        /// Button constructor.
+        /// code has been copied from PE - MG button (starter code by Prof. Mesh)
+        /// https://docs.google.com/document/d/1HUmX3GKyeuwmuKJEw8MpYIbgyowxO8pX0fEqeqGoPAg/edit
         /// </summary>
         /// <param name="device"></param>
         /// <param name="position">Where to draw the button's top left corner</param>
-        public Button(GraphicsDevice device, Rectangle position, Texture2D texture)
+        public Button(GraphicsDevice device, Rectangle position, String text, SpriteFont font, Color color, Texture2D outline)
         {
             this.position = position;           
-            this.buttonImage = texture;
+            this.buttonOutline = outline;
 
+            ///code by Prof.Mesh from PE MG button starts here==============
+            this.font = font;
+            this.text = text;
+
+            // Figure out where on the button to draw it
+            Vector2 textSize = font.MeasureString(text);
+            textLoc = new Vector2(
+                (position.X + position.Width / 2) - textSize.X / 2,
+                (position.Y + position.Height / 2) - textSize.Y / 2
+            );
+
+            this.textColor = Color.White;
+
+            // Make a custom 2d texture for the button itself
+            buttonImg = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
+            int[] colorData = new int[buttonImg.Width * buttonImg.Height];
+            Array.Fill<int>(colorData, (int)color.PackedValue);
+            buttonImg.SetData<Int32>(colorData, 0, colorData.Length);
+
+            ///end=============
         }
 
         /// <summary>
@@ -154,13 +185,20 @@ namespace TeamD_bullet_hell
         /// Assumes .Begin() is called already and .End() will be called afterwards</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw the button itself
+            spriteBatch.Draw(buttonImg, position, Color.Black);
+
+            // Draw button text over the button
+            spriteBatch.DrawString(font, text, textLoc, textColor);
 
             MouseState mouseState  = Mouse.GetState();
 
             if (this.position.Contains(mouseState.Position))
             {
-                spriteBatch.Draw(buttonImage, position, Color.White);
-            } 
+                spriteBatch.Draw(buttonOutline, position, Color.White);
+            }
+
+            
         }
 
     }

@@ -109,7 +109,7 @@ namespace TeamD_bullet_hell
         public void Draw(SpriteBatch spriteBatch)
         {
             //only draw the ball when is update is ture
-            if (upDateTheBall == true)
+            if (upDateTheBall)
             {
                 spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
             }

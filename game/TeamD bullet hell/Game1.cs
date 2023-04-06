@@ -66,6 +66,9 @@ namespace TeamD_bullet_hell
         private Dictionary<Entity, Texture2D> spriteCollection;
         private Dictionary<ButtonAssets, Texture2D> buttonAssets;
 
+        //testing
+
+        
 
         public Game1()
         {
@@ -164,8 +167,10 @@ namespace TeamD_bullet_hell
             //=====================Bullets===============================
 
             ////////////////////////////
-            ///test code for the bullet pattern 
+            ///test code for the bullet pattern
+
             ///check bulletmanager
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -195,6 +200,7 @@ namespace TeamD_bullet_hell
                 case GameState.Infinity:
 
                     stateMgr.Update(gameTime);
+
 
 
                     break;
@@ -240,6 +246,10 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
+                    MouseState mState = Mouse.GetState();
+                    //this is for testing, looking for coords
+                    _spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
+                        " windowY: {1} || mouse x: {2} mouse y: {3}", windowWidth, windowHeight, mState.X, mState.Y), new Vector2(10, 10), Color.White);
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 260), Color.Red);
@@ -263,19 +273,17 @@ namespace TeamD_bullet_hell
                     GraphicsDevice.Clear(Color.Black);
 
                     //Background Commented Out Temporarily for playtesting (screen is just black)
-                    
-
-                    //this is for testing, looking for coords
-                    //_spriteBatch.DrawString(arialBold30,string.Format("X: {0}, Y: {1}, windowX: {2}, windowY: {3}", player.Position.X, player.Position.Y, windowWidth, windowHeight), new Vector2 (10,10), Color.White);
 
                     stateMgr.Draw(_spriteBatch);
 
+                    
+
                     //draw the bullet
 
-                    foreach (Bullet bullet in bulletList)
-                    {
-                        bullet.Draw(_spriteBatch);
-                    } 
+                    //foreach (Bullet bullet in bulletList)
+                    //{
+                    //    bullet.Draw(_spriteBatch);
+                    //} 
 
                     //COLLISION CODE COMMENTED OUT FOR NOW
                     /*Collision Logic + Bullet Drawing
@@ -286,7 +294,7 @@ namespace TeamD_bullet_hell
                         {
                             currentGameState = GameState.Menu;
                         }
-                    } */ 
+                    } */
 
 
                     break;

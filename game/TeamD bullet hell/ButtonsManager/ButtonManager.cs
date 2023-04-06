@@ -32,6 +32,9 @@ namespace TeamD_bullet_hell.ButtonsManager
         private List<Button> leaderBoardButtons;
         private List<Button> pauseButtons;
 
+        //collection (dictionary) of fonts to use
+        Dictionary<FontType, SpriteFont> fonts;
+
         /// <summary>
         /// Able to use a reference of State Manager from Game1
         /// </summary>
@@ -46,14 +49,30 @@ namespace TeamD_bullet_hell.ButtonsManager
         /// </summary>
         /// <param name="graphics">graphicsdevice manager from game1 via contrustor</param>
         /// <param name="buttonOutline">Texture2D outline via constructor</param>
-        internal void createMenuButton(GraphicsDeviceManager graphics, Texture2D buttonOutline)
+        internal void createMenuButton(GraphicsDeviceManager graphics, Texture2D buttonOutline, Dictionary<FontType, SpriteFont> fonts)
         {
             menuButtons = new List<Button>();
+            this.fonts = fonts;
 
             //380
-            Button selectLevel = new Button(graphics.GraphicsDevice, new Rectangle(windowWidth/2, windowHeight/2, buttonOutline.Width, (buttonOutline.Height / 2) - 15), buttonOutline);
-            Button infinity = new Button(graphics.GraphicsDevice, new Rectangle(windowWidth / 2,  selectLevel.Position.Height + selectLevel.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height / 2) - 25), buttonOutline);
-            Button leaderBoard = new Button(graphics.GraphicsDevice, new Rectangle(windowWidth / 2, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height / 2) - 30), buttonOutline);
+            Button selectLevel = new Button(graphics.GraphicsDevice,
+                                            new Rectangle(1385, 560, buttonOutline.Width * 2, (buttonOutline.Height ) - 15),
+                                            "Select Level",
+                                            fonts[FontType.Button],
+                                            Color.White,
+                                            buttonOutline);
+            Button infinity = new Button(graphics.GraphicsDevice,
+                                        new Rectangle(1385, selectLevel.Position.Height + selectLevel.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height ) - 25),
+                                        "Infinity Mode", 
+                                        fonts[FontType.Button],
+                                        Color.White, 
+                                        buttonOutline);
+            Button leaderBoard = new Button(graphics.GraphicsDevice, 
+                                        new Rectangle(1385, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height/2 ) - 30),
+                                        "Leaderboard",
+                                        fonts[FontType.Button],
+                                        Color.White,
+                                        buttonOutline);
 
             menuButtons.Add(selectLevel);
             menuButtons.Add(infinity);
@@ -135,15 +154,20 @@ namespace TeamD_bullet_hell.ButtonsManager
         /// </summary>
         /// <param name="graphics">game1 _graphics</param>
         /// <param name="buttonOutline">Texture2D button Outline for button when hover</param>
-        public ButtonManager(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Texture2D buttonOutline, Texture2D backButtonPNG)
+        public ButtonManager(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Texture2D buttonOutline, Texture2D backButtonPNG, Dictionary<FontType, SpriteFont> fonts)
         {
             //get window height
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
 
             //create buttons through methods
-            createMenuButton(graphics, buttonOutline);
-            backButton = new Button(graphics.GraphicsDevice, new Rectangle(10, 10, backButtonPNG.Width * 2, backButtonPNG.Height * 2), buttonOutline);
+            createMenuButton(graphics, buttonOutline, fonts);
+            backButton = new Button(graphics.GraphicsDevice, 
+                                new Rectangle(10, 10, buttonOutline.Width/3, buttonOutline.Height/3),
+                                "Back",
+                                fonts[FontType.Button],
+                                Color.White,
+                                buttonOutline);
             createSelectLvlButton(graphics, buttonOutline);
             createInfinityButton(graphics);
             createLeaderBoardButton(graphics, buttonOutline);

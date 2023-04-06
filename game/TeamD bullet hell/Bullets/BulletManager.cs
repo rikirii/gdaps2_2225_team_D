@@ -56,7 +56,8 @@ namespace TeamD_bullet_hell.Bullets
             this.windowHeight = windowHeight;
             this.entityAssests = entityAssests;
 
-
+            //temp set bulletlist to empty
+            this.bulletList = new List<Bullet>();
         }
 
         /// <summary>
@@ -68,6 +69,8 @@ namespace TeamD_bullet_hell.Bullets
             //temp
             HardCodeBulletTest test = new HardCodeBulletTest(texture);
             bulletList = test.BulletList;
+
+            //bulletList.Add(new Bullet(  (float)((Math.PI / 180) * 90), new Rectangle(1000, 50, 50, 50), texture, 1.0, 0, windowWidth, windowHeight));
         }
 
 
@@ -89,7 +92,7 @@ namespace TeamD_bullet_hell.Bullets
                         bullet.Update(currentGameTime);
                     }
 
-                    
+
 
                     break;
 
@@ -103,6 +106,7 @@ namespace TeamD_bullet_hell.Bullets
         {
             switch (currentGameState)
             {
+                
                 case GameState.Levels:
                     break;
 
@@ -116,6 +120,8 @@ namespace TeamD_bullet_hell.Bullets
 
                     break;
 
+                default:
+                    break;
             }
             
         }
