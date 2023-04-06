@@ -90,6 +90,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// </summary>
         public void Reset()
         {
+            ////reset the player not sure it is working
+            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth / 2, windowHeight / 2, 100, 100), windowWidth, windowHeight);
+
+            //reset the bullet 
+            bulletMgr.Reset(spriteCollection[Entity.Bullet]);
+
             this.gameOver = false;
             this.player.Lives = 3;
         }
@@ -110,7 +116,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Levels:
 
-
+                    
 
                     break;
 
@@ -118,7 +124,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 case GameState.Infinity:
 
                     player.Update(gameTime);
-
+                    
                     bulletMgr.Update(gameTime);
 
                     //Collision Logic
@@ -132,6 +138,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                     if (player.Lives <= 0)
                     {
+                        
                         gameOver = !gameOver;
                         currentGameState = GameState.Menu;
                     }

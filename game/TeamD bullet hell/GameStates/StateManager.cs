@@ -113,7 +113,7 @@ namespace TeamD_bullet_hell.GameStates
             switch (currentGameState)
             {
                 case GameState.Menu:
-
+                    
                     buttonMgr.Update(gameTime, currentGameState);
 
                     gameplay.Reset();

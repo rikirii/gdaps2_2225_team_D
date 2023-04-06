@@ -25,10 +25,7 @@ namespace TeamD_bullet_hell
 
         private List<Bullet> bulletList;
 
-        //test bullet pattern
-        private Bullet bulletss1;
-        private Bullet bulletss3;
-        private Bullet bulletss2;
+        
 
         //SpriteFont
         private SpriteFont titleFont;
@@ -164,12 +161,6 @@ namespace TeamD_bullet_hell
             stateMgr.ButtonMgr.StateMgr = this.stateMgr;
 
 
-            //=====================Bullets===============================
-
-            ////////////////////////////
-            ///test code for the bullet pattern
-
-            ///check bulletmanager
 
         }
 
@@ -185,6 +176,7 @@ namespace TeamD_bullet_hell
             {
                 case GameState.Menu:
 
+                    
                     stateMgr.Update(gameTime);
 
                     break;

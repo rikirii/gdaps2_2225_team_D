@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamD_bullet_hell.Bullets
 {
@@ -14,6 +15,8 @@ namespace TeamD_bullet_hell.Bullets
     /// </summary>
     internal class BulletManager
     {
+        
+
         //Current game state
         internal GameState currentGameState;
 
@@ -55,10 +58,22 @@ namespace TeamD_bullet_hell.Bullets
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
             this.entityAssests = entityAssests;
-
+            
             //temp set bulletlist to empty
             this.bulletList = new List<Bullet>();
         }
+        /// <summary>
+        /// reset the bullet 
+        /// </summary>
+        public void Reset(Texture2D texture)
+        {
+            //temp
+            HardCodeBulletTest test = new HardCodeBulletTest(texture);
+            bulletList = test.BulletList;
+            currentGameTime = 0;
+            
+        }
+
 
         /// <summary>
         /// you can do any loading bullet here
@@ -86,15 +101,13 @@ namespace TeamD_bullet_hell.Bullets
                     //for the timer of bullet to see is it the time to spawn the bullet
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
-
+                    System.Diagnostics.Debug.WriteLine(currentGameTime);
                     foreach (Bullet bullet in bulletList)
                     {
                         bullet.Update(currentGameTime);
                     }
-
-
-
                     break;
+                    
 
             }
 
