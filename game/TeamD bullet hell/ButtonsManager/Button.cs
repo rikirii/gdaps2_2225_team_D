@@ -19,6 +19,12 @@ namespace TeamD_bullet_hell
         protected Texture2D buttonOutline;
         private bool isClicked;
 
+        //god mode button variables
+        private bool isGodModeButton;
+        private bool isGodMode;
+        private Texture2D godModeImgOff;
+        private Texture2D godModeImgOn;
+
         //variables for the reference of code from PE MG button
         private Vector2 textLoc;
         private Texture2D buttonImg;
@@ -110,6 +116,21 @@ namespace TeamD_bullet_hell
         //    }
         //}
 
+        /// <summary>
+        /// only god mode button. 
+        /// no other button should use this
+        /// </summary>
+        public bool IsGodMode
+        {
+            get
+            {
+                return this.isGodMode;
+            }
+            set
+            {
+                this.isGodMode = value;
+            }
+        }
 
         //events
         public event OnButtonClickDelegate OnLeftButtonClick;
@@ -121,10 +142,13 @@ namespace TeamD_bullet_hell
         /// </summary>
         /// <param name="device"></param>
         /// <param name="position">Where to draw the button's top left corner</param>
-        public Button(GraphicsDevice device, Rectangle position, String text, SpriteFont font, Color color, Texture2D outline)
+        public Button(GraphicsDevice device, Rectangle position, String text, SpriteFont font, Color color, Texture2D outline, bool isGodModeButton)
         {
             this.position = position;           
             this.buttonOutline = outline;
+
+            this.isGodMode = false;
+            this.isGodModeButton = isGodModeButton;
 
             ///code by Prof.Mesh from PE MG button starts here==============
             this.font = font;
@@ -139,11 +163,31 @@ namespace TeamD_bullet_hell
 
             this.textColor = Color.White;
 
-            // Make a custom 2d texture for the button itself
-            buttonImg = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
-            int[] colorData = new int[buttonImg.Width * buttonImg.Height];
-            Array.Fill<int>(colorData, (int)color.PackedValue);
-            buttonImg.SetData<Int32>(colorData, 0, colorData.Length);
+            if (isGodModeButton)
+            {
+                // Make a custom 2d texture for the god button itself
+                //requires two to switch between off and on state texture
+
+                godModeImgOff = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
+                int[] colorData = new int[godModeImgOff.Width * godModeImgOff.Height];
+                Array.Fill<int>(colorData, (int)(Color.Red).PackedValue);
+                godModeImgOff.SetData<Int32>(colorData, 0, colorData.Length);
+  
+                godModeImgOn = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
+                colorData = new int[godModeImgOn.Width * godModeImgOn.Height];
+                Array.Fill<int>(colorData, (int)(Color.Green).PackedValue);
+                godModeImgOn.SetData<Int32>(colorData, 0, colorData.Length);
+            }
+            else
+            {
+                // Make a custom 2d texture for the button itself
+                buttonImg = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
+                int[] colorData = new int[buttonImg.Width * buttonImg.Height];
+                Array.Fill<int>(colorData, (int)color.PackedValue);
+                buttonImg.SetData<Int32>(colorData, 0, colorData.Length);
+            }
+
+            
 
             ///end=============
         }
@@ -185,8 +229,25 @@ namespace TeamD_bullet_hell
         /// Assumes .Begin() is called already and .End() will be called afterwards</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw the button itself
-            spriteBatch.Draw(buttonImg, position, Color.Black);
+            if (isGodModeButton)
+            {
+                if (isGodMode)
+                {
+                    // Draw the button itself
+                    spriteBatch.Draw(this.godModeImgOn, position, Color.White);
+                }
+                else
+                {
+                    // Draw the button itself
+                    spriteBatch.Draw(this.godModeImgOff, position, Color.White);
+                }
+            }
+            else
+            {
+                // Draw the button itself
+                spriteBatch.Draw(buttonImg, position, Color.Black);
+            }
+            
 
             // Draw button text over the button
             spriteBatch.DrawString(font, text, textLoc, textColor);

@@ -9,6 +9,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
     internal class Gameplay : IScreens
     {
         internal GameState currentGameState;
+        private GameState previousGameState;
 
         private bool gameOver;
 
@@ -34,7 +35,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         private ulong scoreCounter = 999999999999999;
 
         // Declare a boolean variable to keep track of whether god mode is enabled or disabled
-        private bool godModeEnabled = false;
+        private bool godModeEnabled;
 
 
         /// <summary>
@@ -52,18 +53,30 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             }
         }
 
-        public bool StartUp
+        public GameState PreviousGameState
         {
-            get; set;
+            get { return previousGameState; }
+            
         }
 
-
+        /// <summary>
+        /// track if gameover for other managers
+        /// </summary>
         public bool GameOver
         {
             get { return gameOver; }
             set { gameOver = value; }
         }
 
+
+        public bool IsGodMode
+        {
+            get { return godModeEnabled; }
+            set
+            {
+                godModeEnabled = value;
+            }
+        }
 
         /// <summary>
         /// constructor for setting up any gameplays related
@@ -83,8 +96,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.fonts = fonts;
             this.spriteCollection = spriteCollection;
 
+            this.godModeEnabled = false;
             this.gameOver = false;
-            this.StartUp = true;
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
 
@@ -132,12 +145,6 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
-                    //God Mode checks if G is pressed
-                    if (Keyboard.GetState().IsKeyDown(Keys.G))
-                    {
-                        // Toggle god mode on or off
-                        godModeEnabled = !godModeEnabled;
-                    }
 
                     player.Update(gameTime);
 
@@ -145,20 +152,20 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                     //Collision Logic
 
-                    foreach (Bullet bullet in bulletMgr.BulletList)
+                    if (!this.godModeEnabled)
                     {
-                        if (player.Intersects(bullet))
+                        foreach (Bullet bullet in bulletMgr.BulletList)
                         {
-                            if(godModeEnabled != true)  //if God Mode is not enabled then lives -1
+                            if (player.Intersects(bullet))
                             {
                                 player.Lives -= 1;
-                            }                            
+                            }
                         }
                     }
 
                     if (player.Lives <= 0)
                     {
-                        
+                        previousGameState = this.currentGameState;
                         gameOver = !gameOver;
                         currentGameState = GameState.GameOver;
                     }

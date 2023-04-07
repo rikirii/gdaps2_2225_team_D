@@ -211,6 +211,11 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Update(gameTime);
                     break;
+
+                case GameState.Setting:
+                    stateMgr.Update(gameTime);
+
+                    break;
             }
 
 
@@ -241,6 +246,9 @@ namespace TeamD_bullet_hell
                     //this is for testing, looking for coords
                     //spriteBatch.DrawString(fonts[FontType.Button], string.Format("windowX: {0}," +
                     //    " windowY: {1} || mouse x: {2} mouse y: {3}", windowWidth, windowHeight, mState.X, mState.Y), new Vector2(10, 10), Color.White);
+
+                    _spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
+                        " windowY: {1} || mouse x: {2} mouse y: {3} | godMode: {4}", windowWidth, windowHeight, mState.X, mState.Y, stateMgr.IsGodMode), new Vector2(10, 10), Color.White);
 
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
@@ -308,6 +316,10 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.GameOver:
+                    stateMgr.Draw(_spriteBatch);
+                    break;
+
+                case GameState.Setting:
                     stateMgr.Draw(_spriteBatch);
                     break;
             }

@@ -52,12 +52,32 @@ namespace TeamD_bullet_hell.GameStates
             set { currentGameState = value; }
         }
 
+        public GameState PreviousGameState
+        {
+            get
+            {
+                return gameplay.PreviousGameState;
+            }
+        }
+
         /// <summary>
         /// Get a reference of Button Manager
         /// </summary>
         public ButtonManager ButtonMgr
         {
             get { return buttonMgr; }
+        }
+
+        public bool IsGodMode
+        {
+            get
+            {
+                return gameplay.IsGodMode;
+            }
+            set
+            {
+                gameplay.IsGodMode = value;
+            }
         }
 
         /// <summary>
@@ -155,8 +175,15 @@ namespace TeamD_bullet_hell.GameStates
 
                 case GameState.GameOver:
 
+
                     buttonMgr.Update(gameTime, currentGameState);
 
+                    break;
+
+
+                case GameState.Setting:
+
+                    buttonMgr.Update(gameTime, currentGameState);
                     break;
             }
         }
@@ -215,6 +242,15 @@ namespace TeamD_bullet_hell.GameStates
                 case GameState.GameOver:
 
                     gameplay.Draw(spriteBatch);
+
+                    buttonMgr.Draw(spriteBatch);
+
+                    break;
+
+
+                case GameState.Setting:
+
+                    spriteBatch.Draw(wallpapers[GameState.Menu], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
                     buttonMgr.Draw(spriteBatch);
 
