@@ -39,7 +39,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         private bool godModeEnabled;
 
         //Added a counter to prevent constant reset call in game over state
-        internal int resetCounter;
+        internal bool resetCounter;
 
         /// <summary>
         /// Update current game state in gameplay object
@@ -94,6 +94,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             
         }
 
+        public bool ResetCounter
+        {
+            get { return resetCounter; }
+            set { resetCounter = value; }
+        }
+
         /// <summary>
         /// constructor for setting up any gameplays related
         /// </summary>
@@ -117,7 +123,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
             this.godModeEnabled = false;
             this.gameOver = false;
-            this.resetCounter = 0;
+            this.resetCounter = false;
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
 
@@ -149,6 +155,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
             this.gameOver = false;
             this.player.Lives = 3;
+
+            this.resetCounter = false;
         }
 
 
@@ -175,10 +183,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Infinity:
 
-                    if (resetCounter != 0)
-                    {
-                        resetCounter = 0;
-                    }
+                    
 
                     player.Update(gameTime);
 
@@ -220,12 +225,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.GameOver:
 
-                    if (resetCounter != 1 )
-                    {
-                        resetCounter = 1;
-                        this.Reset();
-                    }
-                    
+
                     break;
             }
 

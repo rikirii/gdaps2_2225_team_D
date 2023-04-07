@@ -189,6 +189,12 @@ namespace TeamD_bullet_hell.GameStates
                 case GameState.GameOver:
 
 
+                    if (!gameplay.ResetCounter)
+                    {
+                        gameplay.ResetCounter = true;
+                        gameplay.Reset();
+                    }
+                    
                     buttonMgr.Update(gameTime, currentGameState);
 
                     break;
