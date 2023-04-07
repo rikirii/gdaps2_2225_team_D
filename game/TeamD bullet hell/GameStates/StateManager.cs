@@ -115,12 +115,12 @@ namespace TeamD_bullet_hell.GameStates
             this.screenMgr = new ScreenManager(this.windowWidth, this.windowHeight);
 
             this.mainMenu = new TitleScreen(wallpapers[GameState.Menu], windowWidth, windowHeight, _graphics);
-            this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton], fonts );
-            this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection);
+            this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton], fonts, this.screenMgr );
+            this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection, this.screenMgr);
 
 
             this.gameplay.ScreenMgr = this.screenMgr;
-
+            this.buttonMgr.ScreenMgr = this.screenMgr;
 
         }
 

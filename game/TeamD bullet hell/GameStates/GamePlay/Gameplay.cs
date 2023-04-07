@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TeamD_bullet_hell.Bullets;
 
 namespace TeamD_bullet_hell.GameStates.GamePlay
@@ -102,7 +103,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// <param name="wallpapers">Dictionary (collection) of wallpapers for states</param>
         /// <param name="fonts">dictionary (collection) of all fonts</param>
         /// <param name="assets">dictionary (collection) of all assets</param>
-        public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> spriteCollection)
+        public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> spriteCollection, 
+                            ScreenManager screenMgr)
         {
             this._graphics = graphics;
             this.windowWidth = windowWidth;
@@ -111,11 +113,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.fonts = fonts;
             this.spriteCollection = spriteCollection;
 
+            this.ScreenMgr = screenMgr;
+
             this.godModeEnabled = false;
             this.gameOver = false;
             this.resetCounter = 0;
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
+
             this.bulletMgr.ScreenMgr = this.ScreenMgr;
 
 

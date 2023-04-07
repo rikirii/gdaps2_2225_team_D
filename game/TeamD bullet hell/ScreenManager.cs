@@ -31,15 +31,25 @@ namespace TeamD_bullet_hell
         }
 
 
+        public int ReScaleWidth(int num)
+        {
+            return num * (this.windowWidth / 1920); 
+
+        }
+
+        public int ReScaleHeight(int num)
+        {
+            return num * (this.windowHeight / 1080);
+        }
+
         public int ReScaleX(int num)
         {
-            return num * (this.windowWidth / 1080); 
-
+            return num + (this.windowWidth - 1920)/2;
         }
 
         public int ReScaleY(int num)
         {
-            return num * (this.windowHeight / 1920);
+            return num + (this.windowHeight - 1080) / 2;
         }
 
     }

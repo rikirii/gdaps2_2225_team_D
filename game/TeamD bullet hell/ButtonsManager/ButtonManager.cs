@@ -48,7 +48,13 @@ namespace TeamD_bullet_hell.ButtonsManager
             set { stateMgr = value; }
         }
 
-        
+        public ScreenManager ScreenMgr
+        {
+            set
+            {
+                this.screenMgr = value;
+            }
+        }
 
         /// <summary>
         /// track god mode status
@@ -67,13 +73,13 @@ namespace TeamD_bullet_hell.ButtonsManager
         /// </summary>
         /// <param name="graphics">game1 _graphics</param>
         /// <param name="buttonOutline">Texture2D button Outline for button when hover</param>
-        public ButtonManager(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Texture2D buttonOutline, Texture2D backButtonPNG, Dictionary<FontType, SpriteFont> fonts)
+        public ButtonManager(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Texture2D buttonOutline, Texture2D backButtonPNG, Dictionary<FontType, SpriteFont> fonts,  ScreenManager screenMgr)
         {
             //get window height
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
 
-            //this.screenMgr = this.stateMgr.ScreenMgr;
+            this.screenMgr = screenMgr;
 
             //create buttons through methods
             CreateMenuButton(graphics, buttonOutline, fonts);
@@ -104,7 +110,7 @@ namespace TeamD_bullet_hell.ButtonsManager
 
             //380
             Button selectLevel = new Button(graphics.GraphicsDevice,
-                                            new Rectangle(1038, 409, buttonOutline.Width, ( buttonOutline.Height  - 15) ),
+                                            new Rectangle((1038), (409), ( buttonOutline.Width) , ( buttonOutline.Height  - 15) ),
                                             "Select Level",
                                             fonts[FontType.Button],
                                             Color.Black,
