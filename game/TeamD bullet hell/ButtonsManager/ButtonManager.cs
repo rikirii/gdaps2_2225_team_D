@@ -31,6 +31,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         private List<Button> infinityButtons;
         private List<Button> leaderBoardButtons;
         private List<Button> pauseButtons;
+        private List<Button> gameOverButtons;
 
         //collection (dictionary) of fonts to use
         Dictionary<FontType, SpriteFont> fonts;
@@ -56,7 +57,7 @@ namespace TeamD_bullet_hell.ButtonsManager
 
             //380
             Button selectLevel = new Button(graphics.GraphicsDevice,
-                                            new Rectangle(1385, 560, buttonOutline.Width * 2, (buttonOutline.Height ) - 15),
+                                            new Rectangle(1385, 560, buttonOutline.Width, (buttonOutline.Height ) - 15),
                                             "Select Level",
                                             fonts[FontType.Button],
                                             Color.White,
@@ -68,11 +69,14 @@ namespace TeamD_bullet_hell.ButtonsManager
                                         Color.White, 
                                         buttonOutline);
             Button leaderBoard = new Button(graphics.GraphicsDevice, 
-                                        new Rectangle(1385, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height/2 ) - 30),
+                                        new Rectangle(1385, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height ) - 30),
                                         "Leaderboard",
                                         fonts[FontType.Button],
                                         Color.White,
                                         buttonOutline);
+
+            
+
 
             menuButtons.Add(selectLevel);
             menuButtons.Add(infinity);
@@ -147,6 +151,35 @@ namespace TeamD_bullet_hell.ButtonsManager
 
         }
 
+        internal void createGameOverButton(GraphicsDeviceManager graphics, Texture2D buttonOutline)
+        {
+            gameOverButtons = new List<Button>();
+
+            backButton = new Button(graphics.GraphicsDevice,
+                                new Rectangle( (windowWidth/2) - buttonOutline.Width/2, (windowHeight - 10) - buttonOutline.Height, buttonOutline.Width, buttonOutline.Height / 3),
+                                "Return to Main Menu",
+                                fonts[FontType.Button],
+                                Color.White,
+                                buttonOutline);
+
+            Button reTry = new Button(graphics.GraphicsDevice,
+                                    new Rectangle(backButton.Position.X, backButton.Position.Y - (buttonOutline.Height + 10), backButton.Position.Width, backButton.Position.Height),
+                                    "Retry",
+                                    fonts[FontType.Button],
+                                    Color.LightGray,
+                                    buttonOutline);
+
+
+            gameOverButtons.Add(backButton);
+            gameOverButtons.Add(reTry);
+
+            foreach ( Button b in  gameOverButtons )
+            {
+                b.OnLeftButtonClick += this.ButtonLeftClicked;
+            }
+
+        }
+
         /// <summary>
         /// Button Manager Constructor
         /// Creates the necessary buttons for the game.
@@ -171,6 +204,7 @@ namespace TeamD_bullet_hell.ButtonsManager
             createSelectLvlButton(graphics, buttonOutline);
             createInfinityButton(graphics);
             createLeaderBoardButton(graphics, buttonOutline);
+            createGameOverButton(graphics, buttonOutline);
 
         }
 
@@ -229,6 +263,12 @@ namespace TeamD_bullet_hell.ButtonsManager
 
 
                 case GameState.GameOver:
+
+                    foreach (Button buttons in gameOverButtons)
+                    {
+                        buttons.Update(gameTime);
+                    }
+
                     break;
             }
 
@@ -289,6 +329,12 @@ namespace TeamD_bullet_hell.ButtonsManager
 
 
                 case GameState.GameOver:
+
+                    foreach (Button buttons in gameOverButtons)
+                    {
+                        buttons.Draw(spriteBatch);
+                    }
+
                     break;
             }
 
@@ -305,6 +351,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         //levelButtons = {backbutton]
         //infinityButtons = [backbutton]
         //leaderBoardButtons = [backbutton]
+        //gameOverButtons = [return to main menu]
 
         /// <summary>
         /// switch current game state when button are clicked.
@@ -362,6 +409,16 @@ namespace TeamD_bullet_hell.ButtonsManager
 
 
                 case GameState.GameOver:
+
+                    if (gameOverButtons[0].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Menu;
+                        this.currentGameState  = GameState.Menu;
+                    }
+                    if (gameOverButtons[1].IsClicked)
+                    {
+                        
+                    }
                     break;
 
 

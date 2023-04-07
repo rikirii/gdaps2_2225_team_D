@@ -77,19 +77,6 @@ namespace TeamD_bullet_hell.Bullets
         }
 
 
-        /// <summary>
-        /// you can do any loading bullet here
-        /// </summary>
-        /// <param name="texture"></param>
-        public void LoadBulletFile( Texture2D texture )
-        {
-            //temp
-            HardCodeBulletTest test = new HardCodeBulletTest(texture);
-            bulletList = test.BulletList;
-
-            //bulletList.Add(new Bullet(  (float)((Math.PI / 180) * 90), new Rectangle(1000, 50, 50, 50), texture, 1.0, 0, windowWidth, windowHeight));
-        }
-
 
         public void Update(GameTime gameTime)
         {
