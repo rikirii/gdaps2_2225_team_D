@@ -26,6 +26,20 @@ namespace TeamD_bullet_hell
             get { return position; }
         }
 
+        public int X
+        {
+            get { return position.X; }
+            set
+            {
+                this.position.X = value;
+            }
+        }
+
+        public int Y
+        {
+            get { return position.Y; }
+            set { this.position.Y = value; }
+        }
         
         public int Lives
         {

@@ -47,6 +47,16 @@ namespace TeamD_bullet_hell.Bullets
         private string filename;
 
         /// <summary>
+        /// Get reference to screen manager to use rescale
+        /// </summary>
+        public ScreenManager ScreenMgr
+        {
+            get; set;
+
+        }
+
+
+        /// <summary>
         /// property to update currentGameState
         /// </summary>
         public GameState CurrentGameState

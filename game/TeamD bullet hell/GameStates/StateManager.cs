@@ -34,7 +34,7 @@ namespace TeamD_bullet_hell.GameStates
         private TitleScreen mainMenu;
         private ButtonManager buttonMgr;
         private Gameplay gameplay;
-
+        private ScreenManager screenMgr;
 
         //Dictionary for storing assets
         private Dictionary<GameState, Texture2D> wallpapers;
@@ -68,6 +68,9 @@ namespace TeamD_bullet_hell.GameStates
             get { return buttonMgr; }
         }
 
+        /// <summary>
+        /// this will track and set is god mode
+        /// </summary>
         public bool IsGodMode
         {
             get
@@ -79,6 +82,10 @@ namespace TeamD_bullet_hell.GameStates
                 gameplay.IsGodMode = value;
             }
         }
+
+
+        public ScreenManager ScreenMgr
+        { get { return this.screenMgr; } } 
 
         /// <summary>
         /// directs all states.
@@ -105,9 +112,15 @@ namespace TeamD_bullet_hell.GameStates
             //set current gamestate to menu
             this.currentGameState = GameState.Menu;
 
+            this.screenMgr = new ScreenManager(this.windowWidth, this.windowHeight);
+
             this.mainMenu = new TitleScreen(wallpapers[GameState.Menu], windowWidth, windowHeight, _graphics);
             this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton], fonts );
             this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection);
+
+
+            this.gameplay.ScreenMgr = this.screenMgr;
+
 
         }
 
