@@ -37,13 +37,18 @@ namespace TeamD_bullet_hell.ButtonsManager
         //collection (dictionary) of fonts to use
         Dictionary<FontType, SpriteFont> fonts;
 
+        private ScreenManager screenMgr;
+
         /// <summary>
         /// Able to use a reference of State Manager from Game1
         /// </summary>
         public StateManager StateMgr
         {
+
             set { stateMgr = value; }
         }
+
+        
 
         /// <summary>
         /// track god mode status
@@ -51,6 +56,40 @@ namespace TeamD_bullet_hell.ButtonsManager
         public bool IsGodMode
         {
             get;set;
+        }
+
+
+
+        /// <summary>
+        /// Button Manager Constructor
+        /// Creates the necessary buttons for the game.
+        /// Uses methods to organize the code per game state screen
+        /// </summary>
+        /// <param name="graphics">game1 _graphics</param>
+        /// <param name="buttonOutline">Texture2D button Outline for button when hover</param>
+        public ButtonManager(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Texture2D buttonOutline, Texture2D backButtonPNG, Dictionary<FontType, SpriteFont> fonts)
+        {
+            //get window height
+            this.windowWidth = windowWidth;
+            this.windowHeight = windowHeight;
+
+            //this.screenMgr = this.stateMgr.ScreenMgr;
+
+            //create buttons through methods
+            CreateMenuButton(graphics, buttonOutline, fonts);
+            backButton = new Button(graphics.GraphicsDevice,
+                                new Rectangle(10, 10, buttonOutline.Width / 3, buttonOutline.Height / 3),
+                                "Back",
+                                fonts[FontType.Button],
+                                Color.Black,
+                                buttonOutline,
+                                false);
+            CreateSelectLvlButton(graphics, buttonOutline);
+            CreateInfinityButton(graphics);
+            CreateLeaderBoardButton(graphics, buttonOutline);
+            CreateGameOverButton(graphics, buttonOutline);
+            CreateSettingButtons(graphics, buttonOutline);
+
         }
 
         /// <summary>
@@ -65,21 +104,21 @@ namespace TeamD_bullet_hell.ButtonsManager
 
             //380
             Button selectLevel = new Button(graphics.GraphicsDevice,
-                                            new Rectangle(1385, 560, buttonOutline.Width, (buttonOutline.Height ) - 15),
+                                            new Rectangle(1038, 409, buttonOutline.Width, ( buttonOutline.Height  - 15) ),
                                             "Select Level",
                                             fonts[FontType.Button],
                                             Color.Black,
                                             buttonOutline,
                                             false);
             Button infinity = new Button(graphics.GraphicsDevice,
-                                        new Rectangle(1385, selectLevel.Position.Height + selectLevel.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height ) - 25),
+                                        new Rectangle(selectLevel.X, selectLevel.Position.Height + selectLevel.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height ) - 25),
                                         "Infinity Mode", 
                                         fonts[FontType.Button],
                                         Color.Black, 
                                         buttonOutline,
                                         false);
             Button leaderBoard = new Button(graphics.GraphicsDevice, 
-                                        new Rectangle(1385, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height ) - 30),
+                                        new Rectangle(selectLevel.X, infinity.Position.Y + infinity.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height ) - 30),
                                         "Leaderboard",
                                         fonts[FontType.Button],
                                         Color.Black,
@@ -87,7 +126,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                                         false);
 
             Button setting = new Button(graphics.GraphicsDevice,
-                                        new Rectangle(1385, leaderBoard.Position.Y + leaderBoard.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height) - 30),
+                                        new Rectangle(selectLevel.X, leaderBoard.Position.Y + leaderBoard.Position.Height + 5, buttonOutline.Width, (buttonOutline.Height) - 30),
                                         "Settings",
                                         fonts[FontType.Button],
                                         Color.Black,
@@ -216,7 +255,7 @@ namespace TeamD_bullet_hell.ButtonsManager
             settingButtons = new List<Button>();
 
             Button godMode = new Button(graphics.GraphicsDevice,
-                                    new Rectangle(1385, 560, buttonOutline.Width, (buttonOutline.Height) - 15),
+                                    new Rectangle(this.menuButtons[0].X, this.menuButtons[0].Y, buttonOutline.Width, (buttonOutline.Height) - 15),
                                     "God Mode",
                                     fonts[FontType.Button],
                                     Color.Black,
@@ -225,7 +264,7 @@ namespace TeamD_bullet_hell.ButtonsManager
 
             //a different button for setting screen
             Button back = new Button(graphics.GraphicsDevice,
-                                    new Rectangle(1385, godMode.Position.Height + godMode.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height) - 25),
+                                    new Rectangle(godMode.X, godMode.Position.Height + godMode.Position.Y + 5, buttonOutline.Width, (buttonOutline.Height) - 25),
                                     "Return",
                                     fonts[FontType.Button],
                                     Color.Black,
@@ -241,35 +280,7 @@ namespace TeamD_bullet_hell.ButtonsManager
             }
         }
 
-        /// <summary>
-        /// Button Manager Constructor
-        /// Creates the necessary buttons for the game.
-        /// Uses methods to organize the code per game state screen
-        /// </summary>
-        /// <param name="graphics">game1 _graphics</param>
-        /// <param name="buttonOutline">Texture2D button Outline for button when hover</param>
-        public ButtonManager(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Texture2D buttonOutline, Texture2D backButtonPNG, Dictionary<FontType, SpriteFont> fonts)
-        {
-            //get window height
-            this.windowWidth = windowWidth;
-            this.windowHeight = windowHeight;
-
-            //create buttons through methods
-            CreateMenuButton(graphics, buttonOutline, fonts);
-            backButton = new Button(graphics.GraphicsDevice, 
-                                new Rectangle(10, 10, buttonOutline.Width/3, buttonOutline.Height/3),
-                                "Back",
-                                fonts[FontType.Button],
-                                Color.Black,
-                                buttonOutline,
-                                false);
-            CreateSelectLvlButton(graphics, buttonOutline);
-            CreateInfinityButton(graphics);
-            CreateLeaderBoardButton(graphics, buttonOutline);
-            CreateGameOverButton(graphics, buttonOutline);
-            CreateSettingButtons(graphics, buttonOutline);
-
-        }
+        
 
 
         /// <summary>

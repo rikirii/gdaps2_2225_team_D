@@ -56,6 +56,7 @@ namespace TeamD_bullet_hell
 
         //Declare state manager (important where all states/screen are managed)
         private StateManager stateMgr;
+        
 
         //Temp dictionary variables to pass reference to state manager
         private Dictionary<GameState, Texture2D> wallpapers;
@@ -75,13 +76,13 @@ namespace TeamD_bullet_hell
         {
             // TODO: Add your initialization logic here
 
-            //_graphics.PreferredBackBufferWidth = 1920;
-            //_graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
             //_graphics.IsFullScreen = true; //fullscreen (not recommended -RY)
 
             //this will make window size auto scale to current monitor's size
-            _graphics.PreferredBackBufferWidth = GraphicsDevice.Adapter.CurrentDisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+            //_graphics.PreferredBackBufferWidth = GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+            //_graphics.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 
             //makes screen borderless
             Window.IsBorderless = true;
@@ -97,8 +98,12 @@ namespace TeamD_bullet_hell
             spriteCollection = new Dictionary<Entity, Texture2D>();
             buttonAssets = new Dictionary<ButtonAssets, Texture2D>();
 
+            //size and position rescaler
+            
+
+
+
             //makes bullet list to track # of bullet (temp location -RY)
-            bulletList = new List<Bullet>();
             
 
             base.Initialize();
@@ -160,6 +165,7 @@ namespace TeamD_bullet_hell
 
             stateMgr.ButtonMgr.StateMgr = this.stateMgr;
 
+            
 
         }
 

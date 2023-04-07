@@ -37,6 +37,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         // Declare a boolean variable to keep track of whether god mode is enabled or disabled
         private bool godModeEnabled;
 
+        //Added a counter to prevent constant reset call in game over state
+        internal int resetCounter;
 
         /// <summary>
         /// Update current game state in gameplay object
@@ -53,6 +55,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             }
         }
 
+        /// <summary>
+        /// track the previous gaemstate for the retry button
+        /// </summary>
         public GameState PreviousGameState
         {
             get { return previousGameState; }
@@ -69,6 +74,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         }
 
 
+        /// <summary>
+        /// Track isgodmode status
+        /// 
+        /// </summary>
         public bool IsGodMode
         {
             get { return godModeEnabled; }
@@ -76,6 +85,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             {
                 godModeEnabled = value;
             }
+        }
+
+        public ScreenManager ScreenMgr
+        {
+            get;set;
+            
         }
 
         /// <summary>
@@ -98,14 +113,20 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
             this.godModeEnabled = false;
             this.gameOver = false;
+            this.resetCounter = 0;
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
+            this.bulletMgr.ScreenMgr = this.ScreenMgr;
+
+
+            //create player object
+            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth / 2, windowHeight / 2, (100), (100)), windowWidth, windowHeight);
+
 
             //first time startup, reset() will prepare everything needed.
             this.Reset();
 
-            //create player object
-            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth/2, windowHeight/2, 100, 100), windowWidth, windowHeight);
+            
         }
 
         /// <summary>
@@ -113,8 +134,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// </summary>
         public void Reset()
         {
-            ////reset the player not sure it is working
-            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth / 2, windowHeight / 2, 100, 100), windowWidth, windowHeight);
+            //reset player position
+
+            player.X = windowHeight - player.Y;
+            player.Y = windowWidth / 2 - player.Position.Width / 2;
 
             //reset the bullet 
             bulletMgr.Reset(spriteCollection[Entity.Bullet]);
@@ -133,6 +156,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             //updates currentgame state for bullet manager
             bulletMgr.currentGameState = this.currentGameState;
 
+
             //Switch taht determines which button to update
             switch (currentGameState)
             {
@@ -145,6 +169,11 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
+
+                    if (resetCounter != 0)
+                    {
+                        resetCounter = 0;
+                    }
 
                     player.Update(gameTime);
 
@@ -186,7 +215,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.GameOver:
 
-                    this.Reset();
+                    if (resetCounter != 1 )
+                    {
+                        resetCounter = 1;
+                        this.Reset();
+                    }
+                    
                     break;
             }
 
@@ -238,10 +272,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 case GameState.GameOver:
                     spriteBatch.Draw(wallpapers[GameState.GameOver], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
-                    //
-                    spriteBatch.DrawString(fonts[FontType.Title], "" + scoreCounter, new Vector2(554, 734), Color.White);
 
-                    this.Reset();
+                    //important info with this. the drawstring for score is harded coded position.
+                    spriteBatch.DrawString(fonts[FontType.Title], "" + scoreCounter, new Vector2(435, 546), Color.White);
+
+                    
+
 
                     break;
             }
