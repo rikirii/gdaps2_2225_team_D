@@ -70,7 +70,7 @@ namespace TeamD_bullet_hell.Bullets
             this.entityAssests = entityAssests;
             this.filename = "Bullet_Pattern_Yshape";
 
-           
+
             //temp set bulletlist to empty
             this.bulletList = new List<Bullet>();
             bulletArray = new Bullet[11, 11];
@@ -89,7 +89,7 @@ namespace TeamD_bullet_hell.Bullets
             //temp
             //HardCodeBulletTest test = new HardCodeBulletTest(texture);
             // bulletList = test.BulletList;
-            this. bulletArray = new Bullet[11, 11];
+            this.bulletArray = new Bullet[11, 11];
             this.bulletList = new List<Bullet>();
             currentGameTime = 0;
             LoadBulletFile(texture, filename);
@@ -104,8 +104,8 @@ namespace TeamD_bullet_hell.Bullets
         public void LoadBulletFile(Texture2D texture, string filename)
         {
             //temp
-           //HardCodeBulletTest test = new HardCodeBulletTest(texture);
-           //bulletList = test.BulletList;
+            //HardCodeBulletTest test = new HardCodeBulletTest(texture);
+            //bulletList = test.BulletList;
 
             float spawnTime = 1;
 
@@ -136,10 +136,10 @@ namespace TeamD_bullet_hell.Bullets
                         {
                             //IF YOU WANT TO CHANGE WHERE THE BULLET CAN SPAWN IT WILL BE HERE:
                             //IN NEW RECTANGLE, THE X AND Y VARIABLES
-                            
+
                             bulletArray[i, j] = new Bullet(90, new Rectangle(position, 0,
                                 100, 100), texture, 10, spawnTime, 1920, 1080);
-                            
+
                         }
                         else if (char.Parse(row[j]) == '-')
                         {
@@ -147,7 +147,7 @@ namespace TeamD_bullet_hell.Bullets
                             bulletArray[i, j] = null;
                         }
 
-                        
+
 
                     }
                     spawnTime += 1f;
@@ -202,35 +202,35 @@ namespace TeamD_bullet_hell.Bullets
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
                     System.Diagnostics.Debug.WriteLine(currentGameTime);
-                    
 
-                   // for (int i = 0; i < bulletArray.GetLength(0); i++)
-                   // {
-                   //     //Random velocity for the bullets to move in
-                   //     int xMove = r.Next(2, 7);
-                   //     int yMove = r.Next(2, 12);
-                   //
-                   //     for (int j = 0; j < bulletArray.GetLength(1); j++)
-                   //     {
-                   //         if (bulletArray[i, j] != null)
-                   //         {
-                   //              //if it is on the left half of the screen, move in the + direction
-                   //              //if on the right, move in the - direction                               
-                   //              if (bulletArray[i, j].Position.X > (windowWidth / 2))
-                   //              {
-                   //                  bulletArray[i, j].PositionX -= xMove;
-                   //              
-                   //              }
-                   //              else
-                   //              {
-                   //                  bulletArray[i, j].PositionX += xMove;
-                   //              }
-                   //              
-                   //              //Constantly have the bullets moving dowward
-                   //              bulletArray[i, j].PositionY += yMove;
-                   //         }
-                   //     }
-                   // }
+
+                    // for (int i = 0; i < bulletArray.GetLength(0); i++)
+                    // {
+                    //     //Random velocity for the bullets to move in
+                    //     int xMove = r.Next(2, 7);
+                    //     int yMove = r.Next(2, 12);
+                    //
+                    //     for (int j = 0; j < bulletArray.GetLength(1); j++)
+                    //     {
+                    //         if (bulletArray[i, j] != null)
+                    //         {
+                    //              //if it is on the left half of the screen, move in the + direction
+                    //              //if on the right, move in the - direction                               
+                    //              if (bulletArray[i, j].Position.X > (windowWidth / 2))
+                    //              {
+                    //                  bulletArray[i, j].PositionX -= xMove;
+                    //              
+                    //              }
+                    //              else
+                    //              {
+                    //                  bulletArray[i, j].PositionX += xMove;
+                    //              }
+                    //              
+                    //              //Constantly have the bullets moving dowward
+                    //              bulletArray[i, j].PositionY += yMove;
+                    //         }
+                    //     }
+                    // }
                     foreach (Bullet bullet in bulletList)
                     {
                         bullet.Update(currentGameTime);
@@ -287,8 +287,5 @@ namespace TeamD_bullet_hell.Bullets
         }
     }
 }
-
-       
-
 
 
