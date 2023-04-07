@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -67,7 +68,7 @@ namespace TeamD_bullet_hell.Bullets
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
             this.entityAssests = entityAssests;
-            this.filename = "Bullet Pattern: Yshape";
+            this.filename = "Bullet_Pattern_Yshape";
 
            
             //temp set bulletlist to empty
@@ -86,8 +87,10 @@ namespace TeamD_bullet_hell.Bullets
         public void Reset(Texture2D texture)
         {
             //temp
-            HardCodeBulletTest test = new HardCodeBulletTest(texture);
-            bulletList = test.BulletList;
+            //HardCodeBulletTest test = new HardCodeBulletTest(texture);
+            // bulletList = test.BulletList;
+            this. bulletArray = new Bullet[11, 11];
+            this.bulletList = new List<Bullet>();
             currentGameTime = 0;
             LoadBulletFile(texture, filename);
 
@@ -101,8 +104,8 @@ namespace TeamD_bullet_hell.Bullets
         public void LoadBulletFile(Texture2D texture, string filename)
         {
             //temp
-            HardCodeBulletTest test = new HardCodeBulletTest(texture);
-            bulletList = test.BulletList;
+           //HardCodeBulletTest test = new HardCodeBulletTest(texture);
+           //bulletList = test.BulletList;
 
             float spawnTime = 1;
 
@@ -115,23 +118,28 @@ namespace TeamD_bullet_hell.Bullets
                 //create a string to bring the data in and loop while the line has data 
                 string line = null;
 
+                int position = 0;
+
                 for (int i = 0; i < 11; i++)
                 {
                     //read a line every single row
                     line = input.ReadLine();
-
+                    position = 100;
                     //make a string array for each row
                     string[] row = line.Split(',');
 
                     for (int j = 0; j < 11; j++)
                     {
+                        position += 1620 / 11;
                         //if the element in the string array is an X, then make a new bullet at that spot in the array
                         if (char.Parse(row[j]) == 'X')
                         {
                             //IF YOU WANT TO CHANGE WHERE THE BULLET CAN SPAWN IT WILL BE HERE:
                             //IN NEW RECTANGLE, THE X AND Y VARIABLES
-                            bulletArray[i, j] = new Bullet(r.Next(0, 180), new Rectangle(r.Next(0,windowWidth),0,
-                                75, 75), texture, 20, spawnTime += 0.5f, 1920, 1080);
+                            
+                            bulletArray[i, j] = new Bullet(90, new Rectangle(position, 0,
+                                100, 100), texture, 10, spawnTime, 1920, 1080);
+                            
                         }
                         else if (char.Parse(row[j]) == '-')
                         {
@@ -139,9 +147,16 @@ namespace TeamD_bullet_hell.Bullets
                             bulletArray[i, j] = null;
                         }
 
+                        
 
                     }
+                    spawnTime += 1f;
 
+                }
+
+                if (input != null)
+                {
+                    input.Close();
                 }
 
 
@@ -156,11 +171,20 @@ namespace TeamD_bullet_hell.Bullets
             {
                 input.Close();
             }
-            
 
+            //save the bullet in array into a list
+            for (int i = 0; i < bulletArray.GetLength(0); i++)
+            {
 
+                for (int j = 0; j < bulletArray.GetLength(1); j++)
+                {
+                    if (bulletArray[i, j] != null)
+                    {
+                        bulletList.Add(bulletArray[i, j]);
+                    }
+                }
+            }
         }
-
         //bulletList.Add(new Bullet(  (float)((Math.PI / 180) * 90), new Rectangle(1000, 50, 50, 50), texture, 1.0, 0, windowWidth, windowHeight));
 
 
@@ -178,39 +202,40 @@ namespace TeamD_bullet_hell.Bullets
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
                     System.Diagnostics.Debug.WriteLine(currentGameTime);
+                    
+
+                   // for (int i = 0; i < bulletArray.GetLength(0); i++)
+                   // {
+                   //     //Random velocity for the bullets to move in
+                   //     int xMove = r.Next(2, 7);
+                   //     int yMove = r.Next(2, 12);
+                   //
+                   //     for (int j = 0; j < bulletArray.GetLength(1); j++)
+                   //     {
+                   //         if (bulletArray[i, j] != null)
+                   //         {
+                   //              //if it is on the left half of the screen, move in the + direction
+                   //              //if on the right, move in the - direction                               
+                   //              if (bulletArray[i, j].Position.X > (windowWidth / 2))
+                   //              {
+                   //                  bulletArray[i, j].PositionX -= xMove;
+                   //              
+                   //              }
+                   //              else
+                   //              {
+                   //                  bulletArray[i, j].PositionX += xMove;
+                   //              }
+                   //              
+                   //              //Constantly have the bullets moving dowward
+                   //              bulletArray[i, j].PositionY += yMove;
+                   //         }
+                   //     }
+                   // }
                     foreach (Bullet bullet in bulletList)
                     {
                         bullet.Update(currentGameTime);
                     }
 
-                    for (int i = 0; i < bulletArray.GetLength(0); i++)
-                    {
-                        //Random velocity for the bullets to move in
-                        int xMove = r.Next(2, 7);
-                        int yMove = r.Next(2, 12);
-
-                        for (int j = 0; j < bulletArray.GetLength(1); j++)
-                        {
-                            if (bulletArray[i, j] != null)
-                            {
-                                //if it is on the left half of the screen, move in the + direction
-                                //if on the right, move in the - direction                               
-                                if (bulletArray[i, j].Position.X > (windowWidth / 2))
-                                {
-                                    bulletArray[i, j].PositionX -= xMove;
-
-                                }
-                                else
-                                {
-                                    bulletArray[i, j].PositionX += xMove;
-                                }
-                                
-                                //Constantly have the bullets moving dowward
-                                bulletArray[i, j].PositionY += yMove;
-                                
-                            }
-                        }
-                    }
                     break;
 
 
@@ -236,21 +261,21 @@ namespace TeamD_bullet_hell.Bullets
                         bullet.Draw(spriteBatch);
                     }
 
-                    //Draws the bullets based on the 2D array from the file
-                    for (int i = 0; i < bulletArray.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < bulletArray.GetLength(1); j++)
-                        {
-                            if (bulletArray[i, j] != null)
-                            {
-                                bulletArray[i, j].Draw(spriteBatch);
-
-                            }
-
-
-                        }
-
-                    }
+                    ////Draws the bullets based on the 2D array from the file
+                    //for (int i = 0; i < bulletArray.GetLength(0); i++)
+                    //{
+                    //    for (int j = 0; j < bulletArray.GetLength(1); j++)
+                    //    {
+                    //        if (bulletArray[i, j] != null)
+                    //        {
+                    //            bulletArray[i, j].Draw(spriteBatch);
+                    //
+                    //        }
+                    //
+                    //
+                    //    }
+                    //
+                    //}
 
 
                     break;
