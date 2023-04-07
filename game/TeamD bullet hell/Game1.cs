@@ -69,10 +69,6 @@ namespace TeamD_bullet_hell
         private Bullet[,] bulletArray;
        
 
-        //testing
-
-
-
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -171,10 +167,6 @@ namespace TeamD_bullet_hell
 
             stateMgr.ButtonMgr.StateMgr = this.stateMgr;
 
-            //File IO Method
-            
-
-
 
         }
 
@@ -208,6 +200,7 @@ namespace TeamD_bullet_hell
                     stateMgr.Update(gameTime);
                     for (int i = 0; i < bulletArray.GetLength(0); i++)
                     {
+                        //Random velocity for the bullets to move in
                         int xMove = r.Next(2, 7);
                         int yMove = r.Next(2, 7);
 
@@ -227,6 +220,8 @@ namespace TeamD_bullet_hell
                                     bulletArray[i, j].PositionX -= xMove;
                                 }
 
+                                //if it is on the top half of the screen, move down direction
+                                //if on the bottom, move up
                                 if (bulletArray[i, j].Position.Y > (windowHeight / 2))
                                 {
                                     bulletArray[i, j].PositionY += yMove;
@@ -301,9 +296,6 @@ namespace TeamD_bullet_hell
                     GraphicsDevice.Clear(Color.DarkSlateBlue);
 
                     stateMgr.Draw(_spriteBatch);
-
-
-
                     break;
 
 
