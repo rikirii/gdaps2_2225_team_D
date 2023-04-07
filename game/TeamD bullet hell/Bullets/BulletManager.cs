@@ -67,7 +67,7 @@ namespace TeamD_bullet_hell.Bullets
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
             this.entityAssests = entityAssests;
-            this.filename = "Bullet Pattern";
+            this.filename = "Bullet Pattern: Yshape";
 
            
             //temp set bulletlist to empty
@@ -94,7 +94,6 @@ namespace TeamD_bullet_hell.Bullets
         }
 
 
-<<<<<<< HEAD
         /// <summary>
         /// you can do any loading bullet here
         /// </summary>
@@ -131,7 +130,7 @@ namespace TeamD_bullet_hell.Bullets
                         {
                             //IF YOU WANT TO CHANGE WHERE THE BULLET CAN SPAWN IT WILL BE HERE:
                             //IN NEW RECTANGLE, THE X AND Y VARIABLES
-                            bulletArray[i, j] = new Bullet(r.Next(0, 180), new Rectangle(r.Next(450, 900), r.Next(200, 900),
+                            bulletArray[i, j] = new Bullet(r.Next(0, 180), new Rectangle(r.Next(0,windowWidth),0,
                                 75, 75), texture, 20, spawnTime += 0.5f, 1920, 1080);
                         }
                         else if (char.Parse(row[j]) == '-')
@@ -160,8 +159,6 @@ namespace TeamD_bullet_hell.Bullets
         //bulletList.Add(new Bullet(  (float)((Math.PI / 180) * 90), new Rectangle(1000, 50, 50, 50), texture, 1.0, 0, windowWidth, windowHeight));
 
 
-=======
->>>>>>> 67966b5e94fb843925717af0f1ad827e2e61e2d7
 
         public void Update(GameTime gameTime)
         {
@@ -185,38 +182,27 @@ namespace TeamD_bullet_hell.Bullets
                     {
                         //Random velocity for the bullets to move in
                         int xMove = r.Next(2, 7);
-                        int yMove = r.Next(2, 7);
+                        int yMove = r.Next(2, 12);
 
                         for (int j = 0; j < bulletArray.GetLength(1); j++)
                         {
                             if (bulletArray[i, j] != null)
                             {
                                 //if it is on the left half of the screen, move in the + direction
-                                //if on the right, move in the - direction
+                                //if on the right, move in the - direction                               
                                 if (bulletArray[i, j].Position.X > (windowWidth / 2))
                                 {
-                                    bulletArray[i, j].PositionX += xMove;
-
-                                }
-                                else
-                                {
                                     bulletArray[i, j].PositionX -= xMove;
-                                }
-
-                                //if it is on the top half of the screen, move down direction
-                                //if on the bottom, move up
-                                if (bulletArray[i, j].Position.Y > (windowHeight / 2))
-                                {
-                                    bulletArray[i, j].PositionY += yMove;
 
                                 }
                                 else
                                 {
-                                    bulletArray[i, j].PositionY -= yMove;
-
+                                    bulletArray[i, j].PositionX += xMove;
                                 }
-
-
+                                
+                                //Constantly have the bullets moving dowward
+                                bulletArray[i, j].PositionY += yMove;
+                                
                             }
                         }
                     }
