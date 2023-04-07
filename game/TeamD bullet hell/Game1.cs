@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using TeamD_bullet_hell.Bullets;
 using TeamD_bullet_hell.ButtonsManager;
 using TeamD_bullet_hell.GameStates;
@@ -9,7 +11,7 @@ using TeamD_bullet_hell.GameStates.GamePlay;
 using TeamD_bullet_hell.GameStates.Title;
 
 namespace TeamD_bullet_hell
-{    
+{
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -25,7 +27,7 @@ namespace TeamD_bullet_hell
 
         private List<Bullet> bulletList;
 
-        
+
 
         //SpriteFont
         private SpriteFont titleFont;
@@ -64,9 +66,9 @@ namespace TeamD_bullet_hell
         private Dictionary<Entity, Texture2D> spriteCollection;
         private Dictionary<ButtonAssets, Texture2D> buttonAssets;
 
-        //testing
-
-        
+        private Random r;
+        private Bullet[,] bulletArray;
+       
 
         public Game1()
         {
@@ -88,7 +90,7 @@ namespace TeamD_bullet_hell
             _graphics.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 
             //makes screen borderless
-            Window.IsBorderless = true; 
+            Window.IsBorderless = true;
             _graphics.ApplyChanges();
 
             //store window's width and height
@@ -103,7 +105,9 @@ namespace TeamD_bullet_hell
 
             //makes bullet list to track # of bullet (temp location -RY)
             bulletList = new List<Bullet>();
-            
+            bulletArray = new Bullet[11, 11];
+            r = new Random();
+
             base.Initialize();
         }
 
@@ -112,12 +116,12 @@ namespace TeamD_bullet_hell
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            
+
             //******IMPORTANT INFO******* -RY
             //when loading in assets from a folder in Content, You must do "../Content/<Insert folder name>/<Insert file name>"
 
             //loading fonts
-            titleFont = Content.Load <SpriteFont>("../Content/Fonts/Arial30Bold");
+            titleFont = Content.Load<SpriteFont>("../Content/Fonts/Arial30Bold");
             buttonFont = Content.Load<SpriteFont>("../Content/Fonts/Arial20Normal");
 
             //loading background
@@ -136,9 +140,12 @@ namespace TeamD_bullet_hell
             //loading player
             playerShip = Content.Load<Texture2D>("../Content/playerAsset/ship");
 
+            //File IO Method
+            BulletMap("Bullet Pattern");
+
 
             //testing ********************
-            
+
             //Adding wallpaper to dictionary. Use key(GameState) to get reference of the wallpaper to use
             wallpapers.Add(GameState.Menu, mainWallpaper);
             wallpapers.Add(GameState.LeaderBoard, leaderBoardImage);
@@ -164,7 +171,6 @@ namespace TeamD_bullet_hell
             stateMgr.ButtonMgr.StateMgr = this.stateMgr;
 
 
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -179,7 +185,7 @@ namespace TeamD_bullet_hell
             {
                 case GameState.Menu:
 
-                    
+
                     stateMgr.Update(gameTime);
 
                     break;
@@ -195,11 +201,47 @@ namespace TeamD_bullet_hell
                 case GameState.Infinity:
 
                     stateMgr.Update(gameTime);
+                    for (int i = 0; i < bulletArray.GetLength(0); i++)
+                    {
+                        //Random velocity for the bullets to move in
+                        int xMove = r.Next(2, 7);
+                        int yMove = r.Next(2, 7);
 
+                        for (int j = 0; j < bulletArray.GetLength(1); j++)
+                        {
+                            if (bulletArray[i, j] != null)
+                            {
+                                //if it is on the left half of the screen, move in the + direction
+                                //if on the right, move in the - direction
+                                if (bulletArray[i, j].Position.X > (windowWidth / 2))
+                                {
+                                    bulletArray[i, j].PositionX += xMove;
 
+                                }
+                                else
+                                {
+                                    bulletArray[i, j].PositionX -= xMove;
+                                }
+
+                                //if it is on the top half of the screen, move down direction
+                                //if on the bottom, move up
+                                if (bulletArray[i, j].Position.Y > (windowHeight / 2))
+                                {
+                                    bulletArray[i, j].PositionY += yMove;
+
+                                }
+                                else
+                                {
+                                    bulletArray[i, j].PositionY -= yMove;
+
+                                }
+
+                                
+                            }
+                        }
+                    }
 
                     break;
-
 
                 case GameState.LeaderBoard:
 
@@ -209,7 +251,7 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.Pause:
-                    
+
                     break;
 
 
@@ -231,7 +273,7 @@ namespace TeamD_bullet_hell
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            
+
 
             //Switch that draws things based on the state of the ganme
             switch (currentGameState)
@@ -260,9 +302,6 @@ namespace TeamD_bullet_hell
                     GraphicsDevice.Clear(Color.DarkSlateBlue);
 
                     stateMgr.Draw(_spriteBatch);
-
-                    
-
                     break;
 
 
@@ -274,7 +313,21 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
-                    
+                    //Draws the bullets based on the 2D array from the file
+                    for (int i = 0; i < bulletArray.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < bulletArray.GetLength(1); j++)
+                        {
+                            if (bulletArray[i, j] != null)
+                            {
+                                bulletArray[i, j].Draw(_spriteBatch);
+
+                            }
+
+
+                        }
+
+                    }
 
                     //draw the bullet
 
@@ -293,6 +346,8 @@ namespace TeamD_bullet_hell
                             currentGameState = GameState.Menu;
                         }
                     } */
+
+
 
 
                     break;
@@ -326,6 +381,60 @@ namespace TeamD_bullet_hell
             base.Draw(gameTime);
         }
 
-  
+        /// <summary>
+        /// Method that mapes a map of the bullets loaded in from a file
+        /// </summary>
+        /// <param name="filename">the name of the file that wants to be read in</param>
+        public void BulletMap(string filename)
+        {
+            float spawnTime = 1;
+
+            StreamReader input = null;
+            try
+            {
+                //and declaring it in the try block
+                input = new StreamReader("../../../" + filename + ".csv");
+
+                //create a string to bring the data in and loop while the line has data 
+                string line = null;
+
+                for (int i = 0; i < 11; i++)
+                {
+                    //read a line every single row
+                    line = input.ReadLine();
+
+                    //make a string array for each row
+                    string[] row = line.Split(',');
+
+                    for (int j = 0; j < 11; j++)
+                    {
+                        //if the element in the string array is an X, then make a new bullet at that spot in the array
+                        if (char.Parse(row[j]) == 'X')
+                        {
+                            bulletArray[i, j] = new Bullet(r.Next(0, 180), new Rectangle(r.Next(450, 900), r.Next(200, 900),
+                                75, 75), greenCircleBullet, 20, spawnTime += 0.5f, 1920, 1080);
+                        }
+                        else if (char.Parse(row[j]) == '-')
+                        {
+                            //if not that spot is null
+                            bulletArray[i, j] = null;
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Uh oh: " + e.Message);
+            }
+
+            input.Close();
+
+
+        }
     }
 }

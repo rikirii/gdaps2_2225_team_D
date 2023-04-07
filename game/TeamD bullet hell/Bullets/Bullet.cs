@@ -38,6 +38,22 @@ namespace TeamD_bullet_hell
         public Rectangle Position
         {
             get { return positionAndSize; }
+            set { positionAndSize = value; }
+        }
+
+        /// <summary>
+        /// Property that gets the X position of the Rectangle
+        /// </summary>
+        public int PositionX
+        {
+            get { return positionAndSize.X; }
+            set { positionAndSize.X = value; }
+        }
+
+        public int PositionY
+        {
+            get { return positionAndSize.Y; }
+            set { positionAndSize.Y = value; }
         }
         //private string type;
         
@@ -114,10 +130,13 @@ namespace TeamD_bullet_hell
         public void Draw(SpriteBatch spriteBatch)
         {
             //only draw the ball when is update is ture
+            /*
             if (upDateTheBall)
             {
                 spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
             }
+            */
+            spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
         }
 
         
