@@ -94,6 +94,7 @@ namespace TeamD_bullet_hell.Bullets
         }
 
 
+<<<<<<< HEAD
         /// <summary>
         /// you can do any loading bullet here
         /// </summary>
@@ -159,6 +160,8 @@ namespace TeamD_bullet_hell.Bullets
         //bulletList.Add(new Bullet(  (float)((Math.PI / 180) * 90), new Rectangle(1000, 50, 50, 50), texture, 1.0, 0, windowWidth, windowHeight));
 
 
+=======
+>>>>>>> 67966b5e94fb843925717af0f1ad827e2e61e2d7
 
         public void Update(GameTime gameTime)
         {

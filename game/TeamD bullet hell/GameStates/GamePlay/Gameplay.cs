@@ -30,6 +30,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         //bullet manager. 
         private BulletManager bulletMgr;
 
+        //Track the score based on time survived
+        private ulong scoreCounter = 999999999999999;
 
         // Declare a boolean variable to keep track of whether god mode is enabled or disabled
         private bool godModeEnabled = false;
@@ -86,6 +88,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
 
+            //first time startup, reset() will prepare everything needed.
+            this.Reset();
 
             //create player object
             player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth/2, windowHeight/2, 100, 100), windowWidth, windowHeight);
@@ -156,7 +160,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     {
                         
                         gameOver = !gameOver;
-                        currentGameState = GameState.Menu;
+                        currentGameState = GameState.GameOver;
                     }
 
                     break;
@@ -174,6 +178,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.GameOver:
+
+                    this.Reset();
                     break;
             }
 
@@ -223,6 +229,13 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.GameOver:
+                    spriteBatch.Draw(wallpapers[GameState.GameOver], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+
+                    //
+                    spriteBatch.DrawString(fonts[FontType.Title], "" + scoreCounter, new Vector2(554, 734), Color.White);
+
+                    this.Reset();
+
                     break;
             }
 

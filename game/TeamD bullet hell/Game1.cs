@@ -35,6 +35,7 @@ namespace TeamD_bullet_hell
         private Texture2D mainWallpaper;
         private Texture2D leaderBoardImage;
         private Texture2D gameBackground;
+        private Texture2D gameOverImage;
         private Texture2D playerShip;
         private Texture2D backButtonPNG;
         private Texture2D buttonOutline;
@@ -120,16 +121,17 @@ namespace TeamD_bullet_hell
             mainWallpaper = Content.Load<Texture2D>("../Content/Background/gameMenu");
             leaderBoardImage = Content.Load<Texture2D>("../Content/Background/leaderboard");
             gameBackground = Content.Load<Texture2D>("../Content/Background/gameBackground");
+            gameOverImage = Content.Load<Texture2D>("../Content/Background/gameOver");
 
             //loading button textures
-            buttonOutline = Content.Load<Texture2D>("Redtangle"); //bad name for this. -RY
+            buttonOutline = Content.Load<Texture2D>("../Content/ButtonAssets/buttonOutline");
             backButtonPNG = Content.Load<Texture2D>("../Content/ButtonAssets/backButton");
 
             //load Bullet Texture 
-            greenCircleBullet = Content.Load<Texture2D>("GreenBullet");
+            greenCircleBullet = Content.Load<Texture2D>("../Content/BulletAsset/GreenBullet");
 
             //loading player
-            playerShip = Content.Load<Texture2D>("ship");
+            playerShip = Content.Load<Texture2D>("../Content/playerAsset/ship");
 
 
             //testing ********************
@@ -138,6 +140,7 @@ namespace TeamD_bullet_hell
             wallpapers.Add(GameState.Menu, mainWallpaper);
             wallpapers.Add(GameState.LeaderBoard, leaderBoardImage);
             wallpapers.Add(GameState.Gameplay, gameBackground);
+            wallpapers.Add(GameState.GameOver, gameOverImage);
 
             //Adding font types to dictionary. Use key(FontType) to get reference of the spritefont
             fontsCollection.Add(FontType.Title, titleFont);
@@ -205,6 +208,8 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.GameOver:
+
+                    stateMgr.Update(gameTime);
                     break;
             }
 
@@ -234,8 +239,9 @@ namespace TeamD_bullet_hell
 
                     MouseState mState = Mouse.GetState();
                     //this is for testing, looking for coords
-                    _spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
-                        " windowY: {1} || mouse x: {2} mouse y: {3}", windowWidth, windowHeight, mState.X, mState.Y), new Vector2(10, 10), Color.White);
+                    //spriteBatch.DrawString(fonts[FontType.Button], string.Format("windowX: {0}," +
+                    //    " windowY: {1} || mouse x: {2} mouse y: {3}", windowWidth, windowHeight, mState.X, mState.Y), new Vector2(10, 10), Color.White);
+
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 260), Color.Red);
@@ -302,6 +308,7 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.GameOver:
+                    stateMgr.Draw(_spriteBatch);
                     break;
             }
 
