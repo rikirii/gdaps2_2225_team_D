@@ -151,7 +151,12 @@ namespace TeamD_bullet_hell.Bullets
                 System.Diagnostics.Debug.WriteLine("Uh oh: " + e.Message);
             }
 
-            input.Close();
+
+            if (input != null)
+            {
+                input.Close();
+            }
+            
 
 
         }
