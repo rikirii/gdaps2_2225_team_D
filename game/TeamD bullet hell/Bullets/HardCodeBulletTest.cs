@@ -14,7 +14,7 @@ namespace TeamD_bullet_hell.Bullets
         //// I am having fun with the bullet pattern here and if it is not working somthing may go wrong in other places
         /// 
 
-
+        ////////////////// This is currently not been using !
 
 
         ////////////////////////////
