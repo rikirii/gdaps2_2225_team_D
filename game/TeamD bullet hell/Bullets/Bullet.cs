@@ -131,12 +131,12 @@ namespace TeamD_bullet_hell
         {
             //only draw the ball when is update is ture
             
-            //if (upDateTheBall)
-            //{
-            //    spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
-            //}
+            if (upDateTheBall)
+            {
+                spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
+            }
            
-            spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
+            //spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
         }
 
         
