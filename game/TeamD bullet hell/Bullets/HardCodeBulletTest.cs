@@ -43,7 +43,7 @@ namespace TeamD_bullet_hell.Bullets
 
         int postionX = 70;
 
-        public HardCodeBulletTest(Texture2D texture)
+        public HardCodeBulletTest(Texture2D texture,int windowWidth,int windowHeight)
         {
             this.textureOfBullet = texture;
 
@@ -51,6 +51,8 @@ namespace TeamD_bullet_hell.Bullets
             int yPosition = 0;
             int xPosition = 0;
             int deltaDegree = 0;
+            this.windowWidth = windowWidth;
+            this.windowHeight = windowHeight;
 
             Random rngNumber = new Random();
 

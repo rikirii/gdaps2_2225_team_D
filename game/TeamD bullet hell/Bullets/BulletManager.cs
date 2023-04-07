@@ -87,8 +87,9 @@ namespace TeamD_bullet_hell.Bullets
         public void Reset(Texture2D texture)
         {
             //temp
-            //HardCodeBulletTest test = new HardCodeBulletTest(texture);
             // bulletList = test.BulletList;
+            //HardCodeBulletTest test = new HardCodeBulletTest(texture, windowWidth, windowHeight);
+            
             this.bulletArray = new Bullet[11, 11];
             this.bulletList = new List<Bullet>();
             currentGameTime = 0;
@@ -104,7 +105,7 @@ namespace TeamD_bullet_hell.Bullets
         public void LoadBulletFile(Texture2D texture, string filename)
         {
             //temp
-            //HardCodeBulletTest test = new HardCodeBulletTest(texture);
+            //HardCodeBulletTest test = new HardCodeBulletTest(texture, windowWidth, windowHeight);
             //bulletList = test.BulletList;
 
             float spawnTime = 1;
@@ -138,7 +139,7 @@ namespace TeamD_bullet_hell.Bullets
                             //IN NEW RECTANGLE, THE X AND Y VARIABLES
 
                             bulletArray[i, j] = new Bullet(90, new Rectangle(position, 0,
-                                100, 100), texture, 10, spawnTime, 1920, 1080);
+                                100, 100), texture, 10, spawnTime, windowWidth, windowHeight);
 
                         }
                         else if (char.Parse(row[j]) == '-')
