@@ -41,6 +41,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         //Added a counter to prevent constant reset call in game over state
         internal bool resetCounter;
 
+        //to test out the system so be set to 1 
+        private int LevelCount =3;
+
         /// <summary>
         /// Update current game state in gameplay object
         /// </summary>
@@ -187,13 +190,15 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                     player.Update(gameTime);
 
-                    bulletMgr.Update(gameTime);
+                    //test here only open bullet level 1
+                    bulletMgr.Update(gameTime, LevelCount);
 
                     //Collision Logic
 
                     if (!this.godModeEnabled)
                     {
-                        foreach (Bullet bullet in bulletMgr.BulletList)
+                        //only do the level 1 here
+                        foreach (Bullet bullet in bulletMgr.LevelBulletList[LevelCount-1])
                         {
                             if (player.Intersects(bullet))
                             {
@@ -258,7 +263,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                     player.Draw(spriteBatch);
 
-                    bulletMgr.Draw(spriteBatch);
+                    //test here only open bullet level 1
+                    bulletMgr.Draw(spriteBatch, LevelCount);
 
                     break;
 
