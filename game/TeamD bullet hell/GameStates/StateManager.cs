@@ -265,6 +265,9 @@ namespace TeamD_bullet_hell.GameStates
                     {
                         gameplay.ResetCounter = true;
                         gameplay.Reset();
+                        gameplay.UserUnderstand = false;
+                        
+                        
                     }
                     
                     buttonMgr.Update(gameTime, currentGameState);

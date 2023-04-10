@@ -647,8 +647,9 @@ namespace TeamD_bullet_hell.ButtonsManager
                     if (gameOverButtons[1].IsClicked)
                     {
                         this.Restart = !this.Restart;
-                        stateMgr.CurrentGameState = stateMgr.PreviousGameState;
-                        this.currentGameState = stateMgr.PreviousGameState;
+                        stateMgr.NextGameState = stateMgr.PreviousGameState;
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction ;
                     }
                     break;
 
