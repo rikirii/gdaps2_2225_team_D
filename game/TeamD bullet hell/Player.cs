@@ -68,20 +68,20 @@ namespace TeamD_bullet_hell
             KeyboardState currentKBState = Keyboard.GetState();
 
             //movement if statements
-            if (currentKBState.IsKeyDown(Keys.Up))
+            if (currentKBState.IsKeyDown(Keys.Up) || currentKBState.IsKeyDown(Keys.W) )
             {
                 this.position.Y -= 10;
             }
-            if (currentKBState.IsKeyDown(Keys.Down))
+            if (currentKBState.IsKeyDown(Keys.Down) || currentKBState.IsKeyDown(Keys.S) )
             {
                 this.position.Y += 10;
             }
 
-            if (currentKBState.IsKeyDown(Keys.Left))
+            if (currentKBState.IsKeyDown(Keys.Left) || currentKBState.IsKeyDown(Keys.A) )
             {
                 this.position.X -= 10;
             }
-            if (currentKBState.IsKeyDown(Keys.Right))
+            if (currentKBState.IsKeyDown(Keys.Right) || currentKBState.IsKeyDown(Keys.D) )
             {
                 this.position.X += 10;
             }

@@ -111,7 +111,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                                 buttonOutline,
                                 false);
             CreateSelectLvlButton(graphics, buttonOutline);
-            CreateInfinityButton(graphics);
+            //CreateInfinityButton(graphics);
             CreateLeaderBoardButton(graphics, buttonOutline);
             CreateGameOverButton(graphics, buttonOutline);
             CreateSettingButtons(graphics, buttonOutline);
@@ -194,13 +194,15 @@ namespace TeamD_bullet_hell.ButtonsManager
 
         /// <summary>
         /// creates the necessary buttons for create infinity button
+        /// 
+        /// ***this method might be deleted temp hold -RY
         /// </summary>
         /// <param name="graphics"></param>
         internal void CreateInfinityButton(GraphicsDeviceManager graphics)
         {
             infinityButtons = new List<Button>();
 
-            infinityButtons.Add(backButton);
+            
 
             //add left click event to all buttons in infinity list
             foreach (Button b in infinityButtons)
@@ -376,10 +378,10 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                 case GameState.Infinity:
 
-                    foreach (Button buttons in infinityButtons)
-                    {
-                        buttons.Update(gameTime);
-                    }
+                    //foreach (Button buttons in infinityButtons)
+                    //{
+                    //    buttons.Update(gameTime);
+                    //}
 
                     break;
 
@@ -455,10 +457,10 @@ namespace TeamD_bullet_hell.ButtonsManager
                 case GameState.Infinity:
 
 
-                    foreach (Button buttons in infinityButtons)
-                    {
-                        buttons.Draw(spriteBatch);
-                    }
+                    //foreach (Button buttons in infinityButtons)
+                    //{
+                    //    buttons.Draw(spriteBatch);
+                    //}
 
                     break;
 
@@ -565,11 +567,11 @@ namespace TeamD_bullet_hell.ButtonsManager
                 case GameState.Infinity:
 
                     //temp back button click
-                    if (infinityButtons[0].IsClicked)
-                    {
-                        stateMgr.CurrentGameState = GameState.Menu;
-                        this.currentGameState = GameState.Menu;
-                    }
+                    //if (infinityButtons[0].IsClicked)
+                    //{
+                    //    stateMgr.CurrentGameState = GameState.Menu;
+                    //    this.currentGameState = GameState.Menu;
+                    //}
                     break;
 
 
