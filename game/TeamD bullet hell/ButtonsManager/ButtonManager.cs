@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using TeamD_bullet_hell.GameStates;
+using Microsoft.Xna.Framework.Input;
 
 namespace TeamD_bullet_hell.ButtonsManager
 {
@@ -34,6 +35,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         private List<Button> gameOverButtons;
         private List<Button> settingButtons;
 
+
         //collection (dictionary) of fonts to use
         Dictionary<FontType, SpriteFont> fonts;
 
@@ -48,6 +50,9 @@ namespace TeamD_bullet_hell.ButtonsManager
             set { stateMgr = value; }
         }
 
+        /// <summary>
+        /// reference to screen manager for scaling (temp. maybe )-RY
+        /// </summary>
         public ScreenManager ScreenMgr
         {
             set
@@ -64,7 +69,21 @@ namespace TeamD_bullet_hell.ButtonsManager
             get;set;
         }
 
+        /// <summary>
+        /// mainly used for pause menu restart
+        /// </summary>
+        public bool Restart
+        {
+            get;set;
+        }
 
+        public GameState CurrentGameState
+        {
+            set
+            {
+                this.currentGameState = value;
+            }
+        }
 
         /// <summary>
         /// Button Manager Constructor
@@ -80,6 +99,7 @@ namespace TeamD_bullet_hell.ButtonsManager
             this.windowHeight = windowHeight;
 
             this.screenMgr = screenMgr;
+            this.Restart = false;
 
             //create buttons through methods
             CreateMenuButton(graphics, buttonOutline, fonts);
@@ -95,6 +115,8 @@ namespace TeamD_bullet_hell.ButtonsManager
             CreateLeaderBoardButton(graphics, buttonOutline);
             CreateGameOverButton(graphics, buttonOutline);
             CreateSettingButtons(graphics, buttonOutline);
+            CreatePauseMenuButton(graphics, buttonOutline);
+
 
         }
 
@@ -212,7 +234,40 @@ namespace TeamD_bullet_hell.ButtonsManager
         /// <param name="buttonOutline">the button outline when mouse hover</param>
         internal void CreatePauseMenuButton(GraphicsDeviceManager graphics, Texture2D buttonOutline)
         {
+            pauseButtons = new List<Button>();
 
+            Button mainMenu = new Button(graphics.GraphicsDevice,
+                                new Rectangle((windowWidth / 2) - buttonOutline.Width / 2, 342, buttonOutline.Width, buttonOutline.Height / 3),
+                                "Main Menu",
+                                fonts[FontType.Button],
+                                Color.DarkGray,
+                                buttonOutline,
+                                false);
+
+            Button restart = new Button(graphics.GraphicsDevice,
+                                    new Rectangle(mainMenu.Position.X, mainMenu.Position.Y + (buttonOutline.Height + 10), mainMenu.Position.Width, mainMenu.Position.Height),
+                                    "Restart",
+                                    fonts[FontType.Button],
+                                    Color.DarkGray,
+                                    buttonOutline,
+                                    false);
+
+            Button resume = new Button(graphics.GraphicsDevice,
+                                    new Rectangle(restart.Position.X, restart.Position.Y + (buttonOutline.Height + 10), mainMenu.Position.Width, mainMenu.Position.Height),
+                                    "Resume",
+                                    fonts[FontType.Button],
+                                    Color.LightCyan,
+                                    buttonOutline,
+                                    false);
+
+            pauseButtons.Add(mainMenu);
+            pauseButtons.Add(restart) ;
+            pauseButtons.Add(resume) ;
+
+            foreach (Button b in pauseButtons)
+            {
+                b.OnLeftButtonClick += this.ButtonLeftClicked;
+            }
         }
 
         /// <summary>
@@ -224,7 +279,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         {
             gameOverButtons = new List<Button>();
 
-            backButton = new Button(graphics.GraphicsDevice,
+            Button backButton = new Button(graphics.GraphicsDevice,
                                 new Rectangle( (windowWidth/2) - buttonOutline.Width/2, (windowHeight - 10) - buttonOutline.Height, buttonOutline.Width, buttonOutline.Height / 3),
                                 "Return to Main Menu",
                                 fonts[FontType.Button],
@@ -340,6 +395,10 @@ namespace TeamD_bullet_hell.ButtonsManager
                
                 case GameState.Pause:
 
+                    foreach (Button buttons in pauseButtons)
+                    {
+                        buttons.Update(gameTime);
+                    }
                     break;
 
 
@@ -415,6 +474,10 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                 case GameState.Pause:
 
+                    foreach (Button buttons in pauseButtons)
+                    {
+                        buttons.Draw(spriteBatch);
+                    }
                     break;
 
 
@@ -452,6 +515,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         //leaderBoardButtons = [backbutton]
         //gameOverButtons = [return to main menu, retry]
         //settingButtons = [godmode, back]
+        //pauseButtons = [return to menu, restart, resume]
 
         /// <summary>
         /// switch current game state when button are clicked.
@@ -461,21 +525,25 @@ namespace TeamD_bullet_hell.ButtonsManager
             switch (currentGameState)
             {
                 case GameState.Menu:
+                    //select lvl click
                     if (menuButtons[0].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.Levels;
                         this.currentGameState = GameState.Levels;
                     }
+                    //infinity click
                     if (menuButtons[1].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.Infinity;
                         this.currentGameState = GameState.Infinity;
                     }
+                    //leaderboard clicked
                     if (menuButtons[2].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.LeaderBoard;
                         this.currentGameState = GameState.LeaderBoard;
                     }
+                    //setting clicked
                     if (menuButtons[3].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.Setting;
@@ -483,7 +551,9 @@ namespace TeamD_bullet_hell.ButtonsManager
                     }
                     break;
 
+
                 case GameState.Levels:
+                    //backbutton clicked
                     if (levelsButtons[0].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.Menu;
@@ -491,8 +561,10 @@ namespace TeamD_bullet_hell.ButtonsManager
                     }
                     break;
 
+
                 case GameState.Infinity:
 
+                    //temp back button click
                     if (infinityButtons[0].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.Menu;
@@ -502,6 +574,7 @@ namespace TeamD_bullet_hell.ButtonsManager
 
 
                 case GameState.LeaderBoard:
+                    //backbutton clicked
                     if (leaderBoardButtons[0].IsClicked)
                     {
                         stateMgr.CurrentGameState = GameState.Menu;
@@ -509,7 +582,34 @@ namespace TeamD_bullet_hell.ButtonsManager
                     }
                     break;
 
+
                 case GameState.Pause:
+
+                    //main menu clicked
+                    if (pauseButtons[0].IsClicked)
+                    {
+                        
+                        stateMgr.CurrentGameState = GameState.Menu;
+                        this.currentGameState= GameState.Menu;
+                        this.Restart = !this.Restart;
+                    }
+
+                    //if restart
+                    if (pauseButtons[1].IsClicked)
+                    {
+                        this.Restart = !this.Restart;
+                        stateMgr.CurrentGameState = stateMgr.PreviousGameState;
+                        this.currentGameState = stateMgr.PreviousGameState;
+                        this.stateMgr.ToResume = true;
+                    }
+
+                    //if resume back to gameplay
+                    if (pauseButtons[2].IsClicked)
+                    {
+                        stateMgr.currentGameState = stateMgr.PreviousGameState;
+                        this.currentGameState = stateMgr.PreviousGameState;
+                        stateMgr.ToResume = true;
+                    }
                     break;
 
 

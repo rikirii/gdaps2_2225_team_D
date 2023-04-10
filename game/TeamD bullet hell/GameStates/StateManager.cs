@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +28,12 @@ namespace TeamD_bullet_hell.GameStates
 
         //Track current Gamestate
         internal GameState currentGameState;
+
+        //track previous keyboard state
+        private KeyboardState prevKBState;
+
+        //pause coolDown
+        private bool pauseCD;
 
         //Managers
         private TitleScreen mainMenu;
@@ -83,7 +88,21 @@ namespace TeamD_bullet_hell.GameStates
             }
         }
 
+        public bool ToResume
+        {
+            get
+            {
+                return !gameplay.IsPause;
+            }
+            set
+            {
+                this.gameplay.IsPause = !value; 
+            }
+        }
 
+        /// <summary>
+        /// reference to screen manager for rescaling (temp, maybe)-RY
+        /// </summary>
         public ScreenManager ScreenMgr
         { get { return this.screenMgr; } } 
 
@@ -146,8 +165,15 @@ namespace TeamD_bullet_hell.GameStates
             switch (currentGameState)
             {
                 case GameState.Menu:
-                    
+
+                    if (!gameplay.NewStart)
+                    {
+                        gameplay.NewStart = true;
+                    }
+                    gameplay.resetCounter = false;
+
                     buttonMgr.Update(gameTime, currentGameState);
+
 
                     break;
 
@@ -157,6 +183,7 @@ namespace TeamD_bullet_hell.GameStates
                     buttonMgr.Update(gameTime, currentGameState);
 
                     break;
+
 
 
                 case GameState.Infinity:
@@ -170,6 +197,11 @@ namespace TeamD_bullet_hell.GameStates
 
                     buttonMgr.Update(gameTime, currentGameState);
 
+                    if (gameplay.IsPause)
+                    {
+                        this.currentGameState = GameState.Pause;
+                        this.pauseCD = true;
+                    }
                     break;
 
 
@@ -182,6 +214,25 @@ namespace TeamD_bullet_hell.GameStates
 
 
                 case GameState.Pause:
+
+                    gameplay.Update(gameTime);
+                    buttonMgr.Update(gameTime, currentGameState);
+
+
+                    if (buttonMgr.Restart)
+                    {
+                        gameplay.Reset();
+
+                        if (this.currentGameState != GameState.Menu)
+                        {
+                            this.currentGameState = gameplay.PreviousGameState;
+
+                        }
+                        this.buttonMgr.Restart = !this.buttonMgr.Restart;  
+                    }
+                    
+
+                    
 
                     break;
 
@@ -254,7 +305,11 @@ namespace TeamD_bullet_hell.GameStates
 
 
                 case GameState.Pause:
+                    gameplay.Draw(spriteBatch);                   
 
+                    spriteBatch.DrawString(fontsCollection[FontType.Title], "Pause Menu", new Vector2(850, 214), Color.Black);
+
+                    buttonMgr.Draw(spriteBatch);
                     break;
 
 

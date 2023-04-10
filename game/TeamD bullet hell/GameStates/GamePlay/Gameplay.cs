@@ -14,6 +14,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
         private bool gameOver;
 
+        //input fields
+        private KeyboardState prevKBState;
+
         //background assets
         internal Dictionary<GameState, Texture2D> wallpapers;
         internal Dictionary<FontType, SpriteFont> fonts;
@@ -41,8 +44,29 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         //Added a counter to prevent constant reset call in game over state
         internal bool resetCounter;
 
+        //pause counter or variable
+        private bool isPause;
+
         //to test out the system so be set to 1 
         private int LevelCount =3;
+
+        //instruction screen
+        private bool userUnderstand;
+        private bool newStart;
+
+
+        /// <summary>
+        /// to track whether to pull up the instruction screen or not
+        /// </summary>
+        public bool NewStart
+        {
+            get { return newStart; }
+            set 
+            { 
+                newStart = value;
+                userUnderstand = !value;
+            }
+        }
 
         /// <summary>
         /// Update current game state in gameplay object
@@ -68,6 +92,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             
         }
 
+        public KeyboardState PreviousKB
+        {
+            get
+            {
+                return prevKBState;
+            }
+        }
+
         /// <summary>
         /// track if gameover for other managers
         /// </summary>
@@ -77,6 +109,17 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             set { gameOver = value; }
         }
 
+        public bool IsPause
+        {
+            get
+            {
+                return this.isPause;
+            }
+            set
+            {
+                this.isPause = value;
+            }
+        }
 
         /// <summary>
         /// Track isgodmode status
@@ -121,12 +164,15 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.wallpapers = wallpapers;
             this.fonts = fonts;
             this.spriteCollection = spriteCollection;
+            this.userUnderstand = false;
+            this.newStart = true;
 
             this.ScreenMgr = screenMgr;
 
             this.godModeEnabled = false;
             this.gameOver = false;
             this.resetCounter = false;
+            this.isPause = false;
 
             this.bulletMgr = new BulletManager(_graphics, windowWidth, windowHeight, spriteCollection);
 
@@ -150,16 +196,19 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         {
             //reset player position
 
-            player.X = windowHeight - player.Y;
-            player.Y = windowWidth / 2 - player.Position.Width / 2;
+            player.X = windowWidth /2;
+            player.Y = windowHeight - player.Position.Height;
 
             //reset the bullet 
             bulletMgr.Reset(spriteCollection[Entity.Bullet]);
 
             this.gameOver = false;
             this.player.Lives = 3;
+            this.isPause = false;
 
-            this.resetCounter = false;
+            
+
+            
         }
 
 
@@ -186,45 +235,68 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Infinity:
 
-                    
-
-                    player.Update(gameTime);
-
-                    //test here only open bullet level 1
-                    bulletMgr.Update(gameTime, LevelCount);
-
-                    //Collision Logic
-
-                    if (!this.godModeEnabled)
+                    if (newStart && !userUnderstand)
                     {
-                        //only do the level 1 here
-                        foreach (Bullet bullet in bulletMgr.LevelBulletList[LevelCount-1])
+                        if (Keyboard.GetState().IsKeyDown(Keys.Enter) )
                         {
-                            if (player.Intersects(bullet))
-                            {
-                                player.Lives -= 1;
-                            }
+                            newStart = !newStart;
+                            userUnderstand = !userUnderstand;
                         }
                     }
-
-                    if (player.Lives <= 0)
+                    if (!newStart && userUnderstand)
                     {
-                        previousGameState = this.currentGameState;
-                        gameOver = !gameOver;
-                        currentGameState = GameState.GameOver;
+                        KeyboardState kbState = Keyboard.GetState();
+
+                        if (kbState.IsKeyDown(Keys.Escape) && prevKBState.IsKeyUp(Keys.Escape))
+                        {
+                            previousGameState = this.currentGameState;
+                            this.isPause = true;
+                            this.currentGameState = GameState.Pause;
+
+                        }
+                        this.prevKBState = kbState;
+
+                        if (!isPause)
+                        {
+                            player.Update(gameTime);
+
+                            //test here only open bullet level 1
+                            bulletMgr.Update(gameTime, LevelCount);
+
+                            //Collision Logic
+
+                            if (!this.godModeEnabled)
+                            {
+                                //only do the level 1 here
+                                foreach (Bullet bullet in bulletMgr.LevelBulletList[LevelCount - 1])
+                                {
+                                    if (player.Intersects(bullet))
+                                    {
+                                        player.Lives -= 1;
+                                    }
+                                }
+                            }
+
+                            if (player.Lives <= 0)
+                            {
+                                previousGameState = this.currentGameState;
+                                gameOver = !gameOver;
+                                currentGameState = GameState.GameOver;
+                            }
+
+
+                        }
                     }
+                    
+
+                    
 
                     break;
-
-
-                case GameState.LeaderBoard:
-
-                    break;
-
 
 
                 case GameState.Pause:
 
+                    
                     break;
 
 
@@ -257,25 +329,29 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
-                    spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    if (newStart && !userUnderstand)
+                    {
+                        
 
-                    spriteBatch.DrawString(fonts[FontType.Button], string.Format("Lives: {0}", player.Lives), new Vector2(10, 100), Color.White);
+                    }
+                    else if (!newStart && userUnderstand)
+                    {
+                        spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
-                    player.Draw(spriteBatch);
+                        spriteBatch.DrawString(fonts[FontType.Button], string.Format("Lives: {0}", player.Lives), new Vector2(10, 100), Color.White);
 
-                    //test here only open bullet level 1
-                    bulletMgr.Draw(spriteBatch, LevelCount);
+                        player.Draw(spriteBatch);
+
+                        //test here only open bullet level 1
+                        bulletMgr.Draw(spriteBatch, LevelCount);
+                    }
 
                     break;
-
-
-                case GameState.LeaderBoard:
-
-                    break;
-
 
 
                 case GameState.Pause:
+                    
+
 
                     break;
 

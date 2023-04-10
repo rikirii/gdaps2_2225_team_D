@@ -174,8 +174,6 @@ namespace TeamD_bullet_hell
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
             this.currentGameState = stateMgr.CurrentGameState;
 
@@ -184,8 +182,11 @@ namespace TeamD_bullet_hell
             {
                 case GameState.Menu:
 
-
                     stateMgr.Update(gameTime);
+
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
+
 
                     break;
 
@@ -212,7 +213,9 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.Pause:
+                    stateMgr.Update(gameTime);
 
+                    
                     break;
 
 
@@ -284,26 +287,6 @@ namespace TeamD_bullet_hell
 
                     
 
-                    //draw the bullet
-
-                    //foreach (Bullet bullet in bulletList)
-                    //{
-                    //    bullet.Draw(_spriteBatch);
-                    //} 
-
-                    //COLLISION CODE COMMENTED OUT FOR NOW
-                    /*Collision Logic + Bullet Drawing
-                    foreach (Bullet bullet in bulletList)// print all squares
-                    {
-                        bullet.Draw(_spriteBatch);
-                        if (myPlayer.Intersects(bullet) == true)
-                        {
-                            currentGameState = GameState.Menu;
-                        }
-                    } */
-
-
-
 
                     break;
 
@@ -321,6 +304,9 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.Pause:
+                    GraphicsDevice.Clear(Color.Gray);
+
+                    stateMgr.Draw(_spriteBatch);
                     break;
 
 
