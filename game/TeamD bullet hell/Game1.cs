@@ -130,6 +130,7 @@ namespace TeamD_bullet_hell
             leaderBoardImage = Content.Load<Texture2D>("../Content/Background/leaderboard");
             gameBackground = Content.Load<Texture2D>("../Content/Background/gameBackground");
             gameOverImage = Content.Load<Texture2D>("../Content/Background/gameOver");
+            Texture2D instruction = Content.Load<Texture2D>("../Content/Background/instruction");
 
             //loading button textures
             buttonOutline = Content.Load<Texture2D>("../Content/ButtonAssets/buttonOutline");
@@ -149,6 +150,7 @@ namespace TeamD_bullet_hell
             wallpapers.Add(GameState.LeaderBoard, leaderBoardImage);
             wallpapers.Add(GameState.Gameplay, gameBackground);
             wallpapers.Add(GameState.GameOver, gameOverImage);
+            wallpapers.Add(GameState.Instruction, instruction);
 
             //Adding font types to dictionary. Use key(FontType) to get reference of the spritefont
             fontsCollection.Add(FontType.Title, titleFont);
@@ -190,6 +192,10 @@ namespace TeamD_bullet_hell
 
                     break;
 
+                case GameState.Instruction:
+                    stateMgr.Update(gameTime);
+
+                    break;
 
                 case GameState.Levels:
 
@@ -265,6 +271,13 @@ namespace TeamD_bullet_hell
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 260), Color.Red);
+                    break;
+
+
+
+                case GameState.Instruction:
+                    stateMgr.Draw(_spriteBatch);
+
                     break;
 
 

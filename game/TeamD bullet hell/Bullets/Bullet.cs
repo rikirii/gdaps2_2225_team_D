@@ -22,11 +22,15 @@ namespace TeamD_bullet_hell
         //the size and the postion 
         private Rectangle positionAndSize;
 
+        //original for reuse
+        private Rectangle positionOG;
+
         private double velocity;
         private float directionInDegrees;
 
         private double spawnTime;
         private double spawnTimer;
+
 
         //when shouldRemove = true remove the bullet
         private bool upDateTheBall;
@@ -35,10 +39,32 @@ namespace TeamD_bullet_hell
         // direction represented by angle in radians
         private double angleInRadians = 0;
 
+        //get button position and size reference
         public Rectangle Position
         {
             get { return positionAndSize; }
             set { positionAndSize = value; }
+        }
+
+        //get the original position
+        public Rectangle OGPosition
+        {
+            get
+            {
+                return positionOG;
+            }
+        }
+
+        public bool OutOfScreen
+        {
+            get
+            {
+                return OutScreen;
+            }
+            set
+            {
+                OutScreen = value;
+            }
         }
 
         /// <summary>
@@ -74,7 +100,10 @@ namespace TeamD_bullet_hell
             //Commenting all of this out in order to try putting the file IO in the constructor
             //It can be changed later if need be - Jarin 
             this.directionInDegrees = directionInDegrees;
+
             this.positionAndSize = positionAndSize;
+            this.positionOG = new Rectangle (positionAndSize.X, positionAndSize.Y, positionAndSize.Width, positionAndSize.Height);
+
             this.textureOfBullet = textureOfBullet;
             this.velocity = velocity;
             this.windowHeight = windowHeight;
@@ -118,11 +147,13 @@ namespace TeamD_bullet_hell
 
 
                 //mark the bullet to be removed if it move out side the screen
-                if (positionAndSize.X < -200 || (positionAndSize.X + positionAndSize.Width) > windowWidth+100 ||
-                    positionAndSize.Y < -200 || (positionAndSize.Y + positionAndSize.Height) > windowWidth+100)
+                if (positionAndSize.X < -200 || (positionAndSize.X + positionAndSize.Width) > windowWidth ||
+                    positionAndSize.Y < -200 || (positionAndSize.Y + positionAndSize.Height) > windowWidth)
                 {
                     OutScreen = true;
                     upDateTheBall = false;
+
+                    this.positionAndSize = new Rectangle(this.positionOG.X, this.positionOG.Y, this.positionOG.Width, this.positionOG.Height);
                 }
             }
         }

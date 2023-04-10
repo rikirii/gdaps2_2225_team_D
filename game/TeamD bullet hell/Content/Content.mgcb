@@ -49,6 +49,18 @@
 /processorParam:TextureFormat=Color
 /build:Background/gameOver.png
 
+#begin Background/instruction.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background/instruction.png
+
 #begin Background/leaderboard.png
 /importer:TextureImporter
 /processor:TextureProcessor

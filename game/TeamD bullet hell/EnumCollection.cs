@@ -12,6 +12,7 @@ namespace TeamD_bullet_hell
         Levels,
         Infinity,
         Gameplay,
+        Instruction,
         Pause,
         LeaderBoard,
         GameOver,

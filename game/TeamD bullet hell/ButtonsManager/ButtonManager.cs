@@ -29,7 +29,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         //list of buttons to organize buttons per game state
         private List<Button> menuButtons;
         private List<Button> levelsButtons;
-        private List<Button> infinityButtons;
+        private List<Button> instructionButton;
         private List<Button> leaderBoardButtons;
         private List<Button> pauseButtons;
         private List<Button> gameOverButtons;
@@ -111,7 +111,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                                 buttonOutline,
                                 false);
             CreateSelectLvlButton(graphics, buttonOutline);
-            //CreateInfinityButton(graphics);
+            CreateInstructionButton(graphics);
             CreateLeaderBoardButton(graphics, buttonOutline);
             CreateGameOverButton(graphics, buttonOutline);
             CreateSettingButtons(graphics, buttonOutline);
@@ -193,19 +193,19 @@ namespace TeamD_bullet_hell.ButtonsManager
         }
 
         /// <summary>
-        /// creates the necessary buttons for create infinity button
+        /// creates the necessary buttons for create instruction state button
         /// 
         /// ***this method might be deleted temp hold -RY
         /// </summary>
         /// <param name="graphics"></param>
-        internal void CreateInfinityButton(GraphicsDeviceManager graphics)
+        internal void CreateInstructionButton(GraphicsDeviceManager graphics)
         {
-            infinityButtons = new List<Button>();
+            instructionButton = new List<Button>();
 
-            
+            instructionButton.Add(backButton);
 
             //add left click event to all buttons in infinity list
-            foreach (Button b in infinityButtons)
+            foreach (Button b in instructionButton)
             {
                 b.OnLeftButtonClick += this.ButtonLeftClicked;
             }
@@ -368,6 +368,14 @@ namespace TeamD_bullet_hell.ButtonsManager
                     break;
 
 
+                case GameState.Instruction:
+                    foreach (Button buttons in instructionButton)
+                    {
+                        buttons.Update(gameTime);
+                    }
+                    break;
+
+
                 case GameState.Levels:
                     foreach (Button buttons in levelsButtons)
                     {
@@ -378,10 +386,10 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                 case GameState.Infinity:
 
-                    //foreach (Button buttons in infinityButtons)
-                    //{
-                    //    buttons.Update(gameTime);
-                    //}
+                    foreach (Button buttons in instructionButton)
+                    {
+                        buttons.Update(gameTime);
+                    }
 
                     break;
 
@@ -444,6 +452,16 @@ namespace TeamD_bullet_hell.ButtonsManager
                     break;
 
 
+                case GameState.Instruction:
+
+                    foreach (Button buttons in instructionButton)
+                    {
+                        buttons.Draw(spriteBatch);
+                    }
+
+                    break;
+
+
                 case GameState.Levels:
 
 
@@ -457,10 +475,10 @@ namespace TeamD_bullet_hell.ButtonsManager
                 case GameState.Infinity:
 
 
-                    //foreach (Button buttons in infinityButtons)
-                    //{
-                    //    buttons.Draw(spriteBatch);
-                    //}
+                    foreach (Button buttons in instructionButton)
+                    {
+                        buttons.Draw(spriteBatch);
+                    }
 
                     break;
 
@@ -536,8 +554,9 @@ namespace TeamD_bullet_hell.ButtonsManager
                     //infinity click
                     if (menuButtons[1].IsClicked)
                     {
-                        stateMgr.CurrentGameState = GameState.Infinity;
-                        this.currentGameState = GameState.Infinity;
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
+                        stateMgr.NextGameState = GameState.Infinity;
                     }
                     //leaderboard clicked
                     if (menuButtons[2].IsClicked)
@@ -564,14 +583,14 @@ namespace TeamD_bullet_hell.ButtonsManager
                     break;
 
 
-                case GameState.Infinity:
+                case GameState.Instruction:
 
                     //temp back button click
-                    //if (infinityButtons[0].IsClicked)
-                    //{
-                    //    stateMgr.CurrentGameState = GameState.Menu;
-                    //    this.currentGameState = GameState.Menu;
-                    //}
+                    if (instructionButton[0].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Menu;
+                        this.currentGameState = GameState.Menu;
+                    }
                     break;
 
 
@@ -627,6 +646,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                     //retry the last played level
                     if (gameOverButtons[1].IsClicked)
                     {
+                        this.Restart = !this.Restart;
                         stateMgr.CurrentGameState = stateMgr.PreviousGameState;
                         this.currentGameState = stateMgr.PreviousGameState;
                     }

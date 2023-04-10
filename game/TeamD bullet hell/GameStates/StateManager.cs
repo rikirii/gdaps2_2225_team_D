@@ -63,6 +63,12 @@ namespace TeamD_bullet_hell.GameStates
             {
                 return gameplay.PreviousGameState;
             }
+            
+        }
+
+        public GameState NextGameState
+        {
+            get;set;
         }
 
         /// <summary>
@@ -166,10 +172,7 @@ namespace TeamD_bullet_hell.GameStates
             {
                 case GameState.Menu:
 
-                    if (!gameplay.NewStart)
-                    {
-                        gameplay.NewStart = true;
-                    }
+                    
                     gameplay.resetCounter = false;
 
                     buttonMgr.Update(gameTime, currentGameState);
@@ -177,6 +180,18 @@ namespace TeamD_bullet_hell.GameStates
 
                     break;
 
+
+                case GameState.Instruction:
+                    gameplay.Update(gameTime);
+
+                    buttonMgr.Update(gameTime, currentGameState);
+
+                    if ( gameplay.UserUnderstand)
+                    {
+                        this.currentGameState = this.NextGameState;
+                    }
+
+                    break;
 
                 case GameState.Levels:
 
@@ -274,6 +289,12 @@ namespace TeamD_bullet_hell.GameStates
 
                     buttonMgr.Draw(spriteBatch);
 
+                    break;
+
+
+                case GameState.Instruction:
+                    gameplay.Draw(spriteBatch);
+                    buttonMgr.Draw(spriteBatch);
                     break;
 
 

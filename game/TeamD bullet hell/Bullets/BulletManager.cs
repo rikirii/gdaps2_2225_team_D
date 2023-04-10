@@ -19,7 +19,8 @@ namespace TeamD_bullet_hell.Bullets
     /// </summary>
     internal class BulletManager
     {
-
+        //random
+        private Random rng;
 
         //Current game state
         internal GameState currentGameState;
@@ -50,6 +51,20 @@ namespace TeamD_bullet_hell.Bullets
         private List<string> fileNameList;
         private string fileName;
 
+        //to test out the system so be set to 1 
+        private int lvlCount;
+
+        //to keep track when the bullet list is used up
+        private int bulletCount;
+
+        //to track and determine which/when to reset the bullet in the list.
+        private int bulletUsed;
+        private List<Bullet> prevBulletList;
+        
+
+        //if current list has finished
+        private bool listFinished;
+
         /// <summary>
         /// get the bullet of all the level
         /// </summary>
@@ -58,6 +73,10 @@ namespace TeamD_bullet_hell.Bullets
             get { return levelBulletList; }
         }
 
+        public List<Bullet> CurrentBulletList
+        {
+            get;set;
+        }
 
         /// <summary>
         /// Get reference to screen manager to use rescale
@@ -86,7 +105,12 @@ namespace TeamD_bullet_hell.Bullets
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
             this.entityAssests = entityAssests;
-            
+            this.listFinished = false;
+            this.bulletCount = 0;
+
+            this.prevBulletList = null;
+
+            this.rng = new Random();
   
             levelBulletList = new List<List<Bullet>>();
             r = new Random();
@@ -133,7 +157,7 @@ namespace TeamD_bullet_hell.Bullets
             double spawnTime = 0;
 
 
-            //only 5 levle for now
+            //only 5 level for now
             for (int levelCount=0;levelCount<5;levelCount++)
             {
                 //reset the list and the spawnTime
@@ -220,7 +244,7 @@ namespace TeamD_bullet_hell.Bullets
                     //also the bullet here will prevent the list to be null and cause problem
                     //reset the list to get ride of previous data
                     tempBulletList = (new List<Bullet>());
-                    tempBulletList.Add(new Bullet(90, new Rectangle(100, 100, 100, 100), texture, 10, 0, windowWidth, windowHeight));
+                    tempBulletList.Add(new Bullet(90, new Rectangle(windowWidth/2, windowHeight/2, 100, 100), texture, 10, 0, windowWidth, windowHeight));
                    
                     System.Diagnostics.Debug.WriteLine("Cant find the file!" + e.Message);
                 }
@@ -245,12 +269,21 @@ namespace TeamD_bullet_hell.Bullets
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="levelNumber"></param>
-        public void Update(GameTime gameTime, int levelNumber)
+        public void Update(GameTime gameTime)
         {
-            //get the bullet list for the level
-            List<Bullet> tempBulletList = new List<Bullet>();
-            tempBulletList = LevelBulletList[levelNumber-1];
+            if (bulletCount == 0 )
+            {
+                //get the bullet list for the level
 
+                this.lvlCount = rng.Next(0, this.levelBulletList.Count - 1);
+
+                this.CurrentBulletList = levelBulletList[this.lvlCount];
+
+                this.bulletCount = CurrentBulletList.Count;
+
+                
+            }
+            
 
             switch (currentGameState)
             {
@@ -263,9 +296,25 @@ namespace TeamD_bullet_hell.Bullets
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-                    foreach (Bullet bullet in tempBulletList)
+                    for ( int bullet = 0; bullet < this.CurrentBulletList.Count; bullet ++)
                     {
-                        bullet.Update(currentGameTime);
+                        CurrentBulletList[bullet].Update(currentGameTime);
+                        
+                        if(CurrentBulletList[bullet].OutScreen)
+                        {
+                            bulletCount--;
+                            bulletUsed++;
+                        }
+
+                        //if (prevBulletList != null)
+                        //{
+                        //    prevBulletList[bullet].OutScreen = false;
+                        //}
+                    }
+
+                    if (bulletCount == 0)
+                    {
+                        prevBulletList = this.CurrentBulletList;
                     }
 
                     break;
@@ -282,12 +331,12 @@ namespace TeamD_bullet_hell.Bullets
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="levelNumber"></param>
-        public void Draw(SpriteBatch spriteBatch,int levelNumber)
+        public void Draw(SpriteBatch spriteBatch)
         {
 
             //get the bullet list for the level
-            List<Bullet> tempBulletList = new List<Bullet>();
-            tempBulletList = LevelBulletList[levelNumber-1];
+            //List<Bullet> tempBulletList = new List<Bullet>();
+            //tempBulletList = LevelBulletList[lvlCount-1];
 
             switch (currentGameState)
             {
@@ -297,7 +346,7 @@ namespace TeamD_bullet_hell.Bullets
 
                 case GameState.Infinity:
 
-                    foreach (Bullet bullet in tempBulletList)
+                    foreach (Bullet bullet in this.CurrentBulletList)
                     {
                         bullet.Draw(spriteBatch);
                     }

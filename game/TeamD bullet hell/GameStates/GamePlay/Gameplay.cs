@@ -47,8 +47,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         //pause counter or variable
         private bool isPause;
 
-        //to test out the system so be set to 1 
-        private int LevelCount =3;
+        
 
         //instruction screen
         private bool userUnderstand;
@@ -58,13 +57,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// <summary>
         /// to track whether to pull up the instruction screen or not
         /// </summary>
-        public bool NewStart
+        public bool UserUnderstand
         {
-            get { return newStart; }
+            get { return userUnderstand; }
             set 
             { 
-                newStart = value;
-                userUnderstand = !value;
+                userUnderstand = value;
             }
         }
 
@@ -164,8 +162,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             this.wallpapers = wallpapers;
             this.fonts = fonts;
             this.spriteCollection = spriteCollection;
+
             this.userUnderstand = false;
-            this.newStart = true;
+
 
             this.ScreenMgr = screenMgr;
 
@@ -225,6 +224,18 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             //Switch taht determines which button to update
             switch (currentGameState)
             {
+                case GameState.Instruction:
+
+                    KeyboardState currentKbState = Keyboard.GetState();
+
+                    if (currentKbState.IsKeyDown(Keys.Enter) && prevKBState.IsKeyUp(Keys.Enter) )
+                    {
+                        userUnderstand = true;
+                    }
+
+                    this.prevKBState = currentKbState;
+
+                    break;
 
                 case GameState.Levels:
 
@@ -235,15 +246,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Infinity:
 
-                    if (newStart && !userUnderstand)
-                    {
-                        if (Keyboard.GetState().IsKeyDown(Keys.Enter) )
-                        {
-                            newStart = !newStart;
-                            userUnderstand = !userUnderstand;
-                        }
-                    }
-                    if (!newStart && userUnderstand)
+                   
+                    if (userUnderstand)
                     {
                         KeyboardState kbState = Keyboard.GetState();
 
@@ -261,14 +265,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                             player.Update(gameTime);
 
                             //test here only open bullet level 1
-                            bulletMgr.Update(gameTime, LevelCount);
+                            bulletMgr.Update(gameTime);
 
                             //Collision Logic
 
                             if (!this.godModeEnabled)
                             {
                                 //only do the level 1 here
-                                foreach (Bullet bullet in bulletMgr.LevelBulletList[LevelCount - 1])
+                                foreach (Bullet bullet in bulletMgr.CurrentBulletList)
                                 {
                                     if (player.Intersects(bullet))
                                     {
@@ -320,6 +324,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             //Switch taht determines which button to update
             switch (currentGameState)
             {
+                case GameState.Instruction:
+
+                    spriteBatch.Draw(wallpapers[GameState.Instruction], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    break;
 
                 case GameState.Levels:
 
@@ -329,22 +337,15 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
-                    if (newStart && !userUnderstand)
-                    {
-                        
+                    spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
-                    }
-                    else if (!newStart && userUnderstand)
-                    {
-                        spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    spriteBatch.DrawString(fonts[FontType.Button], string.Format("Lives: {0}", player.Lives), new Vector2(10, 100), Color.White);
 
-                        spriteBatch.DrawString(fonts[FontType.Button], string.Format("Lives: {0}", player.Lives), new Vector2(10, 100), Color.White);
+                    player.Draw(spriteBatch);
 
-                        player.Draw(spriteBatch);
+                    //test here only open bullet level 1
+                    bulletMgr.Draw(spriteBatch);
 
-                        //test here only open bullet level 1
-                        bulletMgr.Draw(spriteBatch, LevelCount);
-                    }
 
                     break;
 
