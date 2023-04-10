@@ -178,6 +178,7 @@ namespace TeamD_bullet_hell.GameStates
                     if (gameplay.UserUnderstand)
                     {
                         gameplay.UserUnderstand = false;
+                        gameplay.Reset();
                     }
 
                     buttonMgr.Update(gameTime, currentGameState);
