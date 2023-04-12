@@ -182,7 +182,7 @@ namespace TeamD_bullet_hell.Bullets
                     {
                         //read a line every single row
                         line = input.ReadLine();
-                        System.Diagnostics.Debug.WriteLine(line);
+                        //System.Diagnostics.Debug.WriteLine(line);
                         //this will replace all the space in the file
                         line = Regex.Replace(line, @"\s+", "");
                         //reset the variable we are going to use
@@ -271,18 +271,7 @@ namespace TeamD_bullet_hell.Bullets
         /// <param name="levelNumber"></param>
         public void Update(GameTime gameTime)
         {
-            if (bulletCount == 0 )
-            {
-                //get the bullet list for the level
-
-                this.lvlCount = rng.Next(0, this.levelBulletList.Count - 1);
-
-                this.CurrentBulletList = levelBulletList[this.lvlCount];
-
-                this.bulletCount = CurrentBulletList.Count;
-
-                
-            }
+           
             
 
             switch (currentGameState)
@@ -296,25 +285,25 @@ namespace TeamD_bullet_hell.Bullets
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-                    for ( int bullet = 0; bullet < this.CurrentBulletList.Count; bullet ++)
-                    {
-                        CurrentBulletList[bullet].Update(currentGameTime);
-                        
-                        if(CurrentBulletList[bullet].OutScreen)
-                        {
-                            bulletCount--;
-                            bulletUsed++;
-                        }
-
-                        //if (prevBulletList != null)
-                        //{
-                        //    prevBulletList[bullet].OutScreen = false;
-                        //}
-                    }
-
                     if (bulletCount == 0)
                     {
-                        prevBulletList = this.CurrentBulletList;
+                        //get the bullet list for the level
+                        Reset(entityAssests[0]);
+                        this.lvlCount = rng.Next(0, this.levelBulletList.Count - 1);
+
+                        this.CurrentBulletList = levelBulletList[this.lvlCount];
+
+                        this.bulletCount = CurrentBulletList.Count;
+
+
+                    }
+                    foreach (Bullet bullet in CurrentBulletList)
+                    {
+                        bullet.Update(currentGameTime);
+                        if(bullet.OutScreen)
+                        {
+                            bulletCount--;
+                        }
                     }
 
                     break;

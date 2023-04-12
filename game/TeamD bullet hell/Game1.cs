@@ -76,11 +76,12 @@ namespace TeamD_bullet_hell
         {
             // TODO: Add your initialization logic here
 
-            //_graphics.PreferredBackBufferWidth = 1280;
-            //_graphics.PreferredBackBufferHeight = 720;
+            //use this resolution to test. only switch back to 1080p after everything is working OKAY
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
 
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
+            //_graphics.PreferredBackBufferWidth = 1920;
+            //_graphics.PreferredBackBufferHeight = 1080;
             //_graphics.IsFullScreen = true; //fullscreen (not recommended -RY)
 
             //this will make window size auto scale to current monitor's size
