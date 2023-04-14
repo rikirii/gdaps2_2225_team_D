@@ -160,6 +160,7 @@ namespace TeamD_bullet_hell.Bullets
             //only 5 level for now
             for (int levelCount=0;levelCount<5;levelCount++)
             {
+                this.lvlCount= levelCount;
                 //reset the list and the spawnTime
                 tempBulletList = (new List<Bullet>());
                 levelBulletList.Add(new List<Bullet>());
@@ -244,9 +245,9 @@ namespace TeamD_bullet_hell.Bullets
                     //also the bullet here will prevent the list to be null and cause problem
                     //reset the list to get ride of previous data
                     tempBulletList = (new List<Bullet>());
-                    tempBulletList.Add(new Bullet(90, new Rectangle(windowWidth/2, windowHeight/2, 100, 100), texture, 10, 0, windowWidth, windowHeight));
+                    tempBulletList.Add(new Bullet(90, new Rectangle(windowWidth/2, 20, 100, 100), texture, 10, 0, windowWidth, windowHeight));
                    
-                    System.Diagnostics.Debug.WriteLine("Cant find the file!" + e.Message);
+                    //System.Diagnostics.Debug.WriteLine("Cant find the file!" + e.Message);
                 }
 
                 //save the current list into the list of 
@@ -285,25 +286,11 @@ namespace TeamD_bullet_hell.Bullets
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-                    if (bulletCount == 0)
-                    {
-                        //get the bullet list for the level
-                        Reset(entityAssests[0]);
-                        this.lvlCount = rng.Next(0, this.levelBulletList.Count - 1);
-
-                        this.CurrentBulletList = levelBulletList[this.lvlCount];
-
-                        this.bulletCount = CurrentBulletList.Count;
-
-
-                    }
+                    int currentLevel = r.Next(0,lvlCount);
+                    CurrentBulletList = levelBulletList[currentLevel];
                     foreach (Bullet bullet in CurrentBulletList)
                     {
                         bullet.Update(currentGameTime);
-                        if(bullet.OutScreen)
-                        {
-                            bulletCount--;
-                        }
                     }
 
                     break;

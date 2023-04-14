@@ -277,12 +277,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                                     if (player.Intersects(bullet))
                                     {
                                         player.Lives -= 1;
+                                        
                                     }
                                 }
                             }
 
                             if (player.Lives <= 0)
                             {
+                                
                                 previousGameState = this.currentGameState;
                                 gameOver = !gameOver;
                                 currentGameState = GameState.GameOver;

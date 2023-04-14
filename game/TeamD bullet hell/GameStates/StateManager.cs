@@ -263,7 +263,7 @@ namespace TeamD_bullet_hell.GameStates
 
                     if (!gameplay.ResetCounter)
                     {
-                        gameplay.ResetCounter = true;
+                        //gameplay.ResetCounter = true;
                         gameplay.Reset();
                         gameplay.UserUnderstand = false;
                         
