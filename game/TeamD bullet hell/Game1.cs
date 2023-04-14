@@ -77,8 +77,8 @@ namespace TeamD_bullet_hell
             // TODO: Add your initialization logic here
 
             //use this resolution to test. only switch back to 1080p after everything is working OKAY
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
 
             //_graphics.PreferredBackBufferWidth = 1920;
             //_graphics.PreferredBackBufferHeight = 1080;

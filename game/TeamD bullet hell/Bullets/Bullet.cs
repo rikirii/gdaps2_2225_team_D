@@ -34,7 +34,7 @@ namespace TeamD_bullet_hell
 
         //when shouldRemove = true remove the bullet
         private bool upDateTheBall;
-        public bool OutScreen { get; set; }
+        private bool outScreen;
 
         // direction represented by angle in radians
         private double angleInRadians = 0;
@@ -54,18 +54,11 @@ namespace TeamD_bullet_hell
                 return positionOG;
             }
         }
+        
+        //allow the bullet MAnager to check when to reset
+        public bool UpDateTheBall { get { return upDateTheBall; } }
+        public bool OutScreen { get { return outScreen; } }
 
-        public bool OutOfScreen
-        {
-            get
-            {
-                return OutScreen;
-            }
-            set
-            {
-                OutScreen = value;
-            }
-        }
 
         /// <summary>
         /// Property that gets the X position of the Rectangle
@@ -81,8 +74,8 @@ namespace TeamD_bullet_hell
         //    get { return positionAndSize.Y; }
         //    set { positionAndSize.Y = value; }
         //}
-       
-        
+
+
 
 
         /// <summary>
@@ -119,7 +112,16 @@ namespace TeamD_bullet_hell
 
             //when this is true remove the bullet
             upDateTheBall = false;
-            OutScreen = false;
+            outScreen = false;
+        }
+        /// <summary>
+        /// reset the bulle
+        /// </summary>
+        public void Reset()
+        {
+            upDateTheBall = false;
+            outScreen = false;
+            this.positionAndSize =new Rectangle( positionOG.X, positionOG.Y, positionOG.Width, positionOG.Height);
         }
 
         public void Update(float currentGameTime)
@@ -127,7 +129,7 @@ namespace TeamD_bullet_hell
             spawnTimer = currentGameTime;
 
             // whe it reach the spawn time and the bullet is in the screen
-            if (upDateTheBall== false&& OutScreen == false)
+            if (upDateTheBall== false&& outScreen == false)
             {
                 //when reach the spawn time 
                 if(spawnTimer>= spawnTime)
@@ -137,8 +139,6 @@ namespace TeamD_bullet_hell
             }
             else if (upDateTheBall == true)
             {
-                /////////////////////////////////////////////
-                ///Some Problem here with the correct angle calculation
                 Vector2 velocityVector = new Vector2((float)(velocity * Math.Cos(angleInRadians)), (float)(velocity * Math.Sin(angleInRadians)));
 
                 //change the position over the time depend on the speed
@@ -147,10 +147,10 @@ namespace TeamD_bullet_hell
 
 
                 //mark the bullet to be removed if it move out side the screen
-                if (positionAndSize.X < -200 || (positionAndSize.X + positionAndSize.Width) > windowWidth ||
-                    positionAndSize.Y < -200 || (positionAndSize.Y + positionAndSize.Height) > windowWidth)
+                if (positionAndSize.X < -300 || (positionAndSize.X + positionAndSize.Width) > windowWidth ||
+                    positionAndSize.Y < -300 || (positionAndSize.Y + positionAndSize.Height) > windowWidth)
                 {
-                    OutScreen = true;
+                    outScreen = true;
                     upDateTheBall = false;
 
                     this.positionAndSize = new Rectangle(this.positionOG.X, this.positionOG.Y, this.positionOG.Width, this.positionOG.Height);
@@ -167,7 +167,6 @@ namespace TeamD_bullet_hell
                 spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
             }
            
-            //spriteBatch.Draw(textureOfBullet, positionAndSize, Color.White);
         }
 
         
