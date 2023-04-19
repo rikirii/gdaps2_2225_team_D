@@ -61,24 +61,6 @@ namespace TeamD_bullet_hell
 
 
         /// <summary>
-        /// Property that gets the X position of the Rectangle
-        ///// </summary>
-        //public int PositionX
-        //{
-        //    get { return positionAndSize.X; }
-        //    set { positionAndSize.X = value; }
-        //}
-        //
-        //public int PositionY
-        //{
-        //    get { return positionAndSize.Y; }
-        //    set { positionAndSize.Y = value; }
-        //}
-
-
-
-
-        /// <summary>
         /// Pls use float for the direction because the method that convert degree into radius only take in float
         /// </summary>
         /// <param name="positionAndSize"></param>

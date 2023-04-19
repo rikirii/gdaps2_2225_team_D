@@ -106,8 +106,8 @@ namespace TeamD_bullet_hell.Bullets
             this.entityAssests = entityAssests;
             this.bulletCount = 0;
 
-            this.bulletSizeX = 80;
-            this.bulletSizeY = 80;
+            this.bulletSizeX = 70;
+            this.bulletSizeY = 70;
 
 
             this.rng = new Random();
@@ -135,19 +135,44 @@ namespace TeamD_bullet_hell.Bullets
             LoadBulletFile(texture);
 
         }
-
+        
+        /// <summary>
+        /// help to reload the level when the level was played during infinty mode 
+        /// </summary>
         public void LoadLevelForInfinity()
         {
             //reset
             bulletCount = 0;
             CurrentBulletList = null;
             Reset(entityAssests[Entity.Bullet]);
-            
+            //check the miss file to prevent only one bullet appear in the infinity mode
+            CheckMissingLevelFile();
+
+
             int currentLevel = r.Next(0, lvlCount);
-            CurrentBulletList = levelBulletList[currentLevel];
+            CurrentBulletList = levelBulletList[currentLevel]
             bulletCount = CurrentBulletList.Count;
         }
 
+        /// <summary>
+        /// It will kick the level with the single special bullet when we cant find the file
+        /// </summary>
+        /// <returns></returns>
+        public void CheckMissingLevelFile()
+        {
+            int count = levelBulletList.Count();
+            for (int i=0; i < count;i++)
+            {
+                //if the file have the special bullet it is mean we cant find that level file
+                if (levelBulletList[i][0] == new Bullet(90, new Rectangle(windowWidth / 2, 20, bulletSizeX, bulletSizeY), entityAssests[Entity.Bullet], 10, 0, windowWidth, windowHeight))
+                {
+                    levelBulletList.RemoveAt(i);
+                    i--;
+                }
+            }
+            //update the counts
+            this.lvlCount = levelBulletList.Count;
+        }
 
         /// <summary>
         /// The load bullet file will load in all the level (from 1-5 for now) at once and save each level into LevelBulletList
@@ -316,9 +341,10 @@ namespace TeamD_bullet_hell.Bullets
                         {
                             CurrentBulletList.Remove(CurrentBulletList[i]);
                             bulletUsed++;
-                            System.Diagnostics.Debug.WriteLine(bulletCount);
+                            //System.Diagnostics.Debug.WriteLine(bulletCount);
                         }
                     }
+                    //if the bullet are all used then reset the level
                     if(bulletUsed>= bulletCount)
                     {
                         
@@ -326,15 +352,8 @@ namespace TeamD_bullet_hell.Bullets
                         bulletUsed = 0;
 
                     }
-
-
                     break;
-
-
-
             }
-
-
         }
 
         /// <summary>
@@ -357,7 +376,6 @@ namespace TeamD_bullet_hell.Bullets
                     {
                         bullet.Draw(spriteBatch);
                     }
-
 
                     break;
 
