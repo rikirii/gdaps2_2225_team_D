@@ -32,6 +32,9 @@ namespace TeamD_bullet_hell.Bullets
         internal int windowWidth;
         internal int windowHeight;
 
+        internal int bulletSizeX;
+        internal int bulletSizeY;
+
         //bullets assests
         internal Dictionary<Entity, Texture2D> entityAssests;
 
@@ -102,6 +105,9 @@ namespace TeamD_bullet_hell.Bullets
             this.windowHeight = windowHeight;
             this.entityAssests = entityAssests;
             this.bulletCount = 0;
+
+            this.bulletSizeX = 80;
+            this.bulletSizeY = 80;
 
 
             this.rng = new Random();
@@ -233,7 +239,7 @@ namespace TeamD_bullet_hell.Bullets
                                 //IN NEW RECTANGLE, THE X AND Y VARIABLES
 
                                 tempBulletList.Add(new Bullet(angle, new Rectangle(position, 0,
-                                    100, 100), texture, velocity, spawnTime = spawnTime + deltaSpawTime, windowWidth, windowHeight));
+                                    bulletSizeX, bulletSizeY), texture, velocity, spawnTime = spawnTime + deltaSpawTime, windowWidth, windowHeight));
                                 //System.Diagnostics.Debug.WriteLine(deltaSpawTime);
                             }
                             else if (char.Parse(row[j]) == '-')
@@ -253,7 +259,7 @@ namespace TeamD_bullet_hell.Bullets
                     //also the bullet here will prevent the list to be null and cause problem
                     //reset the list to get ride of previous data
                     tempBulletList = (new List<Bullet>());
-                    tempBulletList.Add(new Bullet(90, new Rectangle(windowWidth/2, 20, 100, 100), texture, 10, 0, windowWidth, windowHeight));
+                    tempBulletList.Add(new Bullet(90, new Rectangle(windowWidth/2, 20, bulletSizeX, bulletSizeY), texture, 10, 0, windowWidth, windowHeight));
                    
                     //System.Diagnostics.Debug.WriteLine("Cant find the file!" + e.Message);
                 }
