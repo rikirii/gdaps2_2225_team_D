@@ -150,7 +150,7 @@ namespace TeamD_bullet_hell.Bullets
 
 
             int currentLevel = r.Next(0, lvlCount);
-            CurrentBulletList = levelBulletList[currentLevel]
+            CurrentBulletList = levelBulletList[currentLevel];
             bulletCount = CurrentBulletList.Count;
         }
 
