@@ -41,6 +41,11 @@ namespace TeamD_bullet_hell
         private Texture2D buttonOutline;
 
 
+        //test for the animation on background 
+        private List<Texture2D> backGroundList;
+        private Texture2D placeHolderTexture;
+
+
         //field that tracks the gameState
         GameState currentGameState;
 
@@ -50,9 +55,7 @@ namespace TeamD_bullet_hell
         KeyboardState KBstate;
         KeyboardState prevKBstate;
 
-        //timer for the bullet
-        float deltaTime = 0f;
-        float currentGameTime = 0f;
+       
 
         //Declare state manager (important where all states/screen are managed)
         private StateManager stateMgr;
@@ -103,12 +106,15 @@ namespace TeamD_bullet_hell
             buttonAssets = new Dictionary<ButtonAssets, Texture2D>();
 
             //size and position rescaler
-            
+
 
 
 
             //makes bullet list to track # of bullet (temp location -RY)
-            
+
+
+
+           backGroundList = new List<Texture2D>();
 
             base.Initialize();
         }
@@ -144,6 +150,7 @@ namespace TeamD_bullet_hell
             playerShip = Content.Load<Texture2D>("../Content/playerAsset/ship");
 
 
+
             //testing ********************
 
             //Adding wallpaper to dictionary. Use key(GameState) to get reference of the wallpaper to use
@@ -166,11 +173,19 @@ namespace TeamD_bullet_hell
             spriteCollection.Add(Entity.Bullet, greenCircleBullet);
 
 
+            //test reading in all the image in the backGround 
+            for (int i = 0; i < 200; i++)
+            {
+                placeHolderTexture = backButtonPNG = Content.Load<Texture2D>($"../Content/Background/AnimatedBackground/no ({i + 1})");
+                backGroundList.Add(placeHolderTexture);
+            }
+
             //load Game State Manager
-            stateMgr = new StateManager(_graphics, this.windowWidth, this.windowHeight, wallpapers, fontsCollection, spriteCollection, buttonAssets);
+            stateMgr = new StateManager(_graphics, this.windowWidth, this.windowHeight, wallpapers, fontsCollection, spriteCollection, buttonAssets,backGroundList);
 
             stateMgr.ButtonMgr.StateMgr = this.stateMgr;
 
+            
             
 
         }

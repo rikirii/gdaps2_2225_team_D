@@ -47,7 +47,12 @@ namespace TeamD_bullet_hell.GameStates
         private Dictionary<Entity, Texture2D> spriteCollection;
         private Dictionary<ButtonAssets, Texture2D> buttonAssets;
 
+        private List<Texture2D> backGroundList;
 
+        public List<Texture2D> BackGroundList
+        {
+            get { return backGroundList; }
+        }
         /// <summary>
         /// Track and Update Current Game State
         /// </summary>
@@ -123,7 +128,8 @@ namespace TeamD_bullet_hell.GameStates
         /// <param name="spriteCollection">Dictionary(collection) of all sprite's texture</param>
         /// <param name="buttonAssets">Dictionary(collection) of all button's parts/assets</param>
         public StateManager(GraphicsDeviceManager graphics, int screenWidth, int screenHeight, 
-                            Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> spriteCollection, Dictionary<ButtonAssets, Texture2D> buttonAssets)
+                            Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> spriteCollection, Dictionary<ButtonAssets, Texture2D> buttonAssets,
+                            List<Texture2D> backGroundList)
         {
             this._graphics = graphics;
             this.windowWidth = screenWidth;
@@ -134,6 +140,8 @@ namespace TeamD_bullet_hell.GameStates
             this.spriteCollection= spriteCollection;
             this.buttonAssets = buttonAssets;
 
+            this.backGroundList = backGroundList;
+
             //set current gamestate to menu
             this.currentGameState = GameState.Menu;
 
@@ -141,11 +149,13 @@ namespace TeamD_bullet_hell.GameStates
 
             this.mainMenu = new TitleScreen(wallpapers[GameState.Menu], windowWidth, windowHeight, _graphics);
             this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton], fonts, this.screenMgr );
-            this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection, this.screenMgr);
+            this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection, this.screenMgr, this.backGroundList);
 
 
             this.gameplay.ScreenMgr = this.screenMgr;
             this.buttonMgr.ScreenMgr = this.screenMgr;
+
+            
 
         }
 
