@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TeamD_bullet_hell.Bullets;
@@ -48,12 +49,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         //pause counter or variable
         private bool isPause;
 
-        
 
         //instruction screen
         private bool userUnderstand;
         private bool newStart;
 
+        private List<Texture2D> backGroundList;
+        private float currentGameTime = 0;
+        private int frameNumber = 0;
 
         /// <summary>
         /// to track whether to pull up the instruction screen or not
@@ -155,7 +158,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         /// <param name="fonts">dictionary (collection) of all fonts</param>
         /// <param name="assets">dictionary (collection) of all assets</param>
         public Gameplay(GraphicsDeviceManager graphics, int windowWidth, int windowHeight, Dictionary<GameState, Texture2D> wallpapers, Dictionary<FontType, SpriteFont> fonts, Dictionary<Entity, Texture2D> spriteCollection, 
-                            ScreenManager screenMgr)
+                            ScreenManager screenMgr, List<Texture2D> backGroundList)
         {
             this._graphics = graphics;
             this.windowWidth = windowWidth;
@@ -182,11 +185,31 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             //create player object
             player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth / 2, windowHeight / 2, (100), (100)), windowWidth, windowHeight);
 
+            this.backGroundList = backGroundList;
 
             //first time startup, reset() will prepare everything needed.
             this.Reset();
 
             
+        }
+        /// <summary>
+        /// this method update the backgorud series 
+        /// </summary>
+        /// <returns></returns>
+        public void UpdateBackGround(GameTime gameTime)
+        {
+            currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
+            //loop through the background 
+            if(currentGameTime >=0.03)
+            {
+                currentGameTime = 0;
+                frameNumber++;
+                //when it reach the end 
+                if(frameNumber>=200)
+                {
+                    frameNumber = 0;
+                }
+            }
         }
 
         /// <summary>
@@ -267,6 +290,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                         {
                             player.Update(gameTime);
 
+                            UpdateBackGround(gameTime);
                             //test here only open bullet level 1
                             bulletMgr.Update(gameTime);
 
@@ -343,7 +367,12 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                 case GameState.Infinity:
-                    spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    //test the animateing backgroiund
+
+                    spriteBatch.Draw(backGroundList[frameNumber], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+
+
+                    //spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
                     spriteBatch.DrawString(fonts[FontType.Button], string.Format("Lives: {0}", player.Lives), new Vector2(10, 100), Color.White);
 

@@ -41,6 +41,7 @@ namespace TeamD_bullet_hell.Bullets
 
         //this store the bullet of all the level into different list
         private List<List<Bullet>> levelBulletList;
+        private List<Bullet> currentBulletList;
 
         //time managment? Gametime
         internal float currentGameTime;
@@ -74,7 +75,8 @@ namespace TeamD_bullet_hell.Bullets
 
         public List<Bullet> CurrentBulletList
         {
-            get;set;
+            get{ return currentBulletList; }
+            set{ currentBulletList = value; }
         }
 
         /// <summary>
@@ -116,8 +118,31 @@ namespace TeamD_bullet_hell.Bullets
             r = new Random();
             LoadBulletFile(entityAssests[Entity.Bullet]);
         }
-
-
+        /// <summary>
+        /// it reurn true whne there is no bullet on screne
+        /// </summary>
+        public bool NoBulletOnScreen(List<Bullet> bulletList)
+        {
+            //watch out! the number of bullet list will change so we need a total bullet NUmber
+            for (int i = 0; i < bulletList.Count; i++)
+            {
+                bulletList[i].Update(currentGameTime);
+                // if the bullet is no longer on screen
+                if (CurrentBulletList[i].OutScreen && !bulletList[i].UpDateTheBall)
+                {
+                    bulletList.Remove(bulletList[i]);
+                    bulletUsed++;
+                    //System.Diagnostics.Debug.WriteLine(bulletCount);
+                }
+            }
+            //if the bullet are all used then reset the level
+            if (bulletUsed >= bulletCount)
+            {                
+                bulletUsed = 0;
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// reset the bullet 
         /// </summary>
@@ -334,6 +359,13 @@ namespace TeamD_bullet_hell.Bullets
             switch (currentGameState)
             {
                 case GameState.Levels:
+
+                    //use NobulletOnScreen to help you find the situation when there is no bullet 
+
+                    // use NoBulletOnScreen to load the bullet level
+
+
+
                     break;
 
                 case GameState.Infinity:
@@ -349,27 +381,11 @@ namespace TeamD_bullet_hell.Bullets
                         CurrentBulletList = levelBulletList[0];
                     }
                     //cant use for each here other wise is one of the bullet move out of the screen it will keep add the bullet Used
-                    
-                    //watch out! the number of bullet list will change so we need a total bullet NUmber
-                    for (int i=0;i< CurrentBulletList.Count;i++)
+                    if(NoBulletOnScreen(CurrentBulletList))
                     {
-                        CurrentBulletList[i].Update(currentGameTime);
-                        // if the bullet is no longer on screen
-                        if(CurrentBulletList[i].OutScreen && !CurrentBulletList[i].UpDateTheBall)
-                        {
-                            CurrentBulletList.Remove(CurrentBulletList[i]);
-                            bulletUsed++;
-                            //System.Diagnostics.Debug.WriteLine(bulletCount);
-                        }
-                    }
-                    //if the bullet are all used then reset the level
-                    if(bulletUsed>= bulletCount)
-                    {
-                        
                         LoadLevelForInfinity();
-                        bulletUsed = 0;
-
                     }
+                    
                     break;
             }
         }
