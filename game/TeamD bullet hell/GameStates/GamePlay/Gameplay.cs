@@ -36,7 +36,8 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         private BulletManager bulletMgr;
 
         //Track the score based on time survived
-        private ulong scoreCounter = 999999999999999;
+        private int scoreCounter ;
+        private int printForScore;
 
         // Declare a boolean variable to keep track of whether god mode is enabled or disabled
         private bool godModeEnabled;
@@ -200,12 +201,14 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
             //reset the bullet 
             bulletMgr.Reset(spriteCollection[Entity.Bullet]);
+            
 
             this.gameOver = false;
             this.player.Lives = 3;
             this.isPause = false;
 
             
+            scoreCounter = 0;
 
             
         }
@@ -246,7 +249,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Infinity:
 
-                   
+                    scoreCounter += (int)((gameTime.ElapsedGameTime.TotalSeconds)*100);
                     if (userUnderstand)
                     {
                         KeyboardState kbState = Keyboard.GetState();
@@ -284,10 +287,11 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                             if (player.Lives <= 0)
                             {
-                                
+                                printForScore = scoreCounter;
                                 previousGameState = this.currentGameState;
                                 gameOver = !gameOver;
                                 currentGameState = GameState.GameOver;
+                                
                             }
 
 
@@ -364,7 +368,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
                     //important info with this. the drawstring for score is harded coded position.
-                    spriteBatch.DrawString(fonts[FontType.Title], "" + scoreCounter, new Vector2(435, 546), Color.White);
+                    spriteBatch.DrawString(fonts[FontType.Title], "" + printForScore, new Vector2(435, 546), Color.White);
 
                     
 
