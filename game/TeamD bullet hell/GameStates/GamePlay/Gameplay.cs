@@ -205,7 +205,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
 
             //create player object
-            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth / 2, windowHeight / 2, (100), (100)), windowWidth, windowHeight);
+            player = new Player(spriteCollection[Entity.Player], new Rectangle(windowWidth / 2, windowHeight / 2, (90), (90)), windowWidth, windowHeight);
 
             this.backGroundList = backGroundList;
 
