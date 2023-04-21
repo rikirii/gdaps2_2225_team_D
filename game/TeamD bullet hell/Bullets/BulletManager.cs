@@ -89,6 +89,12 @@ namespace TeamD_bullet_hell.Bullets
         }
 
 
+        public int Level
+        {
+            get;set;
+        }
+
+
         /// <summary>
         /// property to update currentGameState
         /// </summary>
@@ -364,7 +370,21 @@ namespace TeamD_bullet_hell.Bullets
 
                     // use NoBulletOnScreen to load the bullet level
 
+                    //for the timer of bullet to see is it the time to spawn the bullet
+                    //remenber to reset the time after each game ! No code for that right now
+                    currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
+                    //if nothing is in the bullet list now load in level 1
+                    if (CurrentBulletList == null)
+                    {
+                        bulletCount = levelBulletList[0].Count;
+                        CurrentBulletList = levelBulletList[0];
+                    }
+                    //cant use for each here other wise is one of the bullet move out of the screen it will keep add the bullet Used
+                    if (NoBulletOnScreen(CurrentBulletList))
+                    {
+                        LoadLevelMode( this.Level);
+                    }
 
                     break;
 
@@ -387,6 +407,9 @@ namespace TeamD_bullet_hell.Bullets
                     }
                     
                     break;
+
+
+                    
             }
         }
 
@@ -403,7 +426,10 @@ namespace TeamD_bullet_hell.Bullets
 
                 case GameState.Levels:
 
-
+                    foreach (Bullet bullet in this.CurrentBulletList)
+                    {
+                        bullet.Draw(spriteBatch);
+                    }
 
                     break;
 

@@ -94,6 +94,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             
         }
 
+        /// <summary>
+        /// idk if this is needed - RY
+        /// track previous keyboardstate
+        /// </summary>
         public KeyboardState PreviousKB
         {
             get
@@ -111,6 +115,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             set { gameOver = value; }
         }
 
+        /// <summary>
+        /// track pause status
+        /// </summary>
         public bool IsPause
         {
             get
@@ -136,16 +143,31 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             }
         }
 
+        /// <summary>
+        /// IDK IF THIS WILL BE USED - RY
+        /// get a screenmanager reference
+        /// </summary>
         public ScreenManager ScreenMgr
         {
             get;set;
             
         }
 
+        /// <summary>
+        /// track when to reset and when not to
+        /// </summary>
         public bool ResetCounter
         {
             get { return resetCounter; }
             set { resetCounter = value; }
+        }
+
+        /// <summary>
+        /// Which level file to use for level mode
+        /// </summary>
+        public int Level
+        {
+            get;set;
         }
 
         /// <summary>
@@ -223,6 +245,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
             player.Y = windowHeight - player.Position.Height;
 
             //reset the bullet 
+            //bulletMgr.currentGameState = GameState.Menu;
             bulletMgr.Reset(spriteCollection[Entity.Bullet]);
             
 
@@ -244,7 +267,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         public void Update(GameTime gameTime)
         {
             //updates currentgame state for bullet manager
-            bulletMgr.currentGameState = this.currentGameState;
+            //bulletMgr.currentGameState = this.currentGameState;
 
 
             //Switch taht determines which button to update
@@ -263,16 +286,31 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                     break;
 
+
                 case GameState.Levels:
 
                     
+                    bulletMgr.currentGameState = GameState.Levels;
+                    
+
 
                     break;
 
 
                 case GameState.Infinity:
 
-                    scoreCounter += (int)((gameTime.ElapsedGameTime.TotalSeconds)*100);
+                    
+                    bulletMgr.currentGameState = GameState.Infinity;
+                    this.currentGameState = GameState.Gameplay;
+
+
+                    
+
+                    break;
+
+
+                case GameState.Gameplay:
+                    scoreCounter += (int)((gameTime.ElapsedGameTime.TotalSeconds) * 100);
                     if (userUnderstand)
                     {
                         KeyboardState kbState = Keyboard.GetState();
@@ -292,6 +330,9 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                             UpdateBackGround(gameTime);
                             //test here only open bullet level 1
+
+                            bulletMgr.Level = this.Level;
+
                             bulletMgr.Update(gameTime);
 
                             //Collision Logic
@@ -304,7 +345,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                                     if (player.Intersects(bullet))
                                     {
                                         player.Lives -= 1;
-                                        
+
                                     }
                                 }
                             }
@@ -315,15 +356,13 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                                 previousGameState = this.currentGameState;
                                 gameOver = !gameOver;
                                 currentGameState = GameState.GameOver;
-                                
+
                             }
 
 
                         }
                     }
-                    
 
-                    
 
                     break;
 
@@ -366,7 +405,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     break;
 
 
-                case GameState.Infinity:
+                case GameState.Gameplay:
                     //test the animateing backgroiund
 
                     spriteBatch.Draw(backGroundList[frameNumber], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);

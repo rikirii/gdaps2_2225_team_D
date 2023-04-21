@@ -399,10 +399,10 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                 case GameState.Infinity:
 
-                    foreach (Button buttons in instructionButton)
-                    {
-                        buttons.Update(gameTime);
-                    }
+                    //foreach (Button buttons in instructionButton)
+                    //{
+                    //    buttons.Update(gameTime);
+                    //}
 
                     break;
 
@@ -488,10 +488,10 @@ namespace TeamD_bullet_hell.ButtonsManager
                 case GameState.Infinity:
 
 
-                    foreach (Button buttons in instructionButton)
-                    {
-                        buttons.Draw(spriteBatch);
-                    }
+                    //foreach (Button buttons in instructionButton)
+                    //{
+                    //    buttons.Draw(spriteBatch);
+                    //}
 
                     break;
 
@@ -594,10 +594,49 @@ namespace TeamD_bullet_hell.ButtonsManager
                         this.currentGameState = GameState.Menu;
                     }
 
-                    //level buttons
+                    //level 1
                     if (levelsButtons[1].IsClicked)
                     {
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
+                        stateMgr.NextGameState = GameState.Gameplay;
+                        stateMgr.Level = 1;
+                    }
 
+                    //level 2
+                    if (levelsButtons[2].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
+                        stateMgr.NextGameState = GameState.Gameplay;
+                        stateMgr.Level = 2;
+                    }
+
+                    //level 3
+                    if (levelsButtons[3].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
+                        stateMgr.NextGameState = GameState.Gameplay;
+                        stateMgr.Level = 3;
+                    }
+
+                    //level 4
+                    if (levelsButtons[4].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
+                        stateMgr.NextGameState = GameState.Gameplay;
+                        stateMgr.Level = 4;
+                    }
+
+                    //level 5
+                    if (levelsButtons[1].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
+                        stateMgr.NextGameState = GameState.Gameplay;
+                        stateMgr.Level = 5;
                     }
 
                     break;

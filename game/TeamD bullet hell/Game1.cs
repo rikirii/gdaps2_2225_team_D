@@ -221,11 +221,14 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.Infinity:
+                case GameState.Gameplay:
 
                     stateMgr.Update(gameTime);
                     
 
                     break;
+
+                
 
                 case GameState.LeaderBoard:
 
@@ -312,7 +315,7 @@ namespace TeamD_bullet_hell
 
 
                 //draws infinity screen
-                case GameState.Infinity:
+                case GameState.Gameplay:
                     GraphicsDevice.Clear(Color.Black);
 
                     //Background Commented Out Temporarily for playtesting (screen is just black)

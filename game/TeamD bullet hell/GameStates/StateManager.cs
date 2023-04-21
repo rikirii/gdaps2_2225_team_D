@@ -49,10 +49,16 @@ namespace TeamD_bullet_hell.GameStates
 
         private List<Texture2D> backGroundList;
 
+        /// <summary>
+        /// ????
+        /// </summary>
         public List<Texture2D> BackGroundList
         {
             get { return backGroundList; }
         }
+
+
+
         /// <summary>
         /// Track and Update Current Game State
         /// </summary>
@@ -62,6 +68,10 @@ namespace TeamD_bullet_hell.GameStates
             set { currentGameState = value; }
         }
 
+
+        /// <summary>
+        /// Store the previous game state for restarting purposes
+        /// </summary>
         public GameState PreviousGameState
         {
             get
@@ -71,13 +81,16 @@ namespace TeamD_bullet_hell.GameStates
             
         }
 
+        /// <summary>
+        /// store the next gamestate (mainly because of instructions before gameplay)
+        /// </summary>
         public GameState NextGameState
         {
             get;set;
         }
 
         /// <summary>
-        /// Get a reference of Button Manager
+        /// Get a reference of Button Manager from stateMgr
         /// </summary>
         public ButtonManager ButtonMgr
         {
@@ -99,6 +112,12 @@ namespace TeamD_bullet_hell.GameStates
             }
         }
 
+
+        /// <summary>
+        /// Property to manage when to resume gameplay
+        /// If pause is true, this is false
+        /// if this is true, pause is false
+        /// </summary>
         public bool ToResume
         {
             get
@@ -108,6 +127,17 @@ namespace TeamD_bullet_hell.GameStates
             set
             {
                 this.gameplay.IsPause = !value; 
+            }
+        }
+
+        /// <summary>
+        /// pass level # to gameplay's level property for bulletMgr
+        /// </summary>
+        public int Level
+        {
+            set
+            {
+                this.gameplay.Level = value;
             }
         }
 
@@ -213,13 +243,22 @@ namespace TeamD_bullet_hell.GameStates
 
                     gameplay.Update(gameTime);
                     buttonMgr.Update(gameTime, currentGameState);
+                    
+
 
                     break;
 
 
 
                 case GameState.Infinity:
+                    gameplay.Update(gameTime);
 
+                    this.currentGameState = gameplay.CurrentGameState;
+
+                    break;
+
+
+                case GameState.Gameplay:
                     gameplay.Update(gameTime);
 
                     if (gameplay.GameOver)
@@ -227,7 +266,7 @@ namespace TeamD_bullet_hell.GameStates
                         this.currentGameState = GameState.GameOver;
                     }
 
-                    buttonMgr.Update(gameTime, currentGameState);
+                    //buttonMgr.Update(gameTime, currentGameState);
 
                     if (gameplay.IsPause)
                     {
@@ -329,9 +368,18 @@ namespace TeamD_bullet_hell.GameStates
 
                 case GameState.Infinity:
 
+                    //gameplay.Draw(spriteBatch);
+
+                    //buttonMgr.Draw(spriteBatch);
+
+
+                    break;
+
+                case GameState.Gameplay:
+
                     gameplay.Draw(spriteBatch);
 
-                    buttonMgr.Draw(spriteBatch);
+                    //buttonMgr.Draw(spriteBatch);
 
 
                     break;
