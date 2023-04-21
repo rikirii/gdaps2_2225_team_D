@@ -245,7 +245,7 @@ namespace TeamD_bullet_hell
             else
             {
                 // Draw the button itself
-                spriteBatch.Draw(buttonImg, position, Color.Black);
+                spriteBatch.Draw(buttonImg, position, Color.White);
             }
             
 

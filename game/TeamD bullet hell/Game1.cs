@@ -276,13 +276,12 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
-                    MouseState mState = Mouse.GetState();
+                   
                     //this is for testing, looking for coords
                     //spriteBatch.DrawString(fonts[FontType.Button], string.Format("windowX: {0}," +
                     //    " windowY: {1} || mouse x: {2} mouse y: {3}", windowWidth, windowHeight, mState.X, mState.Y), new Vector2(10, 10), Color.White);
 
-                    _spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
-                        " windowY: {1} || mouse x: {2} mouse y: {3} | godMode: {4}", windowWidth, windowHeight, mState.X, mState.Y, stateMgr.IsGodMode), new Vector2(10, 10), Color.White);
+                    
 
                     //Making dividers for each level
                     //_spriteBatch.Draw(rectangle, new Vector2(375, 185), Color.Red);
@@ -300,9 +299,15 @@ namespace TeamD_bullet_hell
                 //draws levels screen
                 case GameState.Levels:
 
-                    GraphicsDevice.Clear(Color.DarkSlateBlue);
+                    GraphicsDevice.Clear(Color.MidnightBlue );
 
                     stateMgr.Draw(_spriteBatch);
+
+                    MouseState mState = Mouse.GetState();
+
+                    _spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
+                        " windowY: {1} || mouse x: {2} mouse y: {3} | godMode: {4}", windowWidth, windowHeight, mState.X, mState.Y, stateMgr.IsGodMode), new Vector2(10, 10), Color.White);
+
                     break;
 
 

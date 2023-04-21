@@ -185,6 +185,19 @@ namespace TeamD_bullet_hell.ButtonsManager
 
             levelsButtons.Add(backButton);
 
+            for (int i = 0; i < 5; i++)
+            {
+                levelsButtons.Add(new Button(graphics.GraphicsDevice,
+                                        new Rectangle( 155 + (255 * i + 60* i) , 361, 255, 235),
+                                        "Level " + (i + 1),
+                                        fonts[FontType.Button],
+                                        Color.DimGray,
+                                        buttonOutline,
+                                        false) );
+            }
+
+            
+
             //add left click event to all buttons in level list
             foreach (Button b in levelsButtons)
             {
@@ -530,7 +543,7 @@ namespace TeamD_bullet_hell.ButtonsManager
 
         //***update list when new buttons are added***
         //menuButtons = [selectLvl, infinity, leaderboard, setting]
-        //levelButtons = {backbutton]
+        //levelButtons = {backbutton, lvl1, lvl2, lvl3, lvl4, lvl5]
         //infinityButtons = [backbutton]
         //leaderBoardButtons = [backbutton]
         //gameOverButtons = [return to main menu, retry]
@@ -580,6 +593,13 @@ namespace TeamD_bullet_hell.ButtonsManager
                         stateMgr.CurrentGameState = GameState.Menu;
                         this.currentGameState = GameState.Menu;
                     }
+
+                    //level buttons
+                    if (levelsButtons[1].IsClicked)
+                    {
+
+                    }
+
                     break;
 
 

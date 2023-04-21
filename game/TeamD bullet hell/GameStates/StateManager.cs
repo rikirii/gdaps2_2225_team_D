@@ -211,6 +211,7 @@ namespace TeamD_bullet_hell.GameStates
 
                 case GameState.Levels:
 
+                    gameplay.Update(gameTime);
                     buttonMgr.Update(gameTime, currentGameState);
 
                     break;
