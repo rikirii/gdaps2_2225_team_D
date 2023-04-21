@@ -151,6 +151,7 @@ namespace TeamD_bullet_hell.Bullets
             if (bulletUsed >= bulletCount)
             {                
                 bulletUsed = 0;
+                currentGameTime = 0;
                 return true;
             }
             return false; 
@@ -168,6 +169,7 @@ namespace TeamD_bullet_hell.Bullets
             levelBulletList = new List<List<Bullet>>();
             currentGameTime = 0;
             bulletCount = 0;
+            bulletUsed = 0; 
             CurrentBulletList = null;
             LoadBulletFile(texture);
 
@@ -355,8 +357,8 @@ namespace TeamD_bullet_hell.Bullets
             }
             /////////////////////////////////////////////////////////////////////////// uncomment this for fun
             // //for some fun!!!!!
-            // HardCodeBulletTest hardCodeBulletTest = new HardCodeBulletTest(texture, windowWidth, windowHeight);
-            // levelBulletList[0] = hardCodeBulletTest.BulletList;
+            //HardCodeBulletTest hardCodeBulletTest = new HardCodeBulletTest(texture, windowWidth, windowHeight);
+            //levelBulletList[0] = hardCodeBulletTest.BulletList;
 
 
              

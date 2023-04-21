@@ -314,10 +314,10 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
-                    MouseState mState = Mouse.GetState();
+                    //MouseState mState = Mouse.GetState();
 
-                    _spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
-                        " windowY: {1} || mouse x: {2} mouse y: {3} | godMode: {4}", windowWidth, windowHeight, mState.X, mState.Y, stateMgr.IsGodMode), new Vector2(10, 10), Color.White);
+                    //_spriteBatch.DrawString(fontsCollection[FontType.Button], string.Format("windowX: {0}," +
+                    //    " windowY: {1} || mouse x: {2} mouse y: {3} | godMode: {4}", windowWidth, windowHeight, mState.X, mState.Y, stateMgr.IsGodMode), new Vector2(10, 10), Color.White);
 
                     break;
 
