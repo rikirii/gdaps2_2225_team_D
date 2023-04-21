@@ -18,6 +18,8 @@ namespace TeamD_bullet_hell
         protected int windowWidth;
         protected int windowHeight;
 
+        protected int speed = 10;
+
         //player stats
         private int lives;
 
@@ -60,30 +62,40 @@ namespace TeamD_bullet_hell
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
 
-            this.lives = 3;
+            this.lives = 1;
         }
 
         public void Update(GameTime gameTime)
         {
             KeyboardState currentKBState = Keyboard.GetState();
 
+            //press shift for slow mothion 
+            if (currentKBState.IsKeyDown(Keys.LeftShift)|| currentKBState.IsKeyDown(Keys.RightShift))
+            {
+                speed = 5;
+            }
+            else
+            {
+                speed = 10;
+            }
+
             //movement if statements
             if (currentKBState.IsKeyDown(Keys.Up) || currentKBState.IsKeyDown(Keys.W) )
             {
-                this.position.Y -= 10;
+                this.position.Y -= speed;
             }
             if (currentKBState.IsKeyDown(Keys.Down) || currentKBState.IsKeyDown(Keys.S) )
             {
-                this.position.Y += 10;
+                this.position.Y += speed;
             }
 
             if (currentKBState.IsKeyDown(Keys.Left) || currentKBState.IsKeyDown(Keys.A) )
             {
-                this.position.X -= 10;
+                this.position.X -= speed;
             }
             if (currentKBState.IsKeyDown(Keys.Right) || currentKBState.IsKeyDown(Keys.D) )
             {
-                this.position.X += 10;
+                this.position.X += speed;
             }
 
             //if and else ifs for screen lock

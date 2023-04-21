@@ -234,9 +234,7 @@ namespace TeamD_bullet_hell.Bullets
         /// <param name="texture"></param>
         public void LoadBulletFile(Texture2D texture)
         {
-            //temp
-            //HardCodeBulletTest test = new HardCodeBulletTest(texture, windowWidth, windowHeight);
-            //bulletList = test.BulletList;
+            
             StreamReader input = null;
             List<Bullet> tempBulletList = new List<Bullet>();
 
@@ -354,9 +352,17 @@ namespace TeamD_bullet_hell.Bullets
                 {
                     input.Close();
                 }
-            }   
+            }
+            /////////////////////////////////////////////////////////////////////////// uncomment this for fun
+            // //for some fun!!!!!
+            // HardCodeBulletTest hardCodeBulletTest = new HardCodeBulletTest(texture, windowWidth, windowHeight);
+            // levelBulletList[0] = hardCodeBulletTest.BulletList;
+
+
+             
+            
         }
-   
+
 
         /// <summary>
         /// 
