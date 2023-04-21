@@ -147,7 +147,7 @@ namespace TeamD_bullet_hell.Bullets
                 bulletUsed = 0;
                 return true;
             }
-            return false;
+            return false; 
         }
         /// <summary>
         /// reset the bullet 

@@ -597,6 +597,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                     //level 1
                     if (levelsButtons[1].IsClicked)
                     {
+                        
                         stateMgr.CurrentGameState = GameState.Instruction;
                         this.currentGameState = GameState.Instruction;
                         stateMgr.NextGameState = GameState.Gameplay;
