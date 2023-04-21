@@ -326,9 +326,13 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                        if(bulletMgr.ChangeState)
                        {
-                            //////////////////////////////////////////////////////////////////////////////////////////////
-                           this.currentGameState = GameState.Pause;
-                           bulletMgr.ChangeState = false;
+                            /////////////////////////////////////////////////////////////////////////////////////////////////////
+                            previousGameState = this.currentGameState;
+                            this.isPause = true;
+                            this.currentGameState = GameState.Pause;
+                            bulletMgr.ChangeState = false;
+                            bulletMgr.ChangeState = false;
+                            
                        }
 
                         if (!isPause)
