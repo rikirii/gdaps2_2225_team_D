@@ -425,7 +425,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 case GameState.Gameplay:
                     //test the animateing backgroiund
 
-                    spriteBatch.Draw(backGroundList[frameNumber], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    spriteBatch.Draw(backGroundList[frameNumber], new Rectangle(0, 0, windowWidth, windowHeight), Color.Gray);
 
 
                     //spriteBatch.Draw(wallpapers[GameState.Gameplay], new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
