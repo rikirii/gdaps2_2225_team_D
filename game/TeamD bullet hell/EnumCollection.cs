@@ -16,7 +16,8 @@ namespace TeamD_bullet_hell
         Pause,
         LeaderBoard,
         GameOver,
-        Setting
+        Setting,
+        Win
        
     }
 

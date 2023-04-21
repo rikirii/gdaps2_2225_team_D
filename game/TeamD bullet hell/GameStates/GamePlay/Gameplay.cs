@@ -324,16 +324,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                         }
                         this.prevKBState = kbState;
 
-                       if(bulletMgr.ChangeState)
-                       {
-                            /////////////////////////////////////////////////////////////////////////////////////////////////////
-                            previousGameState = this.currentGameState;
-                            this.isPause = true;
-                            this.currentGameState = GameState.Pause;
-                            bulletMgr.ChangeState = false;
-                            bulletMgr.ChangeState = false;
-                            
-                       }
+                       
 
                         if (!isPause)
                         {
@@ -370,6 +361,17 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                             }
 
+                            if (bulletMgr.ChangeState)
+                            {
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////
+                                previousGameState = this.currentGameState;
+                                //this.isPause = true;
+                                gameOver = !gameOver;
+                                this.currentGameState = GameState.Win;
+                                bulletMgr.ChangeState = false;
+
+                            }
+
 
                         }
                     }
@@ -387,6 +389,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 case GameState.GameOver:
 
 
+                    break;
+
+
+                case GameState.Win:
                     break;
             }
 
@@ -452,6 +458,10 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                     
 
 
+                    break;
+
+                case GameState.Win:
+                    spriteBatch.Draw(wallpapers[GameState.Win], new Rectangle(0,0, windowWidth, windowHeight), Color.White);
                     break;
             }
 

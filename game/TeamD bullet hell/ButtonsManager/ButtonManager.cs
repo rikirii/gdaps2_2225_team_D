@@ -33,6 +33,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         private List<Button> leaderBoardButtons;
         private List<Button> pauseButtons;
         private List<Button> gameOverButtons;
+        private List<Button> winButtons;
         private List<Button> settingButtons;
 
 
@@ -114,6 +115,7 @@ namespace TeamD_bullet_hell.ButtonsManager
             CreateInstructionButton(graphics);
             CreateLeaderBoardButton(graphics, buttonOutline);
             CreateGameOverButton(graphics, buttonOutline);
+            CreateWinButton(graphics, buttonOutline);
             CreateSettingButtons(graphics, buttonOutline);
             CreatePauseMenuButton(graphics, buttonOutline);
 
@@ -271,7 +273,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                                     new Rectangle(restart.Position.X, restart.Position.Y + (buttonOutline.Height + 10), mainMenu.Position.Width, mainMenu.Position.Height),
                                     "Resume",
                                     fonts[FontType.Button],
-                                    Color.LightCyan,
+                                    Color.DarkCyan,
                                     buttonOutline,
                                     false);
 
@@ -320,6 +322,44 @@ namespace TeamD_bullet_hell.ButtonsManager
             }
 
         }
+
+
+        /// <summary>
+        /// create the buttons necessary for the win screen
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="buttonOutline">the button outline when mouse hover</param>
+        internal void CreateWinButton(GraphicsDeviceManager graphics, Texture2D buttonOutline)
+        {
+            winButtons = new List<Button>();
+
+            Button backButton = new Button(graphics.GraphicsDevice,
+                                new Rectangle((windowWidth / 2) - buttonOutline.Width / 2, (windowHeight - 10) - buttonOutline.Height, buttonOutline.Width, buttonOutline.Height / 3),
+                                "Return to Main Menu",
+                                fonts[FontType.Button],
+                                Color.Black,
+                                buttonOutline,
+                                false);
+
+            Button reTry = new Button(graphics.GraphicsDevice,
+                                    new Rectangle(backButton.Position.X, backButton.Position.Y - (buttonOutline.Height + 10), backButton.Position.Width, backButton.Position.Height),
+                                    "Retry",
+                                    fonts[FontType.Button],
+                                    Color.Black,
+                                    buttonOutline,
+                                    false);
+
+
+            winButtons.Add(backButton);
+            winButtons.Add(reTry);
+
+            foreach (Button b in winButtons)
+            {
+                b.OnLeftButtonClick += this.ButtonLeftClicked;
+            }
+
+        }
+
 
         /// <summary>
         /// 
@@ -434,6 +474,17 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                     break;
 
+
+                case GameState.Win:
+
+                    foreach (Button buttons in winButtons)
+                    {
+                        buttons.Update(gameTime);
+                    }
+
+                    break;
+
+
                 case GameState.Setting:
 
                     foreach (Button buttons in settingButtons)
@@ -523,6 +574,17 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                     break;
 
+
+                case GameState.Win:
+
+                    foreach (Button buttons in winButtons)
+                    {
+                        buttons.Draw(spriteBatch);
+                    }
+
+                    break;
+
+
                 case GameState.Setting:
 
                     foreach (Button buttons in settingButtons)
@@ -547,6 +609,7 @@ namespace TeamD_bullet_hell.ButtonsManager
         //infinityButtons = [backbutton]
         //leaderBoardButtons = [backbutton]
         //gameOverButtons = [return to main menu, retry]
+        //winButtons = [return to main menu, retry]
         //settingButtons = [godmode, back]
         //pauseButtons = [return to menu, restart, resume]
 
@@ -710,6 +773,27 @@ namespace TeamD_bullet_hell.ButtonsManager
                         stateMgr.NextGameState = stateMgr.PreviousGameState;
                         stateMgr.CurrentGameState = GameState.Instruction;
                         this.currentGameState = GameState.Instruction ;
+                    }
+                    break;
+
+
+
+                case GameState.Win:
+
+                    //go back to main menu
+                    if (winButtons[0].IsClicked)
+                    {
+                        stateMgr.CurrentGameState = GameState.Menu;
+                        this.currentGameState = GameState.Menu;
+                    }
+
+                    //retry the last played level
+                    if (winButtons[1].IsClicked)
+                    {
+                        this.Restart = !this.Restart;
+                        stateMgr.NextGameState = stateMgr.PreviousGameState;
+                        stateMgr.CurrentGameState = GameState.Instruction;
+                        this.currentGameState = GameState.Instruction;
                     }
                     break;
 

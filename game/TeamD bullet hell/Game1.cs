@@ -137,6 +137,7 @@ namespace TeamD_bullet_hell
             leaderBoardImage = Content.Load<Texture2D>("../Content/Background/leaderboard");
             gameBackground = Content.Load<Texture2D>("../Content/Background/gameBackground");
             gameOverImage = Content.Load<Texture2D>("../Content/Background/gameOver");
+            Texture2D winScreen = Content.Load<Texture2D>("../Content/Background/win");
             Texture2D instruction = Content.Load<Texture2D>("../Content/Background/instruction");
 
             //loading button textures
@@ -158,6 +159,7 @@ namespace TeamD_bullet_hell
             wallpapers.Add(GameState.LeaderBoard, leaderBoardImage);
             wallpapers.Add(GameState.Gameplay, gameBackground);
             wallpapers.Add(GameState.GameOver, gameOverImage);
+            wallpapers.Add(GameState.Win, winScreen);
             wallpapers.Add(GameState.Instruction, instruction);
 
             //Adding font types to dictionary. Use key(FontType) to get reference of the spritefont
@@ -249,6 +251,12 @@ namespace TeamD_bullet_hell
                     stateMgr.Update(gameTime);
                     break;
 
+
+                case GameState.Win:
+                    stateMgr.Update(gameTime);
+                    break;
+
+
                 case GameState.Setting:
                     stateMgr.Update(gameTime);
 
@@ -322,10 +330,9 @@ namespace TeamD_bullet_hell
 
                     stateMgr.Draw(_spriteBatch);
 
-                    
-
 
                     break;
+
 
 
                 //draws leaderboard screen
@@ -348,6 +355,11 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.GameOver:
+                    stateMgr.Draw(_spriteBatch);
+                    break;
+
+                case GameState.Win:
+                    GraphicsDevice.Clear(Color.Black);
                     stateMgr.Draw(_spriteBatch);
                     break;
 

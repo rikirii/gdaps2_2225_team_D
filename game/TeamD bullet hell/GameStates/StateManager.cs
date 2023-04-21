@@ -263,7 +263,15 @@ namespace TeamD_bullet_hell.GameStates
 
                     if (gameplay.GameOver)
                     {
-                        this.currentGameState = GameState.GameOver;
+                        if (gameplay.CurrentGameState == GameState.Win)
+                        {
+                            this.currentGameState = GameState.Win;
+                        }
+                        else
+                        {
+                            this.currentGameState = GameState.GameOver;
+                        }
+                        
                     }
 
                     //buttonMgr.Update(gameTime, currentGameState);
@@ -320,6 +328,21 @@ namespace TeamD_bullet_hell.GameStates
                         
                     }
                     
+                    buttonMgr.Update(gameTime, currentGameState);
+
+                    break;
+
+                case GameState.Win:
+
+                    if (!gameplay.ResetCounter)
+                    {
+                        //gameplay.ResetCounter = true;
+                        gameplay.Reset();
+                        gameplay.UserUnderstand = false;
+
+
+                    }
+
                     buttonMgr.Update(gameTime, currentGameState);
 
                     break;
@@ -409,6 +432,18 @@ namespace TeamD_bullet_hell.GameStates
                     buttonMgr.Draw(spriteBatch);
 
                     break;
+
+
+
+                case GameState.Win:
+
+                    gameplay.Draw(spriteBatch);
+                    buttonMgr.Draw(spriteBatch);
+
+
+                    break;
+
+
 
 
                 case GameState.Setting:
