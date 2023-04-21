@@ -64,6 +64,8 @@ namespace TeamD_bullet_hell.Bullets
         //to track and determine which/when to reset the bullet in the list.
         private int bulletUsed;
 
+        private bool changeState;
+
 
         /// <summary>
         /// get the bullet of all the level
@@ -93,7 +95,11 @@ namespace TeamD_bullet_hell.Bullets
         {
             get;set;
         }
-
+        public bool ChangeState
+        {
+            get { return changeState; }
+            set { changeState=value;}
+        }
 
         /// <summary>
         /// property to update currentGameState
@@ -178,7 +184,7 @@ namespace TeamD_bullet_hell.Bullets
             Reset(entityAssests[Entity.Bullet]);
 
             //load in current level
-            CurrentBulletList = levelBulletList[level-1];
+            CurrentBulletList = LevelBulletList[(level)];
             bulletCount = CurrentBulletList.Count;
         }
         
@@ -377,14 +383,16 @@ namespace TeamD_bullet_hell.Bullets
                     //if nothing is in the bullet list now load in level 1
                     if (CurrentBulletList == null)
                     {
-                        bulletCount = levelBulletList[0].Count;
-                        CurrentBulletList = levelBulletList[0];
+                        LoadLevelMode(this.Level - 1);
                     }
                     //cant use for each here other wise is one of the bullet move out of the screen it will keep add the bullet Used
-                    if (NoBulletOnScreen(CurrentBulletList))
-                    {
-                        LoadLevelMode( this.Level);
-                    }
+                    
+
+                   if(NoBulletOnScreen(CurrentBulletList))
+                   {
+                       changeState = true;
+                       
+                   }
 
                     break;
 

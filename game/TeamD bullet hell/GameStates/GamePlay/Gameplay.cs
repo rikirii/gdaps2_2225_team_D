@@ -324,6 +324,13 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                         }
                         this.prevKBState = kbState;
 
+                       if(bulletMgr.ChangeState)
+                       {
+                            //////////////////////////////////////////////////////////////////////////////////////////////
+                           this.currentGameState = GameState.Pause;
+                           bulletMgr.ChangeState = false;
+                       }
+
                         if (!isPause)
                         {
                             player.Update(gameTime);
