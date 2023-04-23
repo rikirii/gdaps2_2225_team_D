@@ -169,7 +169,8 @@ namespace TeamD_bullet_hell.Bullets
             levelBulletList = new List<List<Bullet>>();
             currentGameTime = 0;
             bulletCount = 0;
-            bulletUsed = 0; 
+            bulletUsed = 0;
+            
             CurrentBulletList = null;
             LoadBulletFile(texture);
 
@@ -387,6 +388,8 @@ namespace TeamD_bullet_hell.Bullets
                     //for the timer of bullet to see is it the time to spawn the bullet
                     //remenber to reset the time after each game ! No code for that right now
                     currentGameTime += (float)(gameTime.ElapsedGameTime.TotalSeconds);
+
+                    //System.Diagnostics.Debug.WriteLine(bulletUsed);
 
                     //if nothing is in the bullet list now load in level 1
                     if (CurrentBulletList == null)

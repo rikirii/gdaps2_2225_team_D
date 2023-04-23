@@ -227,7 +227,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
                 currentGameTime = 0;
                 frameNumber++;
                 //when it reach the end 
-                if(frameNumber>=200)
+                if(frameNumber>=400)
                 {
                     frameNumber = 0;
                 }
