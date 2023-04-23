@@ -176,9 +176,9 @@ namespace TeamD_bullet_hell
 
 
             //test reading in all the image in the backGround 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 400; i++)
             {
-                placeHolderTexture = backButtonPNG = Content.Load<Texture2D>($"../Content/Background/AnimatedBackground/no ({i + 1})");
+                placeHolderTexture = backButtonPNG = Content.Load<Texture2D>($"../Content/Background/BackGroundAnimation/no  ({i+1})");
                 backGroundList.Add(placeHolderTexture);
             }
 
