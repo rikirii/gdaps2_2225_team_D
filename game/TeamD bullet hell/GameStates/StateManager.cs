@@ -78,6 +78,10 @@ namespace TeamD_bullet_hell.GameStates
             {
                 return gameplay.PreviousGameState;
             }
+            set
+            {
+                gameplay.PreviousGameState = value;
+            }
             
         }
 

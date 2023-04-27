@@ -91,6 +91,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
         public GameState PreviousGameState
         {
             get { return previousGameState; }
+            set { previousGameState = value; }
             
         }
 
@@ -289,7 +290,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Levels:
 
-                    
+
                     bulletMgr.currentGameState = GameState.Levels;
                     
 
@@ -299,7 +300,7 @@ namespace TeamD_bullet_hell.GameStates.GamePlay
 
                 case GameState.Infinity:
 
-                    
+
                     bulletMgr.currentGameState = GameState.Infinity;
                     this.currentGameState = GameState.Gameplay;
 

@@ -626,6 +626,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                     {
                         stateMgr.CurrentGameState = GameState.Levels;
                         this.currentGameState = GameState.Levels;
+                        stateMgr.PreviousGameState = GameState.Levels;
                     }
                     //infinity click
                     if (menuButtons[1].IsClicked)
@@ -633,6 +634,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                         stateMgr.CurrentGameState = GameState.Instruction;
                         this.currentGameState = GameState.Instruction;
                         stateMgr.NextGameState = GameState.Infinity;
+                        stateMgr.PreviousGameState = GameState.Menu;
                     }
                     //leaderboard clicked
                     if (menuButtons[2].IsClicked)
@@ -711,8 +713,8 @@ namespace TeamD_bullet_hell.ButtonsManager
                     //temp back button click
                     if (instructionButton[0].IsClicked)
                     {
-                        stateMgr.CurrentGameState = GameState.Menu;
-                        this.currentGameState = GameState.Menu;
+                        stateMgr.CurrentGameState = stateMgr.PreviousGameState;
+                        this.currentGameState = stateMgr.PreviousGameState;
                     }
                     break;
 

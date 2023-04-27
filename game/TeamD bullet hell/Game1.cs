@@ -302,6 +302,7 @@ namespace TeamD_bullet_hell
 
 
                 case GameState.Instruction:
+                    GraphicsDevice.Clear(Color.MidnightBlue);
                     stateMgr.Draw(_spriteBatch);
 
                     break;
