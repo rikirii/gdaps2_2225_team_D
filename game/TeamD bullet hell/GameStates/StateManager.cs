@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using TeamD_bullet_hell.Bullets;
 using TeamD_bullet_hell.ButtonsManager;
 using TeamD_bullet_hell.GameStates.GamePlay;
-using TeamD_bullet_hell.GameStates.Title;
 
 namespace TeamD_bullet_hell.GameStates
 {
@@ -36,7 +35,6 @@ namespace TeamD_bullet_hell.GameStates
         private bool pauseCD;
 
         //Managers
-        private TitleScreen mainMenu;
         private ButtonManager buttonMgr;
         private Gameplay gameplay;
         private ScreenManager screenMgr;
@@ -181,7 +179,6 @@ namespace TeamD_bullet_hell.GameStates
 
             this.screenMgr = new ScreenManager(this.windowWidth, this.windowHeight);
 
-            this.mainMenu = new TitleScreen(wallpapers[GameState.Menu], windowWidth, windowHeight, _graphics);
             this.buttonMgr = new ButtonManager(_graphics, this.windowWidth, this.windowHeight, buttonAssets[ButtonAssets.Outline], buttonAssets[ButtonAssets.BackButton], fonts, this.screenMgr );
             this.gameplay = new Gameplay(_graphics, windowWidth, windowHeight, wallpapers, fontsCollection, spriteCollection, this.screenMgr, this.backGroundList);
 
@@ -371,7 +368,9 @@ namespace TeamD_bullet_hell.GameStates
             {
                 case GameState.Menu:
 
-                    mainMenu.Draw(spriteBatch);
+                    spriteBatch.Draw(wallpapers[GameState.Menu], new Rectangle(0, 0, this.windowWidth,
+                                        this.windowHeight), Color.White);
+
 
                     buttonMgr.Draw(spriteBatch);
 

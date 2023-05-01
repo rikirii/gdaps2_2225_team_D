@@ -645,7 +645,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                         this.currentGameState = GameState.Instruction;
                         stateMgr.NextGameState = GameState.Infinity;
                         stateMgr.PreviousGameState = GameState.Menu;
-                        this.ToPreviousState = GameState.Infinity;
+                        this.ToPreviousState = GameState.Menu;
                     }
                     //leaderboard clicked
                     if (menuButtons[2].IsClicked)
@@ -722,12 +722,18 @@ namespace TeamD_bullet_hell.ButtonsManager
                     ///Instruction
                 case GameState.Instruction:
 
-                    //this is back button
-                    if (instructionButton[0].IsClicked && ToPreviousState == GameState.Infinity )
+                    ///=======this is back button=====
+                    //This checks if to previous state (for back button) is menu and clicked.
+                    //Thus, this back button will go to main menu. INFINITY HAS NO SELECT SCREEN LIKE LEVELS
+                    if (instructionButton[0].IsClicked && ToPreviousState == GameState.Menu )
                     {
-                        stateMgr.CurrentGameState = GameState.Infinity;
-                        this.currentGameState = GameState.Infinity;
+                        //infinty mode has no select screen. Thus, menu
+                        stateMgr.CurrentGameState = GameState.Menu;
+                        this.currentGameState = GameState.Menu;
                     }
+
+                    //to preivous state is gamestate.levels as it has a select level screen. Thus, back button
+                    //in instruction will bring user back to level select for this case.
                     else if (instructionButton[0].IsClicked && ToPreviousState == GameState.Levels)
                     {
                         stateMgr.CurrentGameState = GameState.Levels;
