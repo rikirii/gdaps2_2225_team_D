@@ -87,6 +87,15 @@ namespace TeamD_bullet_hell.ButtonsManager
         }
 
         /// <summary>
+        /// track what was the previous state from instruction
+        /// </summary>
+        public GameState ToPreviousState
+        {
+            get;set;
+        }
+
+
+        /// <summary>
         /// Button Manager Constructor
         /// Creates the necessary buttons for the game.
         /// Uses methods to organize the code per game state screen
@@ -627,6 +636,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                         stateMgr.CurrentGameState = GameState.Levels;
                         this.currentGameState = GameState.Levels;
                         stateMgr.PreviousGameState = GameState.Levels;
+                        this.ToPreviousState = GameState.Levels;
                     }
                     //infinity click
                     if (menuButtons[1].IsClicked)
@@ -635,6 +645,7 @@ namespace TeamD_bullet_hell.ButtonsManager
                         this.currentGameState = GameState.Instruction;
                         stateMgr.NextGameState = GameState.Infinity;
                         stateMgr.PreviousGameState = GameState.Menu;
+                        this.ToPreviousState = GameState.Infinity;
                     }
                     //leaderboard clicked
                     if (menuButtons[2].IsClicked)
@@ -707,14 +718,20 @@ namespace TeamD_bullet_hell.ButtonsManager
 
                     break;
 
-
+                    ///
+                    ///Instruction
                 case GameState.Instruction:
 
-                    //temp back button click
-                    if (instructionButton[0].IsClicked)
+                    //this is back button
+                    if (instructionButton[0].IsClicked && ToPreviousState == GameState.Infinity )
                     {
-                        stateMgr.CurrentGameState = stateMgr.PreviousGameState;
-                        this.currentGameState = stateMgr.PreviousGameState;
+                        stateMgr.CurrentGameState = GameState.Infinity;
+                        this.currentGameState = GameState.Infinity;
+                    }
+                    else if (instructionButton[0].IsClicked && ToPreviousState == GameState.Levels)
+                    {
+                        stateMgr.CurrentGameState = GameState.Levels;
+                        this.currentGameState = GameState.Levels;
                     }
                     break;
 
